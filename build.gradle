@@ -1,0 +1,97 @@
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'eclipse'
+
+// Project versioning
+version = '1.0'
+
+// Java compilation properties
+sourceCompatibility = '1.7'
+targetCompatibility = '1.7'
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Taller 2', 'Implementation-Version': version
+    }
+}
+
+// Application assembly properties
+mainClassName = "mereditor.interfaz.swt.Principal"
+
+// Dependency repositories
+repositories {
+  mavenCentral()
+}
+
+// Dependencies
+dependencies {
+  // Apache commons
+  compile 'org.apache.commons:commons-lang3:3.1'
+
+  // Eclipse frameworks
+  compile fileTree(dir: 'src/libs', include: '*.jar')
+
+  // SWT
+  compile files("src/libs/swt-3.7.2/${buildArchitecture()}/swt.jar")
+
+  // Test dependencies
+  testCompile group: 'junit', name: 'junit', version: '4.+'
+}
+
+
+// Helper functions to determine current operating system
+boolean osContains(String what) {
+  return System.getProperty("os.name").toLowerCase().indexOf(what) >= 0
+}
+
+boolean isOsWin() {
+  return osContains("win")
+}
+
+boolean isOsNix() {
+  return osContains("nix") || osContains("nux") || osContains("aix")
+}
+
+boolean isOs64() {
+  if (isOsWin()) {
+    return (System.getenv("ProgramFiles(x86)") != null)
+  } else {
+    return (System.getProperty("os.arch").indexOf("64") != -1)
+  }
+}
+
+// Helper function to determine build architecture
+String buildArchitecture() {
+  if (hasProperty("targetArchitecture")) {
+    return targetArchitecture
+  }
+
+  if (isOsWin() && !isOs64()) {
+    return "win-x86"
+  } else if (isOsWin() && isOs64()) {
+    return "win-x86_64"
+  } else if (isOsNix() && !isOs64()) {
+    return "linux-x86"
+  } else if (isOsNix() && isOs64()) {
+    return "linux-x86_64"
+  }
+}
+
+// Helper task used to check and manage build architectures
+task listBuildArchitectures << {
+  println ""
+  println "Available target build architectures:"
+  println "    Linux (32 bits): -PtargetArchitecture=linux-x86"
+  println "    Linux (64 bits): -PtargetArchitecture=linux-x86_64"
+  println "    Windows (32 bits): -PtargetArchitecture=win-x86"
+  println "    Windows (64 bits): -PtargetArchitecture=win-x86_64"
+  println ""
+  println "You can select the target build architecture by using the corresponding property declaration."
+  println "For example, by running 'gradle distZip -PtargetArchitecture=linux-x86' to select the Linux (32 bits) architecture."
+  println "If you don't select a target build architecture in this way, the architecture of current machine will be used instead."
+  println ""
+  println "Current machine architecture is ${buildArchitecture()}"
+}
+
+listBuildArchitectures {
+  description "Lists available build architectures (os and processor type) and the corresponding syntax to select the architecture on a gradle command"
+}
