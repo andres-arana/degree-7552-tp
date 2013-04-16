@@ -2,6 +2,7 @@ package fiuba.mda.mer.ui.dialogs;
 
 import java.util.Set;
 
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.layout.GridData;
@@ -48,6 +49,14 @@ public abstract class AddComponentDialog<T extends Componente> extends
 	}
 
 	/**
+	 * Opens the dialog and returns the selected or created component. Returns
+	 * null if the user cancels the dialog.
+	 */
+	public T openForAddingComponent() {
+		return open() == Window.OK ? component : null;
+	}
+
+	/**
 	 * Obtains the current project query interface
 	 */
 	protected ProyectoProxy getCurrentProject() {
@@ -70,14 +79,6 @@ public abstract class AddComponentDialog<T extends Componente> extends
 	 * is used
 	 */
 	protected abstract Editor<?> getEditor();
-
-	/**
-	 * Obtains the selected or new component, or null if none was selected nor
-	 * created
-	 */
-	public T getComponent() {
-		return this.component;
-	}
 
 	@Override
 	protected String getTitle() {
@@ -103,7 +104,7 @@ public abstract class AddComponentDialog<T extends Componente> extends
 		return container;
 	}
 
-	protected SelectionAdapter newSelectedListener = new SelectionAdapter() {
+	private SelectionAdapter newSelectedListener = new SelectionAdapter() {
 		@SuppressWarnings("unchecked")
 		public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 			Editor<?> editor = getEditor();
@@ -114,7 +115,7 @@ public abstract class AddComponentDialog<T extends Componente> extends
 		};
 	};
 
-	protected SelectionAdapter existingSelectedListener = new SelectionAdapter() {
+	private SelectionAdapter existingSelectedListener = new SelectionAdapter() {
 		public void widgetSelected(org.eclipse.swt.events.SelectionEvent e) {
 			SeleccionarComponenteDialog<T> dialog = new SeleccionarComponenteDialog<T>(
 					loadComponents());

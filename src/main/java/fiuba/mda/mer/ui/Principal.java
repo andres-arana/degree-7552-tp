@@ -21,7 +21,6 @@ import org.eclipse.draw2d.FigureListener;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PrintFigureOperation;
 import org.eclipse.draw2d.geometry.Insets;
-import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.graphics.Color;
@@ -53,6 +52,7 @@ import fiuba.mda.mer.control.DiagramaLogicoControl;
 import fiuba.mda.mer.modelo.Proyecto;
 import fiuba.mda.mer.modelo.ProyectoProxy;
 import fiuba.mda.mer.modelo.Validacion.EstadoValidacion;
+import fiuba.mda.mer.modelo.base.Componente;
 import fiuba.mda.mer.modelo.validacion.Observacion;
 import fiuba.mda.mer.ui.builders.DialogBuilder;
 import fiuba.mda.mer.ui.builders.DialogBuilder.PromptResult;
@@ -60,6 +60,7 @@ import fiuba.mda.mer.ui.builders.DialogBuilder.Resultado;
 import fiuba.mda.mer.ui.builders.MenuBuilder;
 import fiuba.mda.mer.ui.builders.ToolBarBuilder;
 import fiuba.mda.mer.ui.builders.TreeManager;
+import fiuba.mda.mer.ui.dialogs.AddComponentDialog;
 import fiuba.mda.mer.ui.dialogs.AddEntityDialog;
 import fiuba.mda.mer.ui.dialogs.AddHierarchyDialog;
 import fiuba.mda.mer.ui.dialogs.AddRelationDialog;
@@ -530,44 +531,36 @@ public class Principal extends Observable implements FigureListener {
 
 		return result;
 	}
+	
+	public void addComponent(AddComponentDialog<? extends Componente> dialog) {
+		Componente component = dialog.openForAddingComponent();
+		if (component != null) {
+			currentProject.get().agregar(component);
+			this.actualizarVista();
+			TreeManager.agregarADiagramaActual(component);
+			this.modificado(true);
+		}
+	}
 
 	/**
 	 * Abre el dialogo para agregar una Entidad al diagrama actual.
 	 */
 	public void agregarEntidad() {
-		AddEntityDialog dialog = entityDialogProvider.get();
-		if (dialog.open() == Window.OK) {
-			currentProject.get().agregar(dialog.getComponent());
-			this.actualizarVista();
-			TreeManager.agregarADiagramaActual(dialog.getComponent());
-			this.modificado(true);
-		}
+		addComponent(entityDialogProvider.get());
 	}
 
 	/**
 	 * Abre el dialogo para agregar una Relacion al diagrama actual.
 	 */
 	public void agregarRelacion() {
-		AddRelationDialog dialog = relationDialogProvider.get();
-		if (dialog.open() == Window.OK) {
-			currentProject.get().agregar(dialog.getComponent());
-			this.actualizarVista();
-			TreeManager.agregarADiagramaActual(dialog.getComponent());
-			this.modificado(true);
-		}
+		addComponent(relationDialogProvider.get());
 	}
 
 	/**
 	 * Abre el dialogo para agregar una Jerarquia al diagrama actual.
 	 */
 	public void agregarJerarquia() {
-		AddHierarchyDialog dialog = hierarchyDialogProvider.get();
-		if (dialog.open() == Window.OK) {
-			currentProject.get().agregar(dialog.getComponent());
-			this.actualizarVista();
-			TreeManager.agregarADiagramaActual(dialog.getComponent());
-			this.modificado(true);
-		}
+		addComponent(hierarchyDialogProvider.get());
 	}
 
 	/**
