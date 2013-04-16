@@ -2,22 +2,23 @@ package mreleditor;
 
 import java.util.List;
 
-import mereditor.modelo.Atributo;
-import mereditor.modelo.Atributo.TipoAtributo;
-import mereditor.modelo.Diagrama;
-import mereditor.modelo.Entidad;
-import mereditor.modelo.Entidad.TipoEntidad;
-import mereditor.modelo.Jerarquia;
-import mereditor.modelo.Jerarquia.TipoJerarquia;
-import mereditor.modelo.Relacion;
-import mereditor.modelo.Relacion.TipoRelacion;
-import mreleditor.conversor.ConversorDERaLogico;
-import mreleditor.modelo.DiagramaLogico;
-import mreleditor.modelo.Tabla;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import fiuba.mda.mer.modelo.Atributo;
+import fiuba.mda.mer.modelo.Diagrama;
+import fiuba.mda.mer.modelo.Entidad;
+import fiuba.mda.mer.modelo.Jerarquia;
+import fiuba.mda.mer.modelo.Relacion;
+import fiuba.mda.mer.modelo.Atributo.TipoAtributo;
+import fiuba.mda.mer.modelo.Entidad.TipoEntidad;
+import fiuba.mda.mer.modelo.Jerarquia.TipoJerarquia;
+import fiuba.mda.mer.modelo.Relacion.TipoRelacion;
+import fiuba.mda.mrel.conversor.ConversorDERaLogico;
+import fiuba.mda.mrel.modelo.DiagramaLogico;
+import fiuba.mda.mrel.modelo.Tabla;
 
 public class ConversorTest {
 

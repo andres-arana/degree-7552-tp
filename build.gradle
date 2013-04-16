@@ -10,12 +10,12 @@ sourceCompatibility = '1.7'
 targetCompatibility = '1.7'
 jar {
     manifest {
-        attributes 'Implementation-Title': 'Taller 2', 'Implementation-Version': version
+        attributes 'Implementation-Title': 'Taller 2 - MDA Editor', 'Implementation-Version': version
     }
 }
 
 // Application assembly properties
-mainClassName = "mereditor.interfaz.swt.Principal"
+mainClassName = "fiuba.mda.mer.interfaz.swt.Principal"
 
 // Dependency repositories
 repositories {
@@ -32,6 +32,9 @@ dependencies {
 
   // SWT
   compile files("src/libs/swt-3.7.2/${buildArchitecture()}/swt.jar")
+  
+  // Guice
+  compile 'com.google.inject:guice:3.0'
 
   // Test dependencies
   testCompile group: 'junit', name: 'junit', version: '4.+'
