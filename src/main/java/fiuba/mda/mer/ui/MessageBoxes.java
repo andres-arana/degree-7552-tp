@@ -19,9 +19,6 @@ public class MessageBoxes {
 
 	/**
 	 * Creates a new {@link MessageBoxes} instance
-	 * 
-	 * @param shell
-	 *            the shell where you want the message boxes to be displayed
 	 */
 	@Inject
 	public MessageBoxes(final Shell shell) {

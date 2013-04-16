@@ -44,7 +44,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.ToolBar;
 import org.w3c.dom.Document;
 
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import fiuba.mda.mer.control.DiagramaControl;
@@ -60,10 +59,10 @@ import fiuba.mda.mer.ui.builders.DialogBuilder.Resultado;
 import fiuba.mda.mer.ui.builders.MenuBuilder;
 import fiuba.mda.mer.ui.builders.ToolBarBuilder;
 import fiuba.mda.mer.ui.builders.TreeManager;
-import fiuba.mda.mer.ui.dialogs.AddComponentDialog;
-import fiuba.mda.mer.ui.dialogs.AddEntityDialog;
-import fiuba.mda.mer.ui.dialogs.AddHierarchyDialog;
-import fiuba.mda.mer.ui.dialogs.AddRelationDialog;
+import fiuba.mda.mer.ui.dialogs.AddEntityController;
+import fiuba.mda.mer.ui.dialogs.AddHierarchyController;
+import fiuba.mda.mer.ui.dialogs.AddRelationController;
+import fiuba.mda.mer.ui.dialogs.SelectComponentController;
 import fiuba.mda.mer.ui.figuras.DiagramaFigura;
 import fiuba.mda.mer.ui.figuras.DiagramaLogicoFigura;
 import fiuba.mda.mer.xml.SaverLoaderXML;
@@ -130,19 +129,24 @@ public class Principal extends Observable implements FigureListener {
 	private final CurrentOpenProject currentProject;
 
 	/**
-	 * {@link Provider} for {@link AddEntityDialog} instances
+	 * Controller to add entities to the current diagram
 	 */
-	private final Provider<AddEntityDialog> entityDialogProvider;
+	private final AddEntityController addEntityController;
 
 	/**
-	 * {@link Provider} for {@link AddHierarchyDialog} instances
+	 * Controller to add hierarchies to the current diagram
 	 */
-	private final Provider<AddHierarchyDialog> hierarchyDialogProvider;
+	private final AddHierarchyController addHierarchyController;
 
 	/**
-	 * {@link Provider} for {@link AddRelationDialog} instances
+	 * Controller to add relations to the current diagram
 	 */
-	private final Provider<AddRelationDialog> relationDialogProvider;
+	private final AddRelationController addRelationController;
+
+	/**
+	 * Controller used to select a component from a list of components
+	 */
+	private final SelectComponentController selectComponentController;
 
 	/**
 	 * Shell de SWT de la aplicaciî‰¢.
@@ -174,19 +178,19 @@ public class Principal extends Observable implements FigureListener {
 
 	/**
 	 * Constructor
-	 * 
-	 * @param shell
 	 */
 	private Principal(final Shell shell, final MessageBoxes messageBoxes,
 			final CurrentOpenProject currentProject,
-			final Provider<AddEntityDialog> entityDialog,
-			final Provider<AddHierarchyDialog> hierarchyDialog,
-			final Provider<AddRelationDialog> relationDialog) {
+			final AddEntityController addEntityController,
+			final AddHierarchyController addHierarchyController,
+			final AddRelationController addRelationController,
+			final SelectComponentController selectComponentController) {
 		this.messageBoxes = messageBoxes;
 		this.currentProject = currentProject;
-		this.entityDialogProvider = entityDialog;
-		this.hierarchyDialogProvider = hierarchyDialog;
-		this.relationDialogProvider = relationDialog;
+		this.addEntityController = addEntityController;
+		this.addHierarchyController = addHierarchyController;
+		this.addRelationController = addRelationController;
+		this.selectComponentController = selectComponentController;
 		this.shell = shell;
 		this.shell.setMaximized(true);
 		this.shell.setText(APP_NOMBRE);
@@ -531,9 +535,8 @@ public class Principal extends Observable implements FigureListener {
 
 		return result;
 	}
-	
-	public void addComponent(AddComponentDialog<? extends Componente> dialog) {
-		Componente component = dialog.openForAddingComponent();
+
+	private void addComponent(Componente component) {
 		if (component != null) {
 			currentProject.get().agregar(component);
 			this.actualizarVista();
@@ -546,21 +549,24 @@ public class Principal extends Observable implements FigureListener {
 	 * Abre el dialogo para agregar una Entidad al diagrama actual.
 	 */
 	public void agregarEntidad() {
-		addComponent(entityDialogProvider.get());
+		Componente component = addEntityController.launchAddComponent();
+		addComponent(component);
 	}
 
 	/**
 	 * Abre el dialogo para agregar una Relacion al diagrama actual.
 	 */
 	public void agregarRelacion() {
-		addComponent(relationDialogProvider.get());
+		Componente component = addRelationController.launchAddComponent();
+		addComponent(component);
 	}
 
 	/**
 	 * Abre el dialogo para agregar una Jerarquia al diagrama actual.
 	 */
 	public void agregarJerarquia() {
-		addComponent(hierarchyDialogProvider.get());
+		Componente component = addHierarchyController.launchAddComponent();
+		addComponent(component);
 	}
 
 	/**
@@ -828,16 +834,22 @@ public class Principal extends Observable implements FigureListener {
 	public void error(String message) {
 		messageBoxes.error(message);
 	}
+	
+	public SelectComponentController getSelectComponentController() {
+		return this.selectComponentController;
+	}
 
 	private static Principal instancia;
 
 	public static void inicializar(Shell shell, MessageBoxes messageBoxes,
 			CurrentOpenProject currentProject,
-			final Provider<AddEntityDialog> entityDialog,
-			final Provider<AddHierarchyDialog> hierarchyDialog,
-			final Provider<AddRelationDialog> relationDialog) {
+			final AddEntityController addEntityController,
+			final AddHierarchyController addHierarchyController,
+			final AddRelationController addRelationController,
+			final SelectComponentController selectComponentController) {
 		Principal.instancia = new Principal(shell, messageBoxes,
-				currentProject, entityDialog, hierarchyDialog, relationDialog);
+				currentProject, addEntityController, addHierarchyController,
+				addRelationController, selectComponentController);
 	}
 
 	public static Principal getInstance() {

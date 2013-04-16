@@ -19,23 +19,20 @@ public class AddEntityDialog extends AddComponentDialog<Entidad> {
 
 	/**
 	 * Creates a new {@link AddEntityDialog} instance
-	 * 
-	 * See the
-	 * {@link AddComponentDialog#AddComponentDialog(Shell, CurrentOpenProject)}
-	 * parameters for additional information.
-	 * 
 	 */
 	@Inject
 	public AddEntityDialog(final Shell shell,
+			final SelectComponentController selectComponentController,
 			final CurrentOpenProject currentProject) {
-		super(shell, currentProject);
+		super(shell, selectComponentController, currentProject);
 	}
 
 	@Override
 	protected Set<Entidad> loadComponents() {
 		// Obtener las entidades de los ancestros
-		Set<Entidad> entidades = getCurrentProject().getEntidadesDisponibles();
-		Set<Entidad> entidadesDiagrama = getCurrentProject()
+		Set<Entidad> entidades = queryCurrentProject()
+				.getEntidadesDisponibles();
+		Set<Entidad> entidadesDiagrama = queryCurrentProject()
 				.getEntidadesDiagrama();
 		// Quitar las que ya tiene
 		entidades.removeAll(entidadesDiagrama);

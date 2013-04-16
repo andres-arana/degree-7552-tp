@@ -24,11 +24,6 @@ public class EventLoop {
 
 	/**
 	 * Creates a new {@link EventLoop} instance
-	 * 
-	 * @param shell
-	 *            the shell which contains the application window
-	 * @param display
-	 *            the display containing the shell
 	 */
 	@Inject
 	public EventLoop(final Shell shell, final Display display) {

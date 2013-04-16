@@ -12,9 +12,6 @@ import org.eclipse.swt.widgets.Shell;
 public abstract class BaseDialog extends org.eclipse.jface.dialogs.Dialog {
 	/**
 	 * Creates a new {@link BaseDialog} instance
-	 * 
-	 * @param shell
-	 *            the shell where the dialog will be displayed in
 	 */
 	public BaseDialog(final Shell shell) {
 		super(shell);

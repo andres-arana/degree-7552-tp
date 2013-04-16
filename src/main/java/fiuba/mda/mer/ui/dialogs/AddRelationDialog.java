@@ -19,24 +19,20 @@ public class AddRelationDialog extends AddComponentDialog<Relacion> {
 
 	/**
 	 * Creates a new {@link AddRelationDialog} instance
-	 * 
-	 * See the
-	 * {@link AddComponentDialog#AddComponentDialog(Shell, CurrentOpenProject)}
-	 * parameters for additional information.
-	 * 
 	 */
 	@Inject
 	public AddRelationDialog(final Shell shell,
+			final SelectComponentController selectComponentController,
 			final CurrentOpenProject currentProject) {
-		super(shell, currentProject);
+		super(shell, selectComponentController, currentProject);
 	}
 
 	@Override
 	protected Set<Relacion> loadComponents() {
 		// Obtener las entidades de los ancestros
-		Set<Relacion> relaciones = getCurrentProject()
+		Set<Relacion> relaciones = queryCurrentProject()
 				.getRelacionesDisponibles();
-		Set<Relacion> entidadesDiagrama = getCurrentProject()
+		Set<Relacion> entidadesDiagrama = queryCurrentProject()
 				.getRelacionesDiagrama();
 		// Quitar las que ya tiene
 		relaciones.removeAll(entidadesDiagrama);

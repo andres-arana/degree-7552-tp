@@ -1,13 +1,11 @@
 package fiuba.mda.mer.ui.editores;
 
-
-import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 
 import fiuba.mda.mer.modelo.Entidad;
 import fiuba.mda.mer.ui.Principal;
-import fiuba.mda.mer.ui.dialogs.SeleccionarComponenteDialog;
+import fiuba.mda.mer.ui.dialogs.SelectComponentController;
 
 public class EntidadTabla extends Tabla<Entidad> {
 	public EntidadTabla(Composite parent) {
@@ -39,7 +37,7 @@ public class EntidadTabla extends Tabla<Entidad> {
 
 	@Override
 	protected Entidad nuevoElemento() {
-		// No se debe poder agregar nuevas entidades desde esta tabla. 
+		// No se debe poder agregar nuevas entidades desde esta tabla.
 		return null;
 	}
 
@@ -51,12 +49,10 @@ public class EntidadTabla extends Tabla<Entidad> {
 
 	@Override
 	protected Entidad agregarElemento() {
-		SeleccionarComponenteDialog<Entidad> dialog = new SeleccionarComponenteDialog<Entidad>(
-				Principal.getInstance().getProyecto().getEntidadesDiagrama());
+		SelectComponentController controller = Principal.getInstance()
+				.getSelectComponentController();
 
-		if (dialog.open() == Window.OK)
-			return dialog.getComponente();
-		else
-			return null;
+		return controller.launchSelection(Principal.getInstance().getProyecto()
+				.getEntidadesDiagrama());
 	}
 }

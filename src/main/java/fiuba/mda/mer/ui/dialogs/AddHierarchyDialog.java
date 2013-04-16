@@ -19,24 +19,20 @@ public class AddHierarchyDialog extends AddComponentDialog<Jerarquia> {
 
 	/**
 	 * Creates a new {@link AddHierarchyDialog} instance
-	 * 
-	 * See the
-	 * {@link AddComponentDialog#AddComponentDialog(Shell, CurrentOpenProject)}
-	 * parameters for additional information.
-	 * 
 	 */
 	@Inject
 	public AddHierarchyDialog(final Shell shell,
+			final SelectComponentController selectComponentController,
 			final CurrentOpenProject currentProject) {
-		super(shell, currentProject);
+		super(shell, selectComponentController, currentProject);
 	}
 
 	@Override
 	protected Set<Jerarquia> loadComponents() {
 		// Obtener las entidades de los ancestros
-		Set<Jerarquia> relaciones = getCurrentProject()
+		Set<Jerarquia> relaciones = queryCurrentProject()
 				.getJerarquiasDisponibles();
-		Set<Jerarquia> entidadesDiagrama = getCurrentProject()
+		Set<Jerarquia> entidadesDiagrama = queryCurrentProject()
 				.getJerarquiasDiagrama();
 		// Quitar las que ya tiene
 		relaciones.removeAll(entidadesDiagrama);
