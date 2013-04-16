@@ -2,23 +2,12 @@ package fiuba.mda.mer.interfaz.swt.dialogs;
 
 import java.util.Set;
 
-
-import org.eclipse.swt.widgets.Shell;
-
 import fiuba.mda.mer.control.EntidadControl;
 import fiuba.mda.mer.interfaz.swt.editores.Editor;
 import fiuba.mda.mer.interfaz.swt.editores.EditorFactory;
 import fiuba.mda.mer.modelo.Entidad;
 
-
 public class AgregarEntidadDialog extends AgregarComponenteDialog<Entidad> {
-
-	/**
-	 * @wbp.parser.constructor
-	 */
-	protected AgregarEntidadDialog(Shell shell) {
-		super(shell);
-	}
 
 	public AgregarEntidadDialog() {
 		super();
@@ -36,7 +25,7 @@ public class AgregarEntidadDialog extends AgregarComponenteDialog<Entidad> {
 
 		return entidades;
 	}
-	
+
 	@Override
 	protected Editor<?> getEditor() {
 		return EditorFactory.getEditor(new EntidadControl());
@@ -46,6 +35,5 @@ public class AgregarEntidadDialog extends AgregarComponenteDialog<Entidad> {
 	protected String getNombreComponente() {
 		return "Entidad";
 	}
-
 
 }

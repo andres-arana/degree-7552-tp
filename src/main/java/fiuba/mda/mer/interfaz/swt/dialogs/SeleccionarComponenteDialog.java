@@ -5,14 +5,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Shell;
 
 import fiuba.mda.mer.modelo.base.Componente;
 
@@ -22,14 +20,7 @@ public class SeleccionarComponenteDialog<T extends Componente> extends Dialog {
 	private List<String> nombres = new ArrayList<>();
 	private List<T> componentes;
 
-	private T componente = null;	
-
-	/**
-	 * @wbp.parser.constructor
-	 */
-	protected SeleccionarComponenteDialog(Shell shell) {
-		super(shell);
-	}
+	private T componente = null;
 
 	public SeleccionarComponenteDialog(Collection<T> componentes) {
 		super();
@@ -45,7 +36,8 @@ public class SeleccionarComponenteDialog<T extends Componente> extends Dialog {
 		lblEntidades.setText("Seleccionar una opción:");
 
 		this.combo = new Combo(container, SWT.READ_ONLY);
-		this.combo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		this.combo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
+				false, 1, 1));
 		this.loadAtributos();
 
 		return container;
@@ -63,9 +55,10 @@ public class SeleccionarComponenteDialog<T extends Componente> extends Dialog {
 			this.nombres.add(componente.toString());
 		}
 	}
-	
+
 	/**
 	 * Devuelve la entidad seleccionada o creada.
+	 * 
 	 * @return
 	 */
 	public T getComponente() {

@@ -2,27 +2,19 @@ package fiuba.mda.mer.interfaz.swt.dialogs;
 
 import java.util.Set;
 
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Shell;
 
 import fiuba.mda.mer.interfaz.swt.editores.Editor;
 import fiuba.mda.mer.modelo.base.Componente;
 
-public abstract class AgregarComponenteDialog<T extends Componente> extends Dialog {
+public abstract class AgregarComponenteDialog<T extends Componente> extends
+		Dialog {
 	private T componente = null;
-
-	/**
-	 * @wbp.parser.constructor
-	 */
-	protected AgregarComponenteDialog(Shell shell) {
-		super(shell);
-	}
 
 	public AgregarComponenteDialog() {
 		super();
@@ -38,12 +30,14 @@ public abstract class AgregarComponenteDialog<T extends Componente> extends Dial
 		Button btnSeleccionar = new Button(container, SWT.PUSH);
 		btnSeleccionar.setText("Seleccionar Existente");
 		btnSeleccionar.addSelectionListener(this.seleccionar);
-		btnSeleccionar.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		btnSeleccionar.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
+				false, 1, 1));
 
 		Button btnNueva = new Button(container, SWT.PUSH);
 		btnNueva.setText(Editor.NUEVO);
 		btnNueva.addSelectionListener(this.nuevo);
-		btnNueva.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		btnNueva.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false,
+				1, 1));
 
 		return container;
 	}
@@ -62,7 +56,7 @@ public abstract class AgregarComponenteDialog<T extends Componente> extends Dial
 	public T getComponente() {
 		return this.componente;
 	}
-	
+
 	protected abstract Editor<?> getEditor();
 
 	protected SelectionAdapter nuevo = new SelectionAdapter() {
@@ -81,7 +75,7 @@ public abstract class AgregarComponenteDialog<T extends Componente> extends Dial
 			SeleccionarComponenteDialog<T> dialog = new SeleccionarComponenteDialog<T>(
 					loadComponentes());
 			int result = dialog.open();
-			componente = (T)dialog.getComponente();
+			componente = (T) dialog.getComponente();
 			setReturnCode(result);
 			close();
 		};

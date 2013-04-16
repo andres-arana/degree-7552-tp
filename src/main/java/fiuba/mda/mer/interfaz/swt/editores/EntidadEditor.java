@@ -2,7 +2,6 @@ package fiuba.mda.mer.interfaz.swt.editores;
 
 import java.util.List;
 
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
@@ -13,7 +12,6 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 import fiuba.mda.mer.control.EntidadControl;
@@ -21,22 +19,11 @@ import fiuba.mda.mer.modelo.Atributo;
 import fiuba.mda.mer.modelo.Entidad;
 import fiuba.mda.mer.modelo.Entidad.TipoEntidad;
 
-
 public class EntidadEditor extends Editor<Entidad> {
 	protected Text txtNombre;
 	protected Combo cboTipo;
 	protected AtributosTabla tblAtributos;
 	protected IdentificadorTabla tblIdentificadores;
-
-	/**
-	 * Constructor para el editor visual
-	 * 
-	 * @wbp.parser.constructor
-	 */
-	protected EntidadEditor(Shell shell) {
-		super(shell);
-		this.componente = new EntidadControl();
-	}
 
 	public EntidadEditor() {
 		this(new EntidadControl());
@@ -46,7 +33,7 @@ public class EntidadEditor extends Editor<Entidad> {
 		super(entidad);
 		this.titulo = "Editor - " + componente.getNombre();
 	}
-	
+
 	@Override
 	protected Point getInitialSize() {
 		return new Point(400, 600);
@@ -64,7 +51,8 @@ public class EntidadEditor extends Editor<Entidad> {
 		header.setLayout(new GridLayout(2, false));
 
 		this.txtNombre = createLabelText(header, NOMBRE);
-		this.txtNombre.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		this.txtNombre.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
+				false));
 
 		this.cboTipo = createLabelCombo(header, TIPO);
 		this.cboTipo.setItems(Editor.TiposEntidades);
@@ -73,12 +61,14 @@ public class EntidadEditor extends Editor<Entidad> {
 		 * Atributos.
 		 */
 		Group grupoAtributos = new Group(dialogArea, SWT.NONE);
-		grupoAtributos.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		grupoAtributos.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
+				true));
 		grupoAtributos.setText(Editor.ATRIBUTOS);
 		grupoAtributos.setLayout(new GridLayout(1, true));
 
 		Composite botones = new Composite(grupoAtributos, SWT.NONE);
-		botones.setLayoutData(new GridData(SWT.LEFT, SWT.LEFT, false, false, 1, 1));
+		botones.setLayoutData(new GridData(SWT.LEFT, SWT.LEFT, false, false, 1,
+				1));
 		botones.setLayout(new RowLayout(SWT.HORIZONTAL));
 
 		Button btnNuevoAtributo = new Button(botones, SWT.PUSH);
@@ -103,24 +93,32 @@ public class EntidadEditor extends Editor<Entidad> {
 		 * Identificadores.
 		 */
 		Group grupoIdentificadores = new Group(dialogArea, SWT.NONE);
-		grupoIdentificadores.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		grupoIdentificadores.setLayoutData(new GridData(SWT.FILL, SWT.FILL,
+				true, true));
 		grupoIdentificadores.setText(Editor.IDENTIFICADORES);
 		grupoIdentificadores.setLayout(new GridLayout(1, true));
-		
-		Composite botonesIdentificadores = new Composite(grupoIdentificadores, SWT.NONE);
-		botonesIdentificadores.setLayoutData(new GridData(SWT.LEFT, SWT.LEFT, false, false, 1, 1));
+
+		Composite botonesIdentificadores = new Composite(grupoIdentificadores,
+				SWT.NONE);
+		botonesIdentificadores.setLayoutData(new GridData(SWT.LEFT, SWT.LEFT,
+				false, false, 1, 1));
 		botonesIdentificadores.setLayout(new RowLayout(SWT.HORIZONTAL));
 
-		Button btnNuevoIdentificador = new Button(botonesIdentificadores, SWT.RIGHT);
+		Button btnNuevoIdentificador = new Button(botonesIdentificadores,
+				SWT.RIGHT);
 		btnNuevoIdentificador.setText(Editor.NUEVO);
-		
-		Button btnEliminarIdentificador = new Button(botonesIdentificadores, SWT.RIGHT);
+
+		Button btnEliminarIdentificador = new Button(botonesIdentificadores,
+				SWT.RIGHT);
 		btnEliminarIdentificador.setText(Editor.ELIMINAR);
 
-		this.tblIdentificadores = new IdentificadorTabla(grupoIdentificadores, this.componente);
+		this.tblIdentificadores = new IdentificadorTabla(grupoIdentificadores,
+				this.componente);
 
-		btnNuevoIdentificador.addSelectionListener(this.tblIdentificadores.nuevo);
-		btnEliminarIdentificador.addSelectionListener(this.tblIdentificadores.eliminar);
+		btnNuevoIdentificador
+				.addSelectionListener(this.tblIdentificadores.nuevo);
+		btnEliminarIdentificador
+				.addSelectionListener(this.tblIdentificadores.eliminar);
 
 		return dialogArea;
 	}
@@ -131,7 +129,8 @@ public class EntidadEditor extends Editor<Entidad> {
 		this.cboTipo.setText(this.componente.getTipo().name());
 
 		this.tblAtributos.setElementos(this.componente.getAtributos());
-		this.tblIdentificadores.setElementos(this.componente.getIdentificadores());
+		this.tblIdentificadores.setElementos(this.componente
+				.getIdentificadores());
 	}
 
 	@Override
@@ -144,11 +143,13 @@ public class EntidadEditor extends Editor<Entidad> {
 
 		for (Atributo atributo : this.tblAtributos.getElementosEliminados())
 			componente.removeAtributo(atributo);
-		
-		for (Entidad.Identificador identificador : this.tblIdentificadores.getElementos())
+
+		for (Entidad.Identificador identificador : this.tblIdentificadores
+				.getElementos())
 			componente.addIdentificador(identificador);
 
-		for (Entidad.Identificador identificador : this.tblIdentificadores.getElementosEliminados())
+		for (Entidad.Identificador identificador : this.tblIdentificadores
+				.getElementosEliminados())
 			componente.removeIdentificador(identificador);
 	}
 

@@ -2,7 +2,6 @@ package fiuba.mda.mer.interfaz.swt.editores;
 
 import java.util.List;
 
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -11,27 +10,14 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Shell;
 
-import fiuba.mda.mer.control.EntidadControl;
 import fiuba.mda.mer.modelo.Atributo;
 import fiuba.mda.mer.modelo.Entidad;
 import fiuba.mda.mer.modelo.Entidad.Identificador;
 
-
 public class IdentificadorEditor extends Editor<Identificador> {
 	protected AtributosTabla tblAtributos;
 	protected EntidadTabla tblEntidades;
-	
-	/**
-	 * Constructor para el editor visual
-	 * 
-	 * @wbp.parser.constructor
-	 */
-	protected IdentificadorEditor(Shell shell) {
-		super(shell);
-		this.componente = new EntidadControl().new Identificador(new EntidadControl());
-	}
 
 	public IdentificadorEditor(Identificador componente) {
 		super(componente);
@@ -55,10 +41,11 @@ public class IdentificadorEditor extends Editor<Identificador> {
 				true));
 		grupoAtributos.setText("Atributos");
 		grupoAtributos.setLayout(new GridLayout(1, true));
-		
+
 		Composite botonesAtributos = new Composite(grupoAtributos, SWT.NONE);
-		botonesAtributos.setLayoutData(new GridData(SWT.LEFT, SWT.LEFT, false, false, 1, 1));
-		botonesAtributos.setLayout(new RowLayout(SWT.HORIZONTAL));		
+		botonesAtributos.setLayoutData(new GridData(SWT.LEFT, SWT.LEFT, false,
+				false, 1, 1));
+		botonesAtributos.setLayout(new RowLayout(SWT.HORIZONTAL));
 
 		Button btnNuevoAtributo = new Button(botonesAtributos, SWT.PUSH);
 		btnNuevoAtributo.setText(Editor.AGREGAR);
@@ -67,9 +54,10 @@ public class IdentificadorEditor extends Editor<Identificador> {
 		btnEliminarAtributo.setText(Editor.ELIMINAR);
 
 		// TableViewer
-		this.tblAtributos = new AtributosTabla(grupoAtributos, this.componente.getEntidad());
+		this.tblAtributos = new AtributosTabla(grupoAtributos,
+				this.componente.getEntidad());
 		this.tblAtributos.setReadOnly(true);
-		
+
 		btnNuevoAtributo.addSelectionListener(this.tblAtributos.agregar);
 		btnEliminarAtributo.addSelectionListener(this.tblAtributos.eliminar);
 
@@ -81,19 +69,20 @@ public class IdentificadorEditor extends Editor<Identificador> {
 				true));
 		grupoEntidades.setText("Entidades");
 		grupoEntidades.setLayout(new GridLayout(1, true));
-		
+
 		Composite botonesEntidades = new Composite(grupoEntidades, SWT.NONE);
-		botonesEntidades.setLayoutData(new GridData(SWT.LEFT, SWT.LEFT, false, false, 1, 1));
-		botonesEntidades.setLayout(new RowLayout(SWT.HORIZONTAL));		
+		botonesEntidades.setLayoutData(new GridData(SWT.LEFT, SWT.LEFT, false,
+				false, 1, 1));
+		botonesEntidades.setLayout(new RowLayout(SWT.HORIZONTAL));
 
 		Button btnNuevoEntidad = new Button(botonesEntidades, SWT.PUSH);
 		btnNuevoEntidad.setText(Editor.AGREGAR);
 
 		Button btnEliminarEntidad = new Button(botonesEntidades, SWT.PUSH);
 		btnEliminarEntidad.setText(Editor.ELIMINAR);
-		
+
 		this.tblEntidades = new EntidadTabla(grupoEntidades);
-		
+
 		btnNuevoEntidad.addSelectionListener(this.tblEntidades.agregar);
 		btnEliminarEntidad.addSelectionListener(this.tblEntidades.eliminar);
 
@@ -113,7 +102,7 @@ public class IdentificadorEditor extends Editor<Identificador> {
 
 		for (Atributo atributo : this.tblAtributos.getElementosEliminados())
 			componente.removeAtributo(atributo);
-		
+
 		for (Entidad entidad : this.tblEntidades.getElementos())
 			componente.addEntidad(entidad);
 
@@ -126,8 +115,9 @@ public class IdentificadorEditor extends Editor<Identificador> {
 		if (this.tblAtributos.getElementos().isEmpty()
 				&& this.tblEntidades.getElementos().isEmpty())
 			errors.add("El identificador debe tener por lo menos un atributo o una entidad.");
-		
-		if(this.tblEntidades.getElementos().contains(this.componente.getEntidad()))
+
+		if (this.tblEntidades.getElementos().contains(
+				this.componente.getEntidad()))
 			errors.add("La misma entidad no puede ser su propio identificador.");
 
 		return errors.isEmpty();
