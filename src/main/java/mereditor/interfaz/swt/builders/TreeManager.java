@@ -58,11 +58,8 @@ public class TreeManager {
 	 * 
 	 * @param diagrama
 	 * @param tree
+	 * @param proyecto
 	 */
-	
-	private static void agregar(Diagrama diagrama, Tree tree){
-		 agregar( diagrama,  tree,null);
-	}
 	private static void agregar(Diagrama diagrama, Tree tree, Proyecto proyecto) {
 		tree.removeAll();
 		tree.setData(diagrama);

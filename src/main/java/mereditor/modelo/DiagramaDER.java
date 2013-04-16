@@ -8,7 +8,6 @@ import java.util.Set;
 import mereditor.modelo.Validacion.EstadoValidacion;
 import mereditor.modelo.base.Componente;
 import mereditor.modelo.base.ComponenteAtributos;
-import mereditor.modelo.base.ComponenteNombre;
 import mereditor.modelo.validacion.Observacion;
 import mereditor.modelo.validacion.ValidarAcoplamiento;
 import mereditor.modelo.validacion.ValidarClaridadAtributos;

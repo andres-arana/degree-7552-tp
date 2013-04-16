@@ -1,30 +1,19 @@
 package mereditor.interfaz.swt.figuras;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import mereditor.control.DiagramaDERControl;
 import mereditor.interfaz.swt.listeners.AreaSeleccionControlador;
 import mereditor.interfaz.swt.listeners.ArrastreControlador;
 import mereditor.interfaz.swt.listeners.ArrastreSeleccionControlador;
 import mereditor.interfaz.swt.listeners.MovimientoControlador;
-import mereditor.interfaz.swt.listeners.SeleccionControlador;
 import mereditor.modelo.Proyecto;
 
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FigureCanvas;
-import org.eclipse.draw2d.FigureListener;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.MouseEvent;
-import org.eclipse.draw2d.MouseListener;
-import org.eclipse.draw2d.SWTGraphics;
 import org.eclipse.draw2d.ScaledGraphics;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.geometry.Translatable;
-import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.graphics.Image;
 
 /**
  * Figura sobre la que se dibuja el diagrama. Implementa lógica para realizar

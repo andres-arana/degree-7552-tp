@@ -1,7 +1,6 @@
 package mereditor.modelo;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -9,7 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import mereditor.control.DiagramaControl;
-import mereditor.interfaz.swt.figuras.Figura;
+import mereditor.control.DiagramaLogicoControl;
 import mereditor.modelo.Validacion.EstadoValidacion;
 import mereditor.modelo.base.Componente;
 import mereditor.modelo.base.ComponenteNombre;
@@ -18,7 +17,6 @@ import mereditor.modelo.validacion.ValidarEquilibrioAtributos;
 import mereditor.modelo.validacion.ValidarEquilibrioComponentes;
 import mereditor.modelo.validacion.ValidarEquilibrioRelaciones;
 import mreleditor.modelo.DiagramaLogico;
-import mereditor.control.DiagramaLogicoControl;
 
 public class Proyecto extends ComponenteNombre implements ProyectoProxy {
 	/**

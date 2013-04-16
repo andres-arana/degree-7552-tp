@@ -2,17 +2,13 @@ package mereditor.control;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
-
-import org.eclipse.draw2d.Connection;
-import org.eclipse.draw2d.Figure;
 
 import mereditor.interfaz.swt.figuras.Figura;
-import mereditor.interfaz.swt.figuras.TablaFigure;
 import mereditor.modelo.Proyecto;
 import mreleditor.modelo.DiagramaLogico;
 import mreleditor.modelo.Tabla;
-import mreleditor.modelo.Tabla.ClaveForanea;
+
+import org.eclipse.draw2d.Figure;
 
 public class DiagramaLogicoControl extends DiagramaLogico implements Control<DiagramaLogico>{
 

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mereditor.control.AtributoControl;
-import mereditor.control.DiagramaDERControl;
 import mereditor.control.EntidadControl;
 import mereditor.control.JerarquiaControl;
 import mereditor.control.RelacionControl;

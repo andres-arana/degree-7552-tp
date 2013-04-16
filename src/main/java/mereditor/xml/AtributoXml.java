@@ -48,6 +48,9 @@ public class AtributoXml extends AtributoControl implements Xmlizable {
 			if(this.original != null)
 				parser.agregarOriginal(elemento, this.original.getId());
 			break;
+		case CARACTERIZACION:
+			// No hay que agregar nada particular para caracterizacion
+			break;
 		}
 
 		if (this.atributos.size() > 0) {
@@ -81,6 +84,9 @@ public class AtributoXml extends AtributoControl implements Xmlizable {
 			break;
 		case DERIVADO_COPIA:
 			this.original = parser.obtenerOriginalAtributo(elemento);
+			break;
+		case CARACTERIZACION:
+			// No hay que agregar nada particular para caracterizacion
 			break;
 		}
 

@@ -3,7 +3,6 @@ package mereditor.interfaz.swt.figuras;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import mereditor.control.DiagramaControl;
 import mereditor.control.DiagramaLogicoControl;
 import mereditor.interfaz.swt.listeners.AreaSeleccionControlador;
 import mereditor.interfaz.swt.listeners.ArrastreControlador;

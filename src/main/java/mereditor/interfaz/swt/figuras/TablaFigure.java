@@ -2,13 +2,17 @@ package mereditor.interfaz.swt.figuras;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
+
+import mereditor.interfaz.swt.Principal;
+import mereditor.modelo.Entidad;
+import mereditor.modelo.Entidad.TipoEntidad;
+import mreleditor.modelo.Tabla;
+import mreleditor.modelo.Tabla.ClaveForanea;
 
 import org.eclipse.draw2d.BorderLayout;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Connection;
-import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.PolylineConnection;
@@ -16,12 +20,6 @@ import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.ToolbarLayout;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.PointList;
-
-import mereditor.interfaz.swt.Principal;
-import mereditor.modelo.Entidad;
-import mereditor.modelo.Entidad.TipoEntidad;
-import mreleditor.modelo.Tabla;
-import mreleditor.modelo.Tabla.ClaveForanea;
 
 public class TablaFigure extends Figura<Tabla> {
 

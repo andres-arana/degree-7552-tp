@@ -4,7 +4,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import mereditor.control.Control;
-import mereditor.control.DiagramaDERControl;
 import mereditor.interfaz.swt.listeners.SeleccionControlador;
 import mereditor.modelo.Proyecto;
 
