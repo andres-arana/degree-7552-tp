@@ -8,13 +8,13 @@ import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.MouseEvent;
 import org.eclipse.draw2d.MouseListener;
 
-import fiuba.mda.mer.interfaz.swt.editores.EditorFactory;
-import fiuba.mda.mer.interfaz.swt.figuras.Figura;
-import fiuba.mda.mer.interfaz.swt.figuras.RelacionFigure;
 import fiuba.mda.mer.modelo.Atributo;
 import fiuba.mda.mer.modelo.Diagrama;
 import fiuba.mda.mer.modelo.Entidad;
 import fiuba.mda.mer.modelo.Relacion;
+import fiuba.mda.mer.ui.editores.EditorFactory;
+import fiuba.mda.mer.ui.figuras.Figura;
+import fiuba.mda.mer.ui.figuras.RelacionFigure;
 
 public class RelacionControl extends Relacion implements Control<Relacion>, MouseListener {
 	protected Map<String, RelacionFigure> figures = new HashMap<>();

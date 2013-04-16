@@ -9,14 +9,14 @@ import java.util.Set;
 import org.eclipse.draw2d.Connection;
 import org.eclipse.draw2d.Figure;
 
-import fiuba.mda.mer.interfaz.swt.figuras.EntidadFigure;
-import fiuba.mda.mer.interfaz.swt.figuras.Figura;
 import fiuba.mda.mer.modelo.Atributo;
 import fiuba.mda.mer.modelo.DiagramaDER;
 import fiuba.mda.mer.modelo.Entidad;
 import fiuba.mda.mer.modelo.Proyecto;
 import fiuba.mda.mer.modelo.Relacion;
 import fiuba.mda.mer.modelo.Entidad.Identificador;
+import fiuba.mda.mer.ui.figuras.EntidadFigure;
+import fiuba.mda.mer.ui.figuras.Figura;
 
 public class DiagramaDERControl extends DiagramaDER implements Control<DiagramaDER> {
 	

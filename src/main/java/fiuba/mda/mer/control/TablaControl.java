@@ -9,8 +9,8 @@ import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.MouseEvent;
 import org.eclipse.draw2d.MouseListener;
 
-import fiuba.mda.mer.interfaz.swt.figuras.Figura;
-import fiuba.mda.mer.interfaz.swt.figuras.TablaFigure;
+import fiuba.mda.mer.ui.figuras.Figura;
+import fiuba.mda.mer.ui.figuras.TablaFigure;
 import fiuba.mda.mrel.modelo.Tabla;
 
 public class TablaControl extends Tabla implements Control<Tabla>,

@@ -8,12 +8,12 @@ import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.MouseEvent;
 import org.eclipse.draw2d.MouseListener;
 
-import fiuba.mda.mer.interfaz.swt.editores.EditorFactory;
-import fiuba.mda.mer.interfaz.swt.figuras.Figura;
-import fiuba.mda.mer.interfaz.swt.figuras.JerarquiaFigura;
 import fiuba.mda.mer.modelo.Diagrama;
 import fiuba.mda.mer.modelo.Entidad;
 import fiuba.mda.mer.modelo.Jerarquia;
+import fiuba.mda.mer.ui.editores.EditorFactory;
+import fiuba.mda.mer.ui.figuras.Figura;
+import fiuba.mda.mer.ui.figuras.JerarquiaFigura;
 
 public class JerarquiaControl extends Jerarquia implements Control<Jerarquia>,
 		MouseListener {

@@ -10,11 +10,11 @@ import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.MouseEvent;
 import org.eclipse.draw2d.MouseListener;
 
-import fiuba.mda.mer.interfaz.swt.editores.EditorFactory;
-import fiuba.mda.mer.interfaz.swt.figuras.AtributoFigure;
-import fiuba.mda.mer.interfaz.swt.figuras.Figura;
 import fiuba.mda.mer.modelo.Atributo;
 import fiuba.mda.mer.modelo.base.ComponenteAtributos;
+import fiuba.mda.mer.ui.editores.EditorFactory;
+import fiuba.mda.mer.ui.figuras.AtributoFigure;
+import fiuba.mda.mer.ui.figuras.Figura;
 
 public class AtributoControl extends Atributo implements Control<Atributo>, MouseListener {
 	protected Map<String, AtributoFigure> figures = new HashMap<>();

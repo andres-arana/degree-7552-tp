@@ -9,9 +9,9 @@ import org.eclipse.draw2d.geometry.Dimension;
 
 import fiuba.mda.mer.control.DiagramaLogicoControl;
 import fiuba.mda.mer.control.TablaControl;
-import fiuba.mda.mer.interfaz.swt.figuras.Figura;
-import fiuba.mda.mer.interfaz.swt.figuras.TablaFigure;
 import fiuba.mda.mer.representacion.PList;
+import fiuba.mda.mer.ui.figuras.Figura;
+import fiuba.mda.mer.ui.figuras.TablaFigure;
 import fiuba.mda.mrel.modelo.Tabla;
 
 

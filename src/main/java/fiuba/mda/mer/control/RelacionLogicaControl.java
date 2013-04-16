@@ -2,8 +2,8 @@ package fiuba.mda.mer.control;
 
 import org.eclipse.draw2d.Figure;
 
-import fiuba.mda.mer.interfaz.swt.figuras.Figura;
-import fiuba.mda.mer.interfaz.swt.figuras.RelacionLogicaFigure;
+import fiuba.mda.mer.ui.figuras.Figura;
+import fiuba.mda.mer.ui.figuras.RelacionLogicaFigure;
 import fiuba.mda.mrel.modelo.Relacion;
 
 

@@ -5,8 +5,8 @@ import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
 import fiuba.mda.injection.InjectorConfiguration;
-import fiuba.mda.mer.interfaz.swt.EventLoop;
-import fiuba.mda.mer.interfaz.swt.Principal;
+import fiuba.mda.mer.ui.EventLoop;
+import fiuba.mda.mer.ui.Principal;
 
 /**
  * Represents the executable application

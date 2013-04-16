@@ -3,8 +3,8 @@ package fiuba.mda.mer.control;
 
 import org.eclipse.draw2d.Figure;
 
-import fiuba.mda.mer.interfaz.swt.figuras.Figura;
 import fiuba.mda.mer.modelo.base.Componente;
+import fiuba.mda.mer.ui.figuras.Figura;
 
 public interface Control<T extends Componente> {
 

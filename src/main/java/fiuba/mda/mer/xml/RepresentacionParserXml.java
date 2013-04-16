@@ -10,11 +10,11 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import fiuba.mda.mer.control.Control;
-import fiuba.mda.mer.interfaz.swt.figuras.Figura;
 import fiuba.mda.mer.modelo.Diagrama;
 import fiuba.mda.mer.modelo.Proyecto;
 import fiuba.mda.mer.modelo.base.Componente;
 import fiuba.mda.mer.representacion.PList;
+import fiuba.mda.mer.ui.figuras.Figura;
 
 
 /**

@@ -6,8 +6,8 @@ import java.util.Collection;
 
 import org.eclipse.draw2d.Figure;
 
-import fiuba.mda.mer.interfaz.swt.figuras.Figura;
 import fiuba.mda.mer.modelo.Proyecto;
+import fiuba.mda.mer.ui.figuras.Figura;
 import fiuba.mda.mrel.modelo.DiagramaLogico;
 import fiuba.mda.mrel.modelo.Tabla;
 

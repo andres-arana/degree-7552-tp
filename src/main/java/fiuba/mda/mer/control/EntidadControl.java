@@ -8,11 +8,11 @@ import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.MouseEvent;
 import org.eclipse.draw2d.MouseListener;
 
-import fiuba.mda.mer.interfaz.swt.editores.EditorFactory;
-import fiuba.mda.mer.interfaz.swt.figuras.EntidadFigure;
-import fiuba.mda.mer.interfaz.swt.figuras.Figura;
 import fiuba.mda.mer.modelo.Atributo;
 import fiuba.mda.mer.modelo.Entidad;
+import fiuba.mda.mer.ui.editores.EditorFactory;
+import fiuba.mda.mer.ui.figuras.EntidadFigure;
+import fiuba.mda.mer.ui.figuras.Figura;
 
 public class EntidadControl extends Entidad implements Control<Entidad>, MouseListener {
 	protected Map<String, EntidadFigure> figures = new HashMap<>();
