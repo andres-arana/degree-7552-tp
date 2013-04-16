@@ -45,6 +45,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.ToolBar;
 import org.w3c.dom.Document;
 
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import fiuba.mda.mer.control.DiagramaControl;
@@ -59,9 +60,9 @@ import fiuba.mda.mer.ui.builders.DialogBuilder.Resultado;
 import fiuba.mda.mer.ui.builders.MenuBuilder;
 import fiuba.mda.mer.ui.builders.ToolBarBuilder;
 import fiuba.mda.mer.ui.builders.TreeManager;
-import fiuba.mda.mer.ui.dialogs.AgregarEntidadDialog;
-import fiuba.mda.mer.ui.dialogs.AgregarJerarquiaDialog;
-import fiuba.mda.mer.ui.dialogs.AgregarRelacionDialog;
+import fiuba.mda.mer.ui.dialogs.AddEntityDialog;
+import fiuba.mda.mer.ui.dialogs.AddHierarchyDialog;
+import fiuba.mda.mer.ui.dialogs.AddRelationDialog;
 import fiuba.mda.mer.ui.figuras.DiagramaFigura;
 import fiuba.mda.mer.ui.figuras.DiagramaLogicoFigura;
 import fiuba.mda.mer.xml.SaverLoaderXML;
@@ -120,7 +121,27 @@ public class Principal extends Observable implements FigureListener {
 	/**
 	 * Service to display message boxes
 	 */
-	private MessageBoxes messageBoxes;
+	private final MessageBoxes messageBoxes;
+
+	/**
+	 * Service to set the currently open project
+	 */
+	private final CurrentOpenProject currentProject;
+
+	/**
+	 * {@link Provider} for {@link AddEntityDialog} instances
+	 */
+	private final Provider<AddEntityDialog> entityDialogProvider;
+
+	/**
+	 * {@link Provider} for {@link AddHierarchyDialog} instances
+	 */
+	private final Provider<AddHierarchyDialog> hierarchyDialogProvider;
+
+	/**
+	 * {@link Provider} for {@link AddRelationDialog} instances
+	 */
+	private final Provider<AddRelationDialog> relationDialogProvider;
 
 	/**
 	 * Shell de SWT de la aplicaciî‰¢.
@@ -137,10 +158,6 @@ public class Principal extends Observable implements FigureListener {
 	 */
 	private DiagramaFigura panelDiagrama;
 	private DiagramaLogicoFigura panelDiagramaLogico;
-	/**
-	 * Proyecto que se encuentra abierto.
-	 */
-	private Proyecto proyecto;
 
 	/**
 	 * Handler del evento cuando se cierra la aplicaciî‰¢. Si hay modificaciones
@@ -159,8 +176,16 @@ public class Principal extends Observable implements FigureListener {
 	 * 
 	 * @param shell
 	 */
-	private Principal(Shell shell, MessageBoxes messageBoxes) {
+	private Principal(final Shell shell, final MessageBoxes messageBoxes,
+			final CurrentOpenProject currentProject,
+			final Provider<AddEntityDialog> entityDialog,
+			final Provider<AddHierarchyDialog> hierarchyDialog,
+			final Provider<AddRelationDialog> relationDialog) {
 		this.messageBoxes = messageBoxes;
+		this.currentProject = currentProject;
+		this.entityDialogProvider = entityDialog;
+		this.hierarchyDialogProvider = hierarchyDialog;
+		this.relationDialogProvider = relationDialog;
 		this.shell = shell;
 		this.shell.setMaximized(true);
 		this.shell.setText(APP_NOMBRE);
@@ -234,7 +259,7 @@ public class Principal extends Observable implements FigureListener {
 					"Ingresar nombre", "Nombre");
 
 			if (resultado.result == Resultado.OK) {
-				this.proyecto = new Proyecto(resultado.value);
+				currentProject.open(new Proyecto(resultado.value));
 				this.cargarProyecto();
 			}
 		}
@@ -254,7 +279,7 @@ public class Principal extends Observable implements FigureListener {
 			if (path != null) {
 				try {
 					SaverLoaderXML modelo = new SaverLoaderXML(path);
-					this.proyecto = modelo.load();
+					currentProject.open(modelo.load());
 					this.cargarProyecto();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -268,16 +293,16 @@ public class Principal extends Observable implements FigureListener {
 	 * Carga el proyecto actual.
 	 */
 	private void cargarProyecto() {
-		this.proyecto
-				.setDiagramaActual(this.proyecto.getDiagramaRaiz().getId());
+		Proyecto project = currentProject.get();
+		project.setDiagramaActual(project.getDiagramaRaiz().getId());
+		project.setDiagramaActual(project.getDiagramaRaiz().getId());
 		this.panelDiagramaLogico = new DiagramaLogicoFigura(this.figureCanvas,
-				this.proyecto);
-		this.panelDiagrama = new DiagramaFigura(this.figureCanvas,
-				this.proyecto);
+				project);
+		this.panelDiagrama = new DiagramaFigura(this.figureCanvas, project);
 		this.panelDiagrama.actualizar();
 
 		// Carga inicial del arbol.
-		TreeManager.cargar(this.proyecto);
+		TreeManager.cargar(project);
 		this.mostrarArbol(true);
 		// Notificar a la toolbar que hay un proyecto abierto.
 		this.setChanged();
@@ -289,13 +314,13 @@ public class Principal extends Observable implements FigureListener {
 
 	private void cargarInterfazLogica() {
 		this.panelDiagramaLogico = new DiagramaLogicoFigura(this.figureCanvas,
-				this.proyecto);
+				currentProject.get());
 		this.panelDiagramaLogico.actualizar();
 	}
 
 	private void cargarInterfazNormal() {
 		this.panelDiagrama = new DiagramaFigura(this.figureCanvas,
-				this.proyecto);
+				currentProject.get());
 		this.panelDiagrama.actualizar();
 	}
 
@@ -305,13 +330,15 @@ public class Principal extends Observable implements FigureListener {
 	private void actualizarEstado() {
 		String status = "[Ningun proyecto abierto]";
 
-		if (this.proyecto != null) {
+		if (currentProject.hasProject()) {
+			Proyecto project = currentProject.get();
 			status = "Proyecto: %s [%s]- Diagrama: %s [%s]";
-			status = String.format(status, this.proyecto.getNombre(),
-					this.proyecto.getValidacion().getEstado().toString(),
-					this.proyecto.getDiagramaActual().getNombre(),
-					this.proyecto.getDiagramaActual().getValidacion()
-							.getEstado().toString());
+			status = String
+					.format(status, project.getNombre(), project
+							.getValidacion().getEstado().toString(), project
+							.getDiagramaActual().getNombre(), project
+							.getDiagramaActual().getValidacion().getEstado()
+							.toString());
 		}
 
 		this.lblStatus.setText(status);
@@ -324,10 +351,11 @@ public class Principal extends Observable implements FigureListener {
 	private void actualizarTitulo() {
 		String titulo = APP_NOMBRE;
 
-		if (this.proyecto != null) {
-			titulo += " - " + this.proyecto.getNombre();
+		if (currentProject.hasProject()) {
+			Proyecto project = currentProject.get();
+			titulo += " - " + project.getNombre();
 			titulo += this.shell.getModified() ? " *" : "";
-			titulo += " [" + this.proyecto.getPath() + "]";
+			titulo += " [" + project.getPath() + "]";
 		}
 
 		this.shell.setText(titulo);
@@ -348,7 +376,8 @@ public class Principal extends Observable implements FigureListener {
 	 *            indica si se debe mostrar el dialogo de seleccion de archivo.
 	 */
 	public void guardarProyecto(boolean showDialog) {
-		String path = this.proyecto.getPath();
+		Proyecto project = currentProject.get();
+		String path = project.getPath();
 
 		if (path == null || showDialog) {
 			FileDialog fileDialog = new FileDialog(this.shell, SWT.SAVE);
@@ -359,23 +388,23 @@ public class Principal extends Observable implements FigureListener {
 		if (path != null) {
 			File file = new File(path);
 			String dir = file.getParent() + File.separator;
-			this.proyecto.setPath(path);
+			project.setPath(path);
 			SaverLoaderXML modelo;
 			try {
-				modelo = new SaverLoaderXML(this.proyecto);
+				modelo = new SaverLoaderXML(currentProject.get());
 				this.guardarXml(modelo.saveProyecto(), path);
 
 				this.guardarXml(modelo.saveComponentes(),
-						dir + this.proyecto.getComponentesPath());
+						dir + project.getComponentesPath());
 
-				this.guardarXml(modelo.saveRepresentacion(), dir
-						+ this.proyecto.getRepresentacionPath());
+				this.guardarXml(modelo.saveRepresentacion(),
+						dir + project.getRepresentacionPath());
 
-				this.guardarXml(modelo.saveComponentesLogicos(), dir
-						+ this.proyecto.getComponentesLogicosPath());
+				this.guardarXml(modelo.saveComponentesLogicos(),
+						dir + project.getComponentesLogicosPath());
 
-				this.guardarXml(modelo.saveRepresentacionDER(), dir
-						+ this.proyecto.getRepresentacionDERPath());
+				this.guardarXml(modelo.saveRepresentacionDER(),
+						dir + project.getRepresentacionDERPath());
 
 			} catch (Exception e) {
 				messageBoxes.error("Ocurrio un error al guardar el proyecto.");
@@ -413,10 +442,11 @@ public class Principal extends Observable implements FigureListener {
 		PromptResult resultado = DialogBuilder.prompt(this.shell,
 				"Ingresar nombre", "Nombre");
 		if (resultado.result == Resultado.OK) {
-			DiagramaControl nuevoDiagrama = new DiagramaControl(this.proyecto);
+			DiagramaControl nuevoDiagrama = new DiagramaControl(
+					currentProject.get());
 			nuevoDiagrama.setNombre(resultado.value);
 
-			this.proyecto.agregar(nuevoDiagrama);
+			currentProject.get().agregar(nuevoDiagrama);
 			this.actualizarVista();
 
 			TreeManager.agregarADiagramaActual(nuevoDiagrama);
@@ -451,7 +481,7 @@ public class Principal extends Observable implements FigureListener {
 	 *            Identificador del diagrama a abrir.
 	 **/
 	public void abrirDiagrama(String id) {
-		String idActual = this.proyecto.getDiagramaActual().getId();
+		String idActual = currentProject.get().getDiagramaActual().getId();
 		cargarInterfazNormal();
 		this.panelDiagrama.setVisible(true);
 		this.panelDiagramaLogico.setVisible(false);
@@ -460,7 +490,7 @@ public class Principal extends Observable implements FigureListener {
 			int resultado = this.preguntarGuardar();
 
 			if (resultado != SWT.CANCEL) {
-				this.proyecto.setDiagramaActual(id);
+				currentProject.get().setDiagramaActual(id);
 				this.actualizarVista();
 				this.actualizarEstado();
 			}
@@ -470,7 +500,7 @@ public class Principal extends Observable implements FigureListener {
 	public void abrirDiagramaLogico(String id) {
 		this.panelDiagrama.setVisible(false);
 		this.panelDiagramaLogico.setVisible(true);
-		this.proyecto.setDiagramaLogico(id);
+		currentProject.get().setDiagramaLogico(id);
 		this.cargarInterfazLogica();
 		this.actualizarVistaLogica();
 		this.panelDiagramaLogico.actualizar();
@@ -505,11 +535,11 @@ public class Principal extends Observable implements FigureListener {
 	 * Abre el dialogo para agregar una Entidad al diagrama actual.
 	 */
 	public void agregarEntidad() {
-		AgregarEntidadDialog dialog = new AgregarEntidadDialog();
+		AddEntityDialog dialog = entityDialogProvider.get();
 		if (dialog.open() == Window.OK) {
-			this.proyecto.agregar(dialog.getComponente());
+			currentProject.get().agregar(dialog.getComponent());
 			this.actualizarVista();
-			TreeManager.agregarADiagramaActual(dialog.getComponente());
+			TreeManager.agregarADiagramaActual(dialog.getComponent());
 			this.modificado(true);
 		}
 	}
@@ -518,11 +548,11 @@ public class Principal extends Observable implements FigureListener {
 	 * Abre el dialogo para agregar una Relacion al diagrama actual.
 	 */
 	public void agregarRelacion() {
-		AgregarRelacionDialog dialog = new AgregarRelacionDialog();
+		AddRelationDialog dialog = relationDialogProvider.get();
 		if (dialog.open() == Window.OK) {
-			this.proyecto.agregar(dialog.getComponente());
+			currentProject.get().agregar(dialog.getComponent());
 			this.actualizarVista();
-			TreeManager.agregarADiagramaActual(dialog.getComponente());
+			TreeManager.agregarADiagramaActual(dialog.getComponent());
 			this.modificado(true);
 		}
 	}
@@ -531,11 +561,11 @@ public class Principal extends Observable implements FigureListener {
 	 * Abre el dialogo para agregar una Jerarquia al diagrama actual.
 	 */
 	public void agregarJerarquia() {
-		AgregarJerarquiaDialog dialog = new AgregarJerarquiaDialog();
+		AddHierarchyDialog dialog = hierarchyDialogProvider.get();
 		if (dialog.open() == Window.OK) {
-			this.proyecto.agregar(dialog.getComponente());
+			currentProject.get().agregar(dialog.getComponent());
 			this.actualizarVista();
-			TreeManager.agregarADiagramaActual(dialog.getComponente());
+			TreeManager.agregarADiagramaActual(dialog.getComponent());
 			this.modificado(true);
 		}
 	}
@@ -592,7 +622,8 @@ public class Principal extends Observable implements FigureListener {
 	public void exportar() {
 		FileDialog fileDialog = new FileDialog(this.shell, SWT.SAVE);
 		fileDialog.setFilterExtensions(extensionesImagen);
-		fileDialog.setFileName(this.proyecto.getDiagramaActual().getNombre()
+		fileDialog.setFileName(currentProject.get().getDiagramaActual()
+				.getNombre()
 				+ ".jpg");
 		String path = fileDialog.open();
 
@@ -638,7 +669,8 @@ public class Principal extends Observable implements FigureListener {
 					printer, this.panelDiagrama);
 			printerOperation.setPrintMode(PrintFigureOperation.FIT_PAGE);
 			printerOperation.setPrintMargin(new Insets(0, 0, 0, 0));
-			printerOperation.run(this.proyecto.getDiagramaActual().getNombre());
+			printerOperation.run(currentProject.get().getDiagramaActual()
+					.getNombre());
 
 			printer.dispose();
 		}
@@ -648,7 +680,8 @@ public class Principal extends Observable implements FigureListener {
 	 * Validar diagrama actual.
 	 */
 	public void validar() {
-		Observacion observacion = this.proyecto.getDiagramaActual().validar();
+		Observacion observacion = currentProject.get().getDiagramaActual()
+				.validar();
 		this.actualizarEstado();
 
 		if (observacion.isEmpty())
@@ -657,7 +690,7 @@ public class Principal extends Observable implements FigureListener {
 			messageBoxes.warning(observacion.toString());
 
 			String nombreArchivo = "Diagrama-"
-					+ this.proyecto.getDiagramaActual().getNombre();
+					+ currentProject.get().getDiagramaActual().getNombre();
 			nombreArchivo += String.format("-%s.txt",
 					dateFormat.format(new Date()));
 
@@ -669,7 +702,7 @@ public class Principal extends Observable implements FigureListener {
 	 * Validar proyecto.
 	 */
 	public void validarProyecto() {
-		Observacion observacion = this.proyecto.validar();
+		Observacion observacion = currentProject.get().validar();
 		this.actualizarEstado();
 
 		if (observacion.isEmpty())
@@ -678,7 +711,7 @@ public class Principal extends Observable implements FigureListener {
 			messageBoxes.warning(observacion.toString());
 
 			String nombreArchivo = "Proyecto-"
-					+ this.proyecto.getDiagramaRaiz().getNombre();
+					+ currentProject.get().getDiagramaRaiz().getNombre();
 			nombreArchivo += String.format("_%s.txt",
 					dateFormat.format(new Date()));
 
@@ -733,7 +766,7 @@ public class Principal extends Observable implements FigureListener {
 	 * @return
 	 */
 	public ProyectoProxy getProyecto() {
-		return this.proyecto;
+		return currentProject.getForQueries();
 	}
 
 	/**
@@ -751,10 +784,10 @@ public class Principal extends Observable implements FigureListener {
 			this.actualizarTitulo();
 		}
 
-		if (modificado && this.proyecto != null) {
-			this.proyecto.getValidacion().setEstado(
-					EstadoValidacion.SIN_VALIDAR);
-			this.proyecto.getDiagramaActual().getValidacion()
+		if (modificado && currentProject.hasProject()) {
+			currentProject.get().getValidacion()
+					.setEstado(EstadoValidacion.SIN_VALIDAR);
+			currentProject.get().getDiagramaActual().getValidacion()
 					.setEstado(EstadoValidacion.SIN_VALIDAR);
 
 			this.actualizarEstado();
@@ -778,19 +811,19 @@ public class Principal extends Observable implements FigureListener {
 	public void convertir() {
 
 		TreeManager.borrarLogicoActivo();
-		if (proyecto.getDiagramaLogico() != null)
-			proyecto.borrarDiagramaLogico();
+		if (currentProject.get().getDiagramaLogico() != null)
+			currentProject.get().borrarDiagramaLogico();
 
 		ConversorDERaLogico conversor = ConversorDERaLogico.getInstance();
-		DiagramaLogico diaLog = conversor.convertir(this.proyecto
+		DiagramaLogico diaLog = conversor.convertir(currentProject.get()
 				.getDiagramaActual());
 		DiagramaLogicoControl diaControl = new DiagramaLogicoControl(diaLog);
-		this.proyecto.setDiagramaLogico(diaControl);
+		currentProject.get().setDiagramaLogico(diaControl);
 
 		ConversorDERRepresentacion converRep = new ConversorDERRepresentacion();
 
-		converRep
-				.createRepresentation(this.proyecto.getDiagramaLogicoControl());
+		converRep.createRepresentation(currentProject.get()
+				.getDiagramaLogicoControl());
 
 		TreeManager.agregarADiagramaActual(diaControl);
 		this.modificado(true);
@@ -805,14 +838,19 @@ public class Principal extends Observable implements FigureListener {
 
 	private static Principal instancia;
 
-	public static void inicializar(Shell shell, MessageBoxes messageBoxes) {
-		Principal.instancia = new Principal(shell, messageBoxes);
+	public static void inicializar(Shell shell, MessageBoxes messageBoxes,
+			CurrentOpenProject currentProject,
+			final Provider<AddEntityDialog> entityDialog,
+			final Provider<AddHierarchyDialog> hierarchyDialog,
+			final Provider<AddRelationDialog> relationDialog) {
+		Principal.instancia = new Principal(shell, messageBoxes,
+				currentProject, entityDialog, hierarchyDialog, relationDialog);
 	}
 
 	public static Principal getInstance() {
 		return Principal.instancia;
 	}
-	
+
 	public static Image getImagen(String nombre) {
 		return loadImagen(PATH_IMAGENES + nombre);
 	}
