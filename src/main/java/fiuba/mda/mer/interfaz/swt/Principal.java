@@ -46,6 +46,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.ToolBar;
 import org.w3c.dom.Document;
 
+import com.google.inject.Singleton;
+
 import fiuba.mda.mer.control.DiagramaControl;
 import fiuba.mda.mer.control.DiagramaLogicoControl;
 import fiuba.mda.mer.interfaz.swt.builders.DialogBuilder;
@@ -73,6 +75,7 @@ import fiuba.mda.mrel.modelo.DiagramaLogico;
  * Formulario principal de la aplicacion.
  * 
  */
+@Singleton
 public class Principal extends Observable implements FigureListener {
 	/**
 	 * Color predeterminado del ç–µea principal del diagrama.
@@ -215,7 +218,9 @@ public class Principal extends Observable implements FigureListener {
 		this.initFigureCanvas();
 
 		this.arregloLayout();
-
+	}
+	
+	public void open() {
 		this.shell.open();
 	}
 

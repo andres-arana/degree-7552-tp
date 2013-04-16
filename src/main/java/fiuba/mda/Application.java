@@ -1,39 +1,42 @@
 package fiuba.mda;
 
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
-
-import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Singleton;
 
-import fiuba.mda.injection.ApplicationModule;
+import fiuba.mda.injection.InjectorConfiguration;
+import fiuba.mda.mer.interfaz.swt.EventLoop;
 import fiuba.mda.mer.interfaz.swt.Principal;
 
 /**
  * Represents the executable application
  */
+@Singleton
 public class Application {
 	/**
-	 * The shell which will contain all application windows
+	 * The event loop which will dispatch application events until the main
+	 * window has been closed
 	 */
-	private final Shell shell;
+	private final EventLoop eventLoop;
 
 	/**
-	 * The display which contains the application shell
+	 * The main window to show after the application has launched
 	 */
-	private final Display display;
+	private final Principal mainWindow;
 
 	/**
 	 * Creates a new {@link Application} instance
 	 * 
-	 * @param shell
-	 *            the shell on which to create the application
+	 * @param eventLoop
+	 *            the event loop which will dispatch application events until
+	 *            the main window has been closed
+	 * @param mainWindow
+	 *            the main window to show after the application has launched
 	 */
 	@Inject
-	public Application(Display display, Shell shell) {
-		this.display = display;
-		this.shell = shell;
+	public Application(final EventLoop eventLoop, final Principal mainWindow) {
+		this.eventLoop = eventLoop;
+		this.mainWindow = mainWindow;
 	}
 
 	/**
@@ -41,11 +44,8 @@ public class Application {
 	 * the event loop until it is closed
 	 */
 	public void run() {
-		Principal.inicializar(shell);
-
-		while (!shell.isDisposed())
-			while (!display.readAndDispatch())
-				display.sleep();
+		this.mainWindow.open();
+		this.eventLoop.doEventLoop();
 	}
 
 	/**
@@ -55,7 +55,7 @@ public class Application {
 	 *            Command line arguments
 	 */
 	public static void main(String args[]) {
-		Injector injector = Guice.createInjector(new ApplicationModule());
+		Injector injector = InjectorConfiguration.bootstrapInjector();
 		Application application = injector.getInstance(Application.class);
 		application.run();
 	}

@@ -8,6 +8,8 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 
+import fiuba.mda.mer.interfaz.swt.Principal;
+
 /**
  * Injection module which configures SWT components
  */
@@ -21,7 +23,12 @@ public class SWTModule extends AbstractModule {
 		return Display.getDefault();
 	}
 	
-	@Provides @Singleton Shell provideShell(Display display) {
+	@Provides @Singleton Shell provideShell(final Display display) {
 		return new Shell(display, SWT.SHELL_TRIM);
+	}
+	
+	@Provides @Singleton Principal providePrincipal(final Shell shell) {
+		Principal.inicializar(shell);
+		return Principal.getInstance();
 	}
 }
