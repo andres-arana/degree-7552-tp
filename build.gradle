@@ -15,7 +15,7 @@ jar {
 }
 
 // Application assembly properties
-mainClassName = "fiuba.mda.mer.interfaz.swt.Principal"
+mainClassName = "fiuba.mda.Application"
 
 // Dependency repositories
 repositories {

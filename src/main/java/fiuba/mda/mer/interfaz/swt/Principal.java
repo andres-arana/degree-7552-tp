@@ -120,20 +120,8 @@ public class Principal extends Observable implements FigureListener {
 	 */
 	private static Principal instancia;
 
-	/**
-	 * Punto de entrada de la aplicaciî‰¢.
-	 * 
-	 * @param args
-	 */
-	public static void main(String args[]) {
-		Display display = Display.getDefault();
-		Shell shell = new Shell(display, SWT.SHELL_TRIM);
-
+	public static void inicializar(Shell shell) {
 		Principal.instancia = new Principal(shell);
-
-		while (!shell.isDisposed())
-			while (!display.readAndDispatch())
-				display.sleep();
 	}
 
 	/**
