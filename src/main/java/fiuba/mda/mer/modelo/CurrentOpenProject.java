@@ -1,9 +1,7 @@
-package fiuba.mda.mer.ui;
+package fiuba.mda.mer.modelo;
 
 import com.google.inject.Singleton;
 
-import fiuba.mda.mer.modelo.Proyecto;
-import fiuba.mda.mer.modelo.ProyectoProxy;
 
 /**
  * Represents the currently opened project

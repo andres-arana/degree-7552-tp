@@ -48,6 +48,7 @@ import com.google.inject.Singleton;
 
 import fiuba.mda.mer.control.DiagramaControl;
 import fiuba.mda.mer.control.DiagramaLogicoControl;
+import fiuba.mda.mer.modelo.CurrentOpenProject;
 import fiuba.mda.mer.modelo.Proyecto;
 import fiuba.mda.mer.modelo.ProyectoProxy;
 import fiuba.mda.mer.modelo.Validacion.EstadoValidacion;

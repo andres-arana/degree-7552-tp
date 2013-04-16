@@ -10,9 +10,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 
+import fiuba.mda.mer.modelo.CurrentOpenProject;
 import fiuba.mda.mer.modelo.ProyectoProxy;
 import fiuba.mda.mer.modelo.base.Componente;
-import fiuba.mda.mer.ui.CurrentOpenProject;
 import fiuba.mda.mer.ui.editores.Editor;
 
 /**

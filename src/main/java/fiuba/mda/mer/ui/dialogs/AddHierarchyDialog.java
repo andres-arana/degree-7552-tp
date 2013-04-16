@@ -7,8 +7,8 @@ import org.eclipse.swt.widgets.Shell;
 import com.google.inject.Inject;
 
 import fiuba.mda.mer.control.JerarquiaControl;
+import fiuba.mda.mer.modelo.CurrentOpenProject;
 import fiuba.mda.mer.modelo.Jerarquia;
-import fiuba.mda.mer.ui.CurrentOpenProject;
 import fiuba.mda.mer.ui.editores.Editor;
 import fiuba.mda.mer.ui.editores.EditorFactory;
 

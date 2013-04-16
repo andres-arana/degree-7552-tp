@@ -7,8 +7,8 @@ import org.eclipse.swt.widgets.Shell;
 import com.google.inject.Inject;
 
 import fiuba.mda.mer.control.EntidadControl;
+import fiuba.mda.mer.modelo.CurrentOpenProject;
 import fiuba.mda.mer.modelo.Entidad;
-import fiuba.mda.mer.ui.CurrentOpenProject;
 import fiuba.mda.mer.ui.editores.Editor;
 import fiuba.mda.mer.ui.editores.EditorFactory;
 
