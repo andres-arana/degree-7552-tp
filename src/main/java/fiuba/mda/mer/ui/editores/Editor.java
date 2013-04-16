@@ -16,7 +16,6 @@ import fiuba.mda.mer.modelo.Entidad.TipoEntidad;
 import fiuba.mda.mer.modelo.Jerarquia.TipoJerarquia;
 import fiuba.mda.mer.modelo.Relacion.TipoRelacion;
 import fiuba.mda.mer.ui.Principal;
-import fiuba.mda.mer.ui.dialogs.Dialog;
 
 public abstract class Editor<T> extends Dialog {
 	public final static String[] TiposAtributo = getTipos(TipoAtributo.class);

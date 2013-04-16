@@ -1,4 +1,4 @@
-package fiuba.mda.mer.ui.dialogs;
+package fiuba.mda.mer.ui.editores;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.widgets.Button;
