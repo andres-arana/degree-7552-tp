@@ -37,6 +37,8 @@ public class SWTModule extends AbstractModule {
 		return new Shell(display, SWT.SHELL_TRIM);
 	}
 
+	// This should not be injected by hand after we remove the Principal
+	// singleton methods
 	@Provides
 	@Singleton
 	Principal providePrincipal(Shell shell, MessageBoxes messageBoxes,
