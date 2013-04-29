@@ -1,12 +1,13 @@
 package fiuba.mda;
 
+import org.eclipse.swt.widgets.Display;
+
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 
 import fiuba.mda.injection.InjectorConfiguration;
-import fiuba.mda.mer.ui.EventLoop;
-import fiuba.mda.mer.ui.Principal;
+import fiuba.mda.ui.main.MainWindow;
 
 /**
  * Represents the executable application
@@ -14,28 +15,15 @@ import fiuba.mda.mer.ui.Principal;
 @Singleton
 public class Application {
 	/**
-	 * The event loop which will dispatch application events until the main
-	 * window has been closed
-	 */
-	private final EventLoop eventLoop;
-
-	/**
 	 * The main window to show after the application has launched
 	 */
-	private final Principal mainWindow;
+	private final MainWindow mainWindow;
 
 	/**
 	 * Creates a new {@link Application} instance
-	 * 
-	 * @param eventLoop
-	 *            the event loop which will dispatch application events until
-	 *            the main window has been closed
-	 * @param mainWindow
-	 *            the main window to show after the application has launched
 	 */
 	@Inject
-	public Application(final EventLoop eventLoop, final Principal mainWindow) {
-		this.eventLoop = eventLoop;
+	public Application(final MainWindow mainWindow) {
 		this.mainWindow = mainWindow;
 	}
 
@@ -44,8 +32,9 @@ public class Application {
 	 * the event loop until it is closed
 	 */
 	public void run() {
-		this.mainWindow.open();
-		this.eventLoop.doEventLoop();
+		mainWindow.setBlockOnOpen(true);
+		mainWindow.open();
+		Display.getCurrent().dispose();
 	}
 
 	/**
