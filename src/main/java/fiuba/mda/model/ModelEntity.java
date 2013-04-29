@@ -6,4 +6,9 @@ public class ModelEntity extends ProjectComponent {
 		super(name);
 	}
 
+	@Override
+	public ModelPackage closestOwningPackage() {
+		return getParent().closestOwningPackage();
+	}
+
 }

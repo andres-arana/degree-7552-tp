@@ -1,6 +1,5 @@
 package fiuba.mda.ui.main;
 
-import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.window.ApplicationWindow;
 import org.eclipse.swt.SWT;
@@ -13,26 +12,24 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import fiuba.mda.model.DocumentModel;
-import fiuba.mda.ui.actions.NewProjectAction;
 
 @Singleton
 public class MainWindow extends ApplicationWindow {
 	private final ProjectTreeBuilder projectTreeBuilder;
 	private final DiagramEditorBuilder diagramEditorBuilder;
-	private final NewProjectAction newProjectAction;
+	private final ToolBarActionSet toolBarActions;
 
 	@Inject
-	public MainWindow(final DocumentModel documentModel,
+	public MainWindow(final Shell shell, final DocumentModel documentModel,
 			final ProjectTreeBuilder projectTreeBuilder,
 			final DiagramEditorBuilder diagramEditorBuilder,
-			final NewProjectAction newProjectAction) {
-		super(null);
+			final ToolBarActionSet toolBarActions) {
+		super(shell);
 		this.projectTreeBuilder = projectTreeBuilder;
 		this.diagramEditorBuilder = diagramEditorBuilder;
-		this.newProjectAction = newProjectAction;
+		this.toolBarActions = toolBarActions;
 
 		this.addToolBar(SWT.FLAT | SWT.WRAP);
-		this.addMenuBar();
 	}
 
 	@Override
@@ -40,20 +37,12 @@ public class MainWindow extends ApplicationWindow {
 		super.configureShell(shell);
 		shell.setText("MDA IDE");
 		shell.setSize(800, 600);
-		shell.setMaximized(true);
-	}
-
-	@Override
-	protected MenuManager createMenuManager() {
-		MenuManager result = new MenuManager();
-		result.add(newProjectAction);
-		return result;
 	}
 
 	@Override
 	protected ToolBarManager createToolBarManager(int style) {
 		ToolBarManager result = new ToolBarManager(style);
-		result.add(newProjectAction);
+		toolBarActions.provideActions(result);
 		return result;
 	}
 

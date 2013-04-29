@@ -6,4 +6,9 @@ public class ModelPackage extends ProjectComponent {
 		super(name);
 	}
 
+	@Override
+	public ModelPackage closestOwningPackage() {
+		return this;
+	}
+
 }

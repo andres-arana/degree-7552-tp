@@ -1,6 +1,7 @@
 package fiuba.mda.ui.main;
 
 import org.eclipse.jface.viewers.ITreeContentProvider;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 
 import com.google.inject.Singleton;
@@ -13,15 +14,16 @@ import fiuba.mda.model.ProjectComponent;
 @Singleton
 public class ProjectTreeContentProvider implements ITreeContentProvider {
 	public class RefreshProjectTree implements Observer<DocumentModel, Project> {
-		private final Viewer viewer;
+		private final TreeViewer viewer;
 
 		public RefreshProjectTree(Viewer viewer) {
-			this.viewer = viewer;
+			this.viewer = (TreeViewer) viewer;
 		}
 
 		@Override
 		public void notify(DocumentModel observable, Project eventData) {
 			viewer.refresh();
+			viewer.expandAll();
 		}
 	}
 
@@ -38,6 +40,8 @@ public class ProjectTreeContentProvider implements ITreeContentProvider {
 
 		DocumentModel newModel = (DocumentModel) newInput;
 		newModel.getProjectOpenEvent().observe(new RefreshProjectTree(viewer));
+		newModel.getProjectHierarchyChangedEvent().observe(
+				new RefreshProjectTree(viewer));
 	}
 
 	@Override

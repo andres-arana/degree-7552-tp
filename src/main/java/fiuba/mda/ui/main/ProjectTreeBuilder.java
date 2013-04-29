@@ -1,5 +1,8 @@
 package fiuba.mda.ui.main;
 
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
@@ -11,6 +14,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import fiuba.mda.model.DocumentModel;
+import fiuba.mda.model.ProjectComponent;
 
 @Singleton
 public class ProjectTreeBuilder {
@@ -41,6 +45,18 @@ public class ProjectTreeBuilder {
 		TreeViewer treeViewer = new TreeViewer(tabs);
 		treeViewer.setContentProvider(contentProvider);
 		treeViewer.setLabelProvider(labelProvider);
+		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				if (event.getSelection().isEmpty()) {
+					model.clearActivePackage();
+				} else {
+					IStructuredSelection selection = (IStructuredSelection) event.getSelection();
+					ProjectComponent selectedComponent = (ProjectComponent) selection.getFirstElement();
+					model.activatePackage(selectedComponent.closestOwningPackage());
+				}
+			}
+		});
 		treeViewer.setInput(model);
 		treeViewer.expandAll();
 
