@@ -1,8 +1,8 @@
-package fiuba.mda.ui.main;
+package fiuba.mda.ui.main.projectTree;
 
 import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.ITreeContentProvider;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
@@ -14,23 +14,53 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import fiuba.mda.model.DocumentModel;
-import fiuba.mda.model.ProjectComponent;
 
+/**
+ * Builder which creates a new project tree
+ */
 @Singleton
 public class ProjectTreeBuilder {
+	/**
+	 * The {@link DocumentModel} instance to watch and update the tree from
+	 */
 	private final DocumentModel model;
+
+	/**
+	 * The {@link LabelProvider} instance for the project tree
+	 */
 	private final ProjectTreeLabelProvider labelProvider;
+
+	/**
+	 * The {@link ITreeContentProvider} instance for the project tree
+	 */
 	private final ProjectTreeContentProvider contentProvider;
 
+	/**
+	 * The {@link ISelectionChangedListener} instance which handles selection
+	 * changed events on the project tree
+	 */
+	private final PackageSelectedListener onSelectionChanged;
+
+	/**
+	 * Creates a new {@link ProjectTreeBuilder} instance
+	 */
 	@Inject
 	public ProjectTreeBuilder(final DocumentModel model,
 			final ProjectTreeLabelProvider labelProvider,
-			final ProjectTreeContentProvider contentProvider) {
+			final ProjectTreeContentProvider contentProvider,
+			final PackageSelectedListener onSelectionChanged) {
 		this.model = model;
 		this.labelProvider = labelProvider;
 		this.contentProvider = contentProvider;
+		this.onSelectionChanged = onSelectionChanged;
 	}
 
+	/**
+	 * Creates a new project tree in the given parent
+	 * 
+	 * @param parent
+	 *            the composite to build the new project tree into
+	 */
 	public void buildInto(Composite parent) {
 		Composite result = new Composite(parent, SWT.NONE);
 		result.setLayout(new FillLayout(SWT.VERTICAL));
@@ -45,23 +75,12 @@ public class ProjectTreeBuilder {
 		TreeViewer treeViewer = new TreeViewer(tabs);
 		treeViewer.setContentProvider(contentProvider);
 		treeViewer.setLabelProvider(labelProvider);
-		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-			@Override
-			public void selectionChanged(SelectionChangedEvent event) {
-				if (event.getSelection().isEmpty()) {
-					model.clearActivePackage();
-				} else {
-					IStructuredSelection selection = (IStructuredSelection) event.getSelection();
-					ProjectComponent selectedComponent = (ProjectComponent) selection.getFirstElement();
-					model.activatePackage(selectedComponent.closestOwningPackage());
-				}
-			}
-		});
+		treeViewer.addSelectionChangedListener(onSelectionChanged);
 		treeViewer.setInput(model);
 		treeViewer.expandAll();
 
 		item.setControl(treeViewer.getControl());
-		
+
 		tabs.setSelection(item);
 	}
 }

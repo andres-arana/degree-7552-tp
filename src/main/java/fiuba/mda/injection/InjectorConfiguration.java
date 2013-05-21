@@ -16,8 +16,6 @@ public class InjectorConfiguration {
 	/**
 	 * Creates a new {@link Injector} instance by configuring the injection
 	 * modules in it
-	 * 
-	 * @return a new, bootstrapped {@link Injector} instance
 	 */
 	public static Injector bootstrapInjector() {
 		List<Module> modules = new ArrayList<>();

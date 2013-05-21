@@ -10,8 +10,17 @@ import org.eclipse.swt.widgets.Label;
 
 import com.google.inject.Singleton;
 
+/**
+ * Builder which creates a new diagram editor in a given composite
+ */
 @Singleton
 public class DiagramEditorBuilder {
+	/**
+	 * Builds a new diagram editor in the given composite
+	 * 
+	 * @param parent
+	 *            the parent of the new diagram editor
+	 */
 	public void buildInto(Composite parent) {
 		Composite result = new Composite(parent, SWT.NONE);
 

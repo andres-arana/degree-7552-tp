@@ -1,4 +1,4 @@
-package fiuba.mda.ui.main;
+package fiuba.mda.ui.main.projectTree;
 
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -11,15 +11,35 @@ import fiuba.mda.model.ObservableEvent.Observer;
 import fiuba.mda.model.Project;
 import fiuba.mda.model.ProjectComponent;
 
+/**
+ * {@link ITreeContentProvider} implementation which provides content for a
+ * project tree
+ */
 @Singleton
 public class ProjectTreeContentProvider implements ITreeContentProvider {
+	/**
+	 * {@link Observer} implementation which refreshes the project tree viewer
+	 */
 	public class RefreshProjectTree implements Observer<DocumentModel, Project> {
+		/**
+		 * The viewer to refresh
+		 */
 		private final TreeViewer viewer;
 
-		public RefreshProjectTree(Viewer viewer) {
+		/**
+		 * Creates a new {@link RefreshProjectTree} instance
+		 * 
+		 * @param viewer
+		 *            the viewer to refresh
+		 */
+		public RefreshProjectTree(final Viewer viewer) {
 			this.viewer = (TreeViewer) viewer;
 		}
 
+		/**
+		 * Overrides {@link Observer#notify(Object, Object)} to refresh the
+		 * project tree viewer
+		 */
 		@Override
 		public void notify(DocumentModel observable, Project eventData) {
 			viewer.refresh();
@@ -27,10 +47,19 @@ public class ProjectTreeContentProvider implements ITreeContentProvider {
 		}
 	}
 
+	/**
+	 * Overrides the {@link ITreeContentProvider#dispose()} method. No
+	 * additional implementation is given.
+	 */
 	@Override
 	public void dispose() {
 	}
 
+	/**
+	 * Overrides the
+	 * {@link ITreeContentProvider#inputChanged(Viewer, Object, Object)} method
+	 * to set up event notifications.
+	 */
 	@Override
 	public void inputChanged(final Viewer viewer, final Object oldInput,
 			final Object newInput) {
@@ -44,6 +73,10 @@ public class ProjectTreeContentProvider implements ITreeContentProvider {
 				new RefreshProjectTree(viewer));
 	}
 
+	/**
+	 * Overrides {@link ITreeContentProvider#getChildren(Object)} to obtain the
+	 * children of a given element.
+	 */
 	@Override
 	public Object[] getChildren(final Object element) {
 		if (element == null) {
@@ -55,6 +88,10 @@ public class ProjectTreeContentProvider implements ITreeContentProvider {
 
 	}
 
+	/**
+	 * Override {@link ITreeContentProvider#getElements(Object)} to obtain the
+	 * root elements of the current project.
+	 */
 	@Override
 	public Object[] getElements(final Object input) {
 		DocumentModel model = (DocumentModel) input;
@@ -65,6 +102,10 @@ public class ProjectTreeContentProvider implements ITreeContentProvider {
 		return new Object[] { project.getRootPackage() };
 	}
 
+	/**
+	 * Override {@link ITreeContentProvider#getParent(Object)} to obtain the
+	 * parent component of an element.
+	 */
 	@Override
 	public Object getParent(final Object element) {
 		if (element == null) {
@@ -75,6 +116,10 @@ public class ProjectTreeContentProvider implements ITreeContentProvider {
 		return model.getParent();
 	}
 
+	/**
+	 * Override {@link ITreeContentProvider#hasChildren(Object)} to check if an
+	 * element has children.
+	 */
 	@Override
 	public boolean hasChildren(final Object element) {
 		if (element == null) {
@@ -84,5 +129,4 @@ public class ProjectTreeContentProvider implements ITreeContentProvider {
 		ProjectComponent model = (ProjectComponent) element;
 		return model.hasChildren();
 	}
-
 }

@@ -39,9 +39,6 @@ public class Application {
 
 	/**
 	 * Application entry point
-	 * 
-	 * @param args
-	 *            Command line arguments
 	 */
 	public static void main(String args[]) {
 		Injector injector = InjectorConfiguration.bootstrapInjector();
