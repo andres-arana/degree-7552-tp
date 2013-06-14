@@ -25,7 +25,8 @@ public class ProjectTreeBuilder {
 
 	private final PackageSelectedListener onSelectionChanged;
 
-	
+	private final NodeDobleClickListener onDoubleClick;
+
 	/**
 	 * Creates a new {@link ProjectTreeBuilder} instance
 	 * 
@@ -36,17 +37,22 @@ public class ProjectTreeBuilder {
 	 * @param contentProvider
 	 *            the provider of content for the project tree
 	 * @param onSelectionChanged
-	 *            the listener in charge of selected the current package
+	 *            the listener in charge of handling the selection of the
+	 *            current package
+	 * @param onDoubleClick
+	 *            the listener in charge of handling the double click on a node
 	 */
 	@Inject
 	public ProjectTreeBuilder(final Application model,
 			final ProjectTreeLabelProvider labelProvider,
 			final ProjectTreeContentProvider contentProvider,
-			final PackageSelectedListener onSelectionChanged) {
+			final PackageSelectedListener onSelectionChanged,
+			final NodeDobleClickListener onDoubleClick) {
 		this.model = model;
 		this.labelProvider = labelProvider;
 		this.contentProvider = contentProvider;
 		this.onSelectionChanged = onSelectionChanged;
+		this.onDoubleClick = onDoubleClick;
 	}
 
 	/**
@@ -70,6 +76,7 @@ public class ProjectTreeBuilder {
 		treeViewer.setContentProvider(contentProvider);
 		treeViewer.setLabelProvider(labelProvider);
 		treeViewer.addSelectionChangedListener(onSelectionChanged);
+		treeViewer.addDoubleClickListener(onDoubleClick);
 		treeViewer.setInput(model);
 		treeViewer.expandAll();
 

@@ -10,7 +10,7 @@ import com.google.inject.Singleton;
 import fiuba.mda.model.Application;
 import fiuba.mda.model.Project;
 import fiuba.mda.ui.actions.validators.NameValidator;
-import fiuba.mda.ui.dialogs.SimpleDialogController;
+import fiuba.mda.ui.controllers.SimpleDialogController;
 import fiuba.mda.ui.utilities.ImageLoader;
 
 /**
@@ -52,7 +52,7 @@ public class NewProjectAction extends Action {
 	private void setupPresentation(final ImageLoader imageLoader) {
 		setText("&Nuevo Proyecto@Ctrl+Shift+N");
 		setToolTipText("Cerrar el proyecto actual y crear un nuevo proyecto");
-		setImageDescriptor(imageLoader.loadImageDescriptor("application_add"));
+		setImageDescriptor(imageLoader.descriptorOf("application_add"));
 	}
 
 	@Override

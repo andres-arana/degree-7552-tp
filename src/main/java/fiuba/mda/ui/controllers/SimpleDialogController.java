@@ -1,4 +1,4 @@
-package fiuba.mda.ui.dialogs;
+package fiuba.mda.ui.controllers;
 
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.InputDialog;

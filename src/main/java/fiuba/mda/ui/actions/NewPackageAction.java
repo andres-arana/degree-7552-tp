@@ -10,7 +10,7 @@ import com.google.inject.Singleton;
 import fiuba.mda.model.Application;
 import fiuba.mda.model.ModelPackage;
 import fiuba.mda.ui.actions.validators.NameValidator;
-import fiuba.mda.ui.dialogs.SimpleDialogController;
+import fiuba.mda.ui.controllers.SimpleDialogController;
 import fiuba.mda.ui.utilities.ImageLoader;
 import fiuba.mda.utilities.SimpleEvent.Observer;
 
@@ -66,7 +66,7 @@ public class NewPackageAction extends Action {
 		setText("Nuevo Paquete");
 		setToolTipText("Crear un nuevo paquete en el proyecto");
 		setEnabled(false);
-		setImageDescriptor(imageLoader.loadImageDescriptor("brick_add"));
+		setImageDescriptor(imageLoader.descriptorOf("brick_add"));
 	}
 
 	@Override

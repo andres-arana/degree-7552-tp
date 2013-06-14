@@ -12,7 +12,7 @@ import fiuba.mda.model.BehaviorDiagram;
 import fiuba.mda.model.ModelAspect;
 import fiuba.mda.model.ModelPackage;
 import fiuba.mda.ui.actions.validators.NameValidator;
-import fiuba.mda.ui.dialogs.SimpleDialogController;
+import fiuba.mda.ui.controllers.SimpleDialogController;
 import fiuba.mda.ui.utilities.ImageLoader;
 import fiuba.mda.utilities.SimpleEvent.Observer;
 
@@ -69,7 +69,7 @@ public class NewBehaviourDiagramAction extends Action {
 		setToolTipText("Crear un nuevo diagrama de comportamiento en el proyecto");
 		setEnabled(false);
 		// TODO: Define real image to use
-		setImageDescriptor(imageLoader.loadImageDescriptor("chart_line_add"));
+		setImageDescriptor(imageLoader.descriptorOf("chart_line_add"));
 	}
 
 	@Override

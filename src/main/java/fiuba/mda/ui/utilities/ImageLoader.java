@@ -25,7 +25,7 @@ public class ImageLoader {
 	 *            the name of the image
 	 * @return the loaded image
 	 */
-	public Image loadImage(final String name) {
+	public Image of(final String name) {
 		if (loadedImages.containsKey(name)) {
 			return loadedImages.get(name);
 		} else {
@@ -45,8 +45,8 @@ public class ImageLoader {
 	 *            the name of the image
 	 * @return the loaded image, wrapped in an {@link ImageDescriptor}
 	 */
-	public ImageDescriptor loadImageDescriptor(final String name) {
-		Image image = loadImage(name);
+	public ImageDescriptor descriptorOf(final String name) {
+		Image image = of(name);
 		return ImageDescriptor.createFromImage(image);
 	}
 }

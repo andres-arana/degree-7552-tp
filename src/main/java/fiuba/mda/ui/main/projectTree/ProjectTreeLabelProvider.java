@@ -1,46 +1,31 @@
 package fiuba.mda.ui.main.projectTree;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 
+import com.google.common.base.Optional;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import fiuba.mda.model.BehaviorDiagram;
-import fiuba.mda.model.ModelAspect;
-import fiuba.mda.model.ModelPackage;
 import fiuba.mda.model.ProjectComponent;
-import fiuba.mda.ui.utilities.ImageLoader;
 
 /**
  * {@link LabelProvider} implementation for the project tree
  */
 @Singleton
 public class ProjectTreeLabelProvider extends LabelProvider {
-	private final Map<String, Image> imagesByType = new HashMap<>();
+	private final ProjectTreeImageSelector selector;
 
 	/**
 	 * Creates a new @{link ProjectTreeLabelProvider} instance
 	 * 
-	 * @param imageLoader
-	 *            the image loader used to provide images for the elements of
+	 * @param selector
+	 *            the image selector which selects the image of each element in
 	 *            the project tree
 	 */
 	@Inject
-	public ProjectTreeLabelProvider(final ImageLoader imageLoader) {
-		imagesByType.put(keyFor(ModelPackage.class),
-				imageLoader.loadImage("brick"));
-		imagesByType.put(keyFor(ModelAspect.class),
-				imageLoader.loadImage("folder"));
-		imagesByType.put(keyFor(BehaviorDiagram.class),
-				imageLoader.loadImage("chart_line"));
-	}
-
-	private String keyFor(final Class<?> type) {
-		return type.getCanonicalName();
+	public ProjectTreeLabelProvider(final ProjectTreeImageSelector selector) {
+		this.selector = selector;
 	}
 
 	@Override
@@ -51,6 +36,11 @@ public class ProjectTreeLabelProvider extends LabelProvider {
 
 	@Override
 	public Image getImage(Object element) {
-		return imagesByType.get(keyFor(element.getClass()));
+		Optional<Image> result = selector.fromInstance(element);
+		if (result.isPresent()) {
+			return result.get();
+		} else {
+			return null;
+		}
 	}
 }
