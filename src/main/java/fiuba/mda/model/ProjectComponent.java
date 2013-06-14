@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.google.common.base.Optional;
+
 import fiuba.mda.utilities.SimpleEvent;
 import fiuba.mda.utilities.SimpleEvent.Observer;
 
@@ -137,7 +139,9 @@ public abstract class ProjectComponent {
 	 * 
 	 * @return the closest package component owning this one
 	 */
-	public abstract ModelPackage closestOwningPackage();
+	public ModelPackage closestOwningPackage() {
+		return getParent().closestOwningPackage();
+	}
 
 	/**
 	 * An event raised when some components in the component hierarchy have
@@ -147,5 +151,18 @@ public abstract class ProjectComponent {
 	 */
 	public SimpleEvent<ProjectComponent> hierarchyChangedEvent() {
 		return hierarchyChangedEvent;
+	}
+
+	/**
+	 * Attempts to locate a named {@link ModelAspect} instance, returning it if
+	 * this component is the {@link ModelAspect} instance in question.
+	 * 
+	 * @param name
+	 *            the name of the aspect to locate
+	 * @return an {@link Optional} instance, absent unless this component is the
+	 *         named {@link ModelAspect} instance
+	 */
+	public Optional<ModelAspect> locateAspect(final String name) {
+		return Optional.absent();
 	}
 }

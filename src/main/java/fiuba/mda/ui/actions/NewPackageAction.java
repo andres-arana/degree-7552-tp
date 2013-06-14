@@ -66,7 +66,7 @@ public class NewPackageAction extends Action {
 		setText("Nuevo Paquete");
 		setToolTipText("Crear un nuevo paquete en el proyecto");
 		setEnabled(false);
-		setImageDescriptor(imageLoader.loadImageDescriptor("package"));
+		setImageDescriptor(imageLoader.loadImageDescriptor("brick_add"));
 	}
 
 	@Override

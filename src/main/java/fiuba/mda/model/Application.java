@@ -58,35 +58,23 @@ public class Application {
 	}
 
 	/**
-	 * Checks if there is an active package
-	 * 
-	 * @return true if the application has an active package, false otherwise
-	 */
-	public boolean hasActivePackage() {
-		return activePackage != null;
-	}
-
-	/**
 	 * Obtains the current active package
 	 * 
 	 * @throws RuntimeException
-	 *             if there is no active package selected. Check with
-	 *             {@link Application#hasActivePackage()} first to ensure this
+	 *             if there is no current project. Check
+	 *             {@link Application#hasCurrentProject()} to ensure the
 	 *             exception isn't raised.
-	 * @return the active package, if any, or null if none is currently active
+	 * @return the active package
 	 */
 	public ModelPackage getActivePackage() {
-		if (!hasActivePackage()) {
-			throw new RuntimeException("There is no active package");
+		if (!hasCurrentProject()) {
+			throw new RuntimeException("There is no current project");
 		}
-		return activePackage;
-	}
-
-	/**
-	 * Deactivates the current active package
-	 */
-	public void clearActivePackage() {
-		activePackage = null;
+		if (activePackage != null) {
+			return activePackage;
+		} else {
+			return currentProject.getRootPackage();
+		}
 	}
 
 	/**
@@ -97,6 +85,14 @@ public class Application {
 	 */
 	public void activatePackage(final ModelPackage p) {
 		activePackage = p;
+	}
+
+	/**
+	 * Clears the currently selected active package, defaulting to the root
+	 * package of the project.
+	 */
+	public void clearActivePackage() {
+		activePackage = null;
 	}
 
 	/**

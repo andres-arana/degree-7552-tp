@@ -9,6 +9,7 @@ import org.eclipse.jface.action.ToolBarManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import fiuba.mda.ui.actions.NewBehaviourDiagramAction;
 import fiuba.mda.ui.actions.NewPackageAction;
 import fiuba.mda.ui.actions.NewProjectAction;
 
@@ -26,12 +27,16 @@ public class ToolBarActionProvider {
 	 *            the new project action
 	 * @param newPackage
 	 *            the new package action
+	 * @param newBehaviorDiagram
+	 *            the new behavior diagram action
 	 */
 	@Inject
 	public ToolBarActionProvider(final NewProjectAction newProject,
-			final NewPackageAction newPackage) {
+			final NewPackageAction newPackage,
+			final NewBehaviourDiagramAction newBehaviorDiagram) {
 		actions.add(newProject);
 		actions.add(newPackage);
+		actions.add(newBehaviorDiagram);
 	}
 
 	/**

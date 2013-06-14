@@ -1,5 +1,7 @@
 package fiuba.mda.model;
 
+import com.google.common.base.Optional;
+
 /**
  * Represents a package from the software being modeled
  */
@@ -17,6 +19,26 @@ public class ModelPackage extends ProjectComponent {
 	@Override
 	public ModelPackage closestOwningPackage() {
 		return this;
+	}
+
+	/**
+	 * Ensures that a particularly named {@link ModelAspect} instance exists
+	 * under this package and returns it, creating it if it doesn't.
+	 * 
+	 * @param name
+	 *            the name of the aspect
+	 * @return the existing or newly created aspect
+	 */
+	public ModelAspect ensureAspect(final String name) {
+		for (ProjectComponent component : getChildren()) {
+			Optional<ModelAspect> aspect = component.locateAspect(name);
+			if (aspect.isPresent()) {
+				return aspect.get();
+			}
+		}
+		ModelAspect aspect = new ModelAspect(name);
+		addComponent(aspect);
+		return aspect;
 	}
 
 }

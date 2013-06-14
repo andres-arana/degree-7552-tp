@@ -1,12 +1,16 @@
 package fiuba.mda.ui.main.projectTree;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import fiuba.mda.model.ModelEntity;
+import fiuba.mda.model.BehaviorDiagram;
+import fiuba.mda.model.ModelAspect;
 import fiuba.mda.model.ModelPackage;
 import fiuba.mda.model.ProjectComponent;
 import fiuba.mda.ui.utilities.ImageLoader;
@@ -16,7 +20,7 @@ import fiuba.mda.ui.utilities.ImageLoader;
  */
 @Singleton
 public class ProjectTreeLabelProvider extends LabelProvider {
-	private final ImageLoader imageLoader;
+	private final Map<String, Image> imagesByType = new HashMap<>();
 
 	/**
 	 * Creates a new @{link ProjectTreeLabelProvider} instance
@@ -27,7 +31,16 @@ public class ProjectTreeLabelProvider extends LabelProvider {
 	 */
 	@Inject
 	public ProjectTreeLabelProvider(final ImageLoader imageLoader) {
-		this.imageLoader = imageLoader;
+		imagesByType.put(keyFor(ModelPackage.class),
+				imageLoader.loadImage("brick"));
+		imagesByType.put(keyFor(ModelAspect.class),
+				imageLoader.loadImage("folder"));
+		imagesByType.put(keyFor(BehaviorDiagram.class),
+				imageLoader.loadImage("chart_line"));
+	}
+
+	private String keyFor(final Class<?> type) {
+		return type.getCanonicalName();
 	}
 
 	@Override
@@ -38,12 +51,6 @@ public class ProjectTreeLabelProvider extends LabelProvider {
 
 	@Override
 	public Image getImage(Object element) {
-		if (element instanceof ModelPackage) {
-			return imageLoader.loadImage("package");
-		} else if (element instanceof ModelEntity) {
-			return imageLoader.loadImage("entidad");
-		} else {
-			return null;
-		}
+		return imagesByType.get(keyFor(element.getClass()));
 	}
 }
