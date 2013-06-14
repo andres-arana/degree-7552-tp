@@ -29,7 +29,7 @@ public class Project {
 	 */
 	public Project(final String name) {
 		this.name = name;
-		rootPackage = new ModelPackage(name + " (Default package)");
+		rootPackage = new ModelPackage(name);
 		rootPackage.hierarchyChangedEvent().observe(onHierarchyChanged);
 	}
 

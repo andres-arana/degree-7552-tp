@@ -60,6 +60,21 @@ public abstract class ProjectComponent {
 	}
 
 	/**
+	 * Obtains the full path to the project component
+	 * 
+	 * @return a textual representation of the full path of the component
+	 */
+	public String getFullName() {
+		if (isRoot()) {
+			return getName();
+		} else {
+			return getParent().closestOwningPackage().getFullName() + "."
+					+ getName();
+		}
+
+	}
+
+	/**
 	 * Obtains an unmodifiable copy of the list of children components
 	 * 
 	 * @return the list of children components

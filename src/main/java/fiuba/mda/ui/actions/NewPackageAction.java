@@ -71,7 +71,9 @@ public class NewPackageAction extends Action {
 
 	@Override
 	public void run() {
-		Optional<String> name = dialog.showInput("Nuevo paquete",
+		final String title = "Nuevo paquete en "
+				+ model.getActivePackage().getFullName();
+		Optional<String> name = dialog.showInput(title,
 				"Nombre del nuevo paquete", null, packageNameValidator);
 		if (name.isPresent()) {
 			ModelPackage newPackage = new ModelPackage(name.get());
