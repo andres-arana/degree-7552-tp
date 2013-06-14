@@ -1,4 +1,4 @@
-package fiuba.tptaller2;
+package sabri.tptaller2;
 
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
@@ -13,7 +13,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
 
-import fiuba.tptaller2.Canvas;
+import sabri.tptaller2.Canvas;
 
 public class MainWindow extends JFrame {
 	private static final long serialVersionUID = 8067086131711949686L;

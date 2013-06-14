@@ -13,9 +13,6 @@ import com.google.inject.Singleton;
  * {@link Module} which configures objects related to jface and swt
  */
 public class JFaceModule extends AbstractModule {
-	/**
-	 * @see Module#configure(com.google.inject.Binder)
-	 */
 	@Override
 	protected void configure() {
 	}

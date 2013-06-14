@@ -1,4 +1,4 @@
-package fiuba.tptaller2;
+package sabri.tptaller2;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -9,11 +9,11 @@ import java.util.HashMap;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import fiuba.tptaller2.components.Button;
-import fiuba.tptaller2.components.ComponentType;
-import fiuba.tptaller2.components.Text;
-import fiuba.tptaller2.dialogs.ConfigurationDialog;
-import fiuba.tptaller2.dialogs.ConfigurationDialogFactory;
+import sabri.tptaller2.components.Button;
+import sabri.tptaller2.components.ComponentType;
+import sabri.tptaller2.components.Text;
+import sabri.tptaller2.dialogs.ConfigurationDialog;
+import sabri.tptaller2.dialogs.ConfigurationDialogFactory;
 
 public class Canvas extends JPanel implements MouseListener{
 	private static final long serialVersionUID = 4198954178286958028L;

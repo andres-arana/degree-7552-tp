@@ -1,4 +1,4 @@
-package fiuba.tptaller2.dialogs;
+package sabri.tptaller2.dialogs;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -15,43 +15,43 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 
-import fiuba.tptaller2.components.Button;
+import sabri.tptaller2.components.Text;
 
-public class ButtonConfigurationDialog extends ConfigurationDialog implements ActionListener{
+public class TextConfigurationDialog extends ConfigurationDialog implements ActionListener{
 	
 	private static final long serialVersionUID = 6359577509426136520L;
 	
 	private static int PANEL_WIDTH = 400;
 	
-	private static String NAME = "Nombre: ";
+	private static String TEXT_LABEL = "Texto: ";
 	
-	private Button button;
+	private Text text;
 	private boolean isNew;
 	
-	private JTextField buttonNameField;
+	private JTextField textContentField;
 	
 	/**
 	 * Constructor
 	 */
-	public ButtonConfigurationDialog(Button button, boolean isNew){
-		this.button = button;
+	public TextConfigurationDialog(Text text, boolean isNew){
+		this.text = text;
 		this.isNew = isNew;
-		this.setTitle((this.isNew ? NEW : EDIT) + button.getText());
+		this.setTitle((this.isNew ? NEW : EDIT) + text.getText());
 		this.setResizable(false);
 		this.setLocationRelativeTo(null); // places the dialog in the middle of the screen
 		this.setModal(true);
 		this.setAlwaysOnTop(true); // disables outside clicking until a button is pressed
-		this.add(getPropertiesPanel(button));
-		this.pack(); // resizes the dialog according to the components
+		this.add(getPropertiesPanel(text));
+		this.pack(); // resizes the panel according to the components
 		this.setVisible(true);
 	}
 
-	private JPanel getPropertiesPanel(Button button){
+	private JPanel getPropertiesPanel(Text text){
 		JPanel propertiesPanel = new JPanel();
 		propertiesPanel.setLayout(new BoxLayout(propertiesPanel,BoxLayout.Y_AXIS));
 		
 		JSplitPane splitPane = getSplitPane();
-		splitPane.setLeftComponent(getHeaderPanel(button.getText()));
+		splitPane.setLeftComponent(getHeaderPanel(text.getText()));
 		splitPane.setRightComponent(getInferiorPanel());
 		
 		propertiesPanel.add(splitPane);
@@ -154,20 +154,20 @@ public class ButtonConfigurationDialog extends ConfigurationDialog implements Ac
 		
 		panel.setLayout(new FlowLayout(FlowLayout.LEADING));
 		
-		buttonNameField = new JTextField();
-		buttonNameField.setPreferredSize(new Dimension(200,27));
+		textContentField = new JTextField();
+		textContentField.setPreferredSize(new Dimension(200,27));
 		
 		if (!this.isNew){ 
-			buttonNameField.setText(this.button.getText());
+			textContentField.setText(this.text.getText());
 		}
 		
-		panel.add(new JLabel(NAME));
-		panel.add(buttonNameField);
+		panel.add(new JLabel(TEXT_LABEL));
+		panel.add(textContentField);
 		return panel;
 	}
 	
 	/**
-	 * Sets the button component properties
+	 * Sets the text component properties
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -175,13 +175,14 @@ public class ButtonConfigurationDialog extends ConfigurationDialog implements Ac
 		
 		if (OK_BUTTON.equals(this.getPressedButton())){
 			// Update button properties
-			if (!buttonNameField.getText().isEmpty()){
-				this.button.setText(buttonNameField.getText());
+			if (!textContentField.getText().isEmpty()){
+				this.text.setText(textContentField.getText());
 				
 				// Resize if necessary 
-				this.button.setBounds(this.button.getX(), this.button.getY(), this.button.getText().length()*7 + 40, 30); // 7 pixels by character, 40 pixels of margin
+				this.text.setBounds(this.text.getX(), this.text.getY(), this.text.getText().length()*7 + 40, 30); // 7 pixels by character, 40 pixels of margin
 			}
 		}
 		this.dispose(); // clear dialog
 	}
+	
 }

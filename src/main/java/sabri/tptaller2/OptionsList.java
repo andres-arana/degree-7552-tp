@@ -1,4 +1,4 @@
-package fiuba.tptaller2;
+package sabri.tptaller2;
 
 import java.awt.Point;
 import java.awt.event.MouseEvent;
@@ -7,7 +7,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
 
-import fiuba.tptaller2.components.ComponentType;
+import sabri.tptaller2.components.ComponentType;
 
 public class OptionsList extends JList implements MouseListener{
 	

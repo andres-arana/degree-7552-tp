@@ -1,4 +1,4 @@
-package fiuba.tptaller2.components;
+package sabri.tptaller2.components;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -17,7 +17,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.TransferHandler;
 
-import fiuba.tptaller2.menus.RightClickListener;
+import sabri.tptaller2.menus.RightClickListener;
 
 public class Text extends JLabel implements Transferable, DragSourceListener, DragGestureListener {
 	

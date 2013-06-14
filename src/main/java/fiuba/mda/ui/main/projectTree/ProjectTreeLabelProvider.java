@@ -16,33 +16,26 @@ import fiuba.mda.ui.utilities.ImageLoader;
  */
 @Singleton
 public class ProjectTreeLabelProvider extends LabelProvider {
-	/**
-	 * The {@link ImageLoader} to use to obtain the images for the components
-	 */
 	private final ImageLoader imageLoader;
 
 	/**
-	 * Creates a new {@link ProjectTreeLabelProvider} instane
+	 * Creates a new @{link ProjectTreeLabelProvider} instance
+	 * 
+	 * @param imageLoader
+	 *            the image loader used to provide images for the elements of
+	 *            the project tree
 	 */
 	@Inject
 	public ProjectTreeLabelProvider(final ImageLoader imageLoader) {
 		this.imageLoader = imageLoader;
 	}
 
-	/**
-	 * Override {@link LabelProvider#getText(Object)} to return the associated
-	 * text of a given element.
-	 */
 	@Override
 	public String getText(Object element) {
 		ProjectComponent model = (ProjectComponent) element;
 		return model.getName();
 	}
 
-	/**
-	 * Override the {@link LabelProvider#getImage(Object)} to return the
-	 * associated image of a given element.
-	 */
 	@Override
 	public Image getImage(Object element) {
 		if (element instanceof ModelPackage) {

@@ -1,49 +1,42 @@
 package fiuba.mda.model;
 
-import fiuba.mda.model.ObservableEvent.Observer;
+import fiuba.mda.utilities.SimpleEvent;
+import fiuba.mda.utilities.SimpleEvent.Observer;
 
 /**
  * Represents a single software project being modeled
  */
 public class Project {
-	/**
-	 * An event raised when some components in the project hierarchy have
-	 * changed
-	 */
-	private final ObservableEvent<Project, Object> hierarchyChangedEvent = new ObservableEvent<>(
+	private final SimpleEvent<Project> hierarchyChangedEvent = new SimpleEvent<>(
 			this);
 
-	/**
-	 * The project name
-	 */
+	private Observer<ProjectComponent> onHierarchyChanged = new Observer<ProjectComponent>() {
+		@Override
+		public void notify(ProjectComponent observable) {
+			hierarchyChangedEvent.raise();
+		}
+	};
+
 	private String name;
 
-	/**
-	 * The root model package
-	 */
 	private final ModelPackage rootPackage;
 
 	/**
-	 * Creates a new {@link Project} instance
+	 * Creates a new {@link Project} instance with a default root package
 	 * 
 	 * @param name
-	 *            the name of the project to create
+	 *            the name of the project
 	 */
 	public Project(final String name) {
 		this.name = name;
-		this.rootPackage = new ModelPackage(name + " (Default package)");
-		this.rootPackage.getHierarchyChangedEvent().observe(
-				new Observer<ProjectComponent, Object>() {
-					@Override
-					public void notify(ProjectComponent observable,
-							Object eventData) {
-						hierarchyChangedEvent.raise(eventData);
-					}
-				});
+		rootPackage = new ModelPackage(name + " (Default package)");
+		rootPackage.hierarchyChangedEvent().observe(onHierarchyChanged);
 	}
 
 	/**
 	 * Obtains the name of the project
+	 * 
+	 * @return the name of the project
 	 */
 	public String getName() {
 		return name;
@@ -51,14 +44,19 @@ public class Project {
 
 	/**
 	 * Sets the name of the project
+	 * 
+	 * @param name
+	 *            the new name to set
 	 */
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
-		hierarchyChangedEvent.raise(null);
+		hierarchyChangedEvent.raise();
 	}
 
 	/**
 	 * Obtains the root package of the project
+	 * 
+	 * @return the root package of the project
 	 */
 	public ModelPackage getRootPackage() {
 		return rootPackage;
@@ -67,8 +65,10 @@ public class Project {
 	/**
 	 * An event raised when some components in the project hierarchy have
 	 * changed
+	 * 
+	 * @return the event
 	 */
-	public ObservableEvent<Project, Object> getHierarchyChangedEvent() {
+	public SimpleEvent<Project> hierarchyChangedEvent() {
 		return hierarchyChangedEvent;
 	}
 }

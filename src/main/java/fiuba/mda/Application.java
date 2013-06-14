@@ -14,13 +14,13 @@ import fiuba.mda.ui.main.MainWindow;
  */
 @Singleton
 public class Application {
-	/**
-	 * The main window to show after the application has launched
-	 */
 	private final MainWindow mainWindow;
 
 	/**
 	 * Creates a new {@link Application} instance
+	 * 
+	 * @param mainWindow
+	 *            the main window to show when the application is run
 	 */
 	@Inject
 	public Application(final MainWindow mainWindow) {
@@ -39,11 +39,13 @@ public class Application {
 
 	/**
 	 * Application entry point
+	 * 
+	 * @param args
+	 *            The application command line arguments
 	 */
 	public static void main(String args[]) {
 		Injector injector = InjectorConfiguration.bootstrapInjector();
 		Application application = injector.getInstance(Application.class);
 		application.run();
 	}
-
 }

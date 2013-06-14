@@ -1,5 +1,9 @@
 package fiuba.mda.ui.main;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.ToolBarManager;
 
 import com.google.inject.Inject;
@@ -13,24 +17,21 @@ import fiuba.mda.ui.actions.NewProjectAction;
  */
 @Singleton
 public class ToolBarActionProvider {
-	/**
-	 * The new project action
-	 */
-	private final NewProjectAction newProject;
-
-	/**
-	 * The new package actino
-	 */
-	private final NewPackageAction newPackage;
+	private final List<IAction> actions = new ArrayList<>();
 
 	/**
 	 * Creates a new {@link ToolBarActionProvider} instance
+	 * 
+	 * @param newProject
+	 *            the new project action
+	 * @param newPackage
+	 *            the new package action
 	 */
 	@Inject
 	public ToolBarActionProvider(final NewProjectAction newProject,
 			final NewPackageAction newPackage) {
-		this.newProject = newProject;
-		this.newPackage = newPackage;
+		actions.add(newProject);
+		actions.add(newPackage);
 	}
 
 	/**
@@ -40,7 +41,8 @@ public class ToolBarActionProvider {
 	 *            the manager to add the actions to
 	 */
 	public void provideActions(final ToolBarManager manager) {
-		manager.add(newProject);
-		manager.add(newPackage);
+		for (IAction action : actions) {
+			manager.add(action);
+		}
 	}
 }

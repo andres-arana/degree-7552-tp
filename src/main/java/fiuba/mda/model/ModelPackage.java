@@ -5,15 +5,15 @@ package fiuba.mda.model;
  */
 public class ModelPackage extends ProjectComponent {
 	/**
-	 * @see ProjectComponent#ProjectComponent(String)
+	 * Creates a new {@link ModelPackage} instance
+	 * 
+	 * @param name
+	 *            the name which represents this package
 	 */
 	public ModelPackage(String name) {
 		super(name);
 	}
 
-	/**
-	 * @see ProjectComponent#ProjectComponent(String)
-	 */
 	@Override
 	public ModelPackage closestOwningPackage() {
 		return this;

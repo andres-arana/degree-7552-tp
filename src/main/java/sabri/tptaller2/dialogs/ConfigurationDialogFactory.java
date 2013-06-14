@@ -1,10 +1,10 @@
-package fiuba.tptaller2.dialogs;
+package sabri.tptaller2.dialogs;
 
 import javax.swing.JComponent;
 
-import fiuba.tptaller2.components.Button;
-import fiuba.tptaller2.components.ComponentType;
-import fiuba.tptaller2.components.Text;
+import sabri.tptaller2.components.Button;
+import sabri.tptaller2.components.ComponentType;
+import sabri.tptaller2.components.Text;
 
 public class ConfigurationDialogFactory {
 	

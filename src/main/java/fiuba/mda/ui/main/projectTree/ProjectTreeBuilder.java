@@ -1,8 +1,5 @@
 package fiuba.mda.ui.main.projectTree;
 
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.ITreeContentProvider;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
@@ -13,39 +10,36 @@ import org.eclipse.swt.widgets.Composite;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import fiuba.mda.model.DocumentModel;
+import fiuba.mda.model.Application;
 
 /**
  * Builder which creates a new project tree
  */
 @Singleton
 public class ProjectTreeBuilder {
-	/**
-	 * The {@link DocumentModel} instance to watch and update the tree from
-	 */
-	private final DocumentModel model;
+	private final Application model;
 
-	/**
-	 * The {@link LabelProvider} instance for the project tree
-	 */
 	private final ProjectTreeLabelProvider labelProvider;
 
-	/**
-	 * The {@link ITreeContentProvider} instance for the project tree
-	 */
 	private final ProjectTreeContentProvider contentProvider;
 
-	/**
-	 * The {@link ISelectionChangedListener} instance which handles selection
-	 * changed events on the project tree
-	 */
 	private final PackageSelectedListener onSelectionChanged;
 
+	
 	/**
 	 * Creates a new {@link ProjectTreeBuilder} instance
+	 * 
+	 * @param model
+	 *            the model which will be watched by the project tree
+	 * @param labelProvider
+	 *            the provider of labels for the project tree
+	 * @param contentProvider
+	 *            the provider of content for the project tree
+	 * @param onSelectionChanged
+	 *            the listener in charge of selected the current package
 	 */
 	@Inject
-	public ProjectTreeBuilder(final DocumentModel model,
+	public ProjectTreeBuilder(final Application model,
 			final ProjectTreeLabelProvider labelProvider,
 			final ProjectTreeContentProvider contentProvider,
 			final PackageSelectedListener onSelectionChanged) {

@@ -6,32 +6,28 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 
 import com.google.inject.Inject;
 
-import fiuba.mda.model.DocumentModel;
+import fiuba.mda.model.Application;
 import fiuba.mda.model.ProjectComponent;
 
 /**
- * {@link ISelectionChangedListener} implementation for the project tree
+ * {@link ISelectionChangedListener} implementation for the project tree, which
+ * sets the currently selected package when a selection event occurs on the
+ * project tree
  */
 public class PackageSelectedListener implements ISelectionChangedListener {
-	/**
-	 * The {@link DocumentModel} instance to modify on selection events
-	 */
-	private final DocumentModel model;
+	private final Application model;
 
 	/**
 	 * Creates a new {@link PackageSelectedListener} instance
+	 * 
+	 * @param model
+	 *            the model on which the action will select the current package
 	 */
 	@Inject
-	public PackageSelectedListener(DocumentModel model) {
+	public PackageSelectedListener(Application model) {
 		this.model = model;
 	}
 
-	/**
-	 * Override
-	 * {@link ISelectionChangedListener#selectionChanged(SelectionChangedEvent)}
-	 * to set the active package after a package is selected on the project
-	 * tree.
-	 */
 	@Override
 	public void selectionChanged(SelectionChangedEvent event) {
 		if (event.getSelection().isEmpty()) {

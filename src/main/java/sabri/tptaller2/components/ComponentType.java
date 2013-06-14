@@ -1,4 +1,4 @@
-package fiuba.tptaller2.components;
+package sabri.tptaller2.components;
 
 public interface ComponentType {
 

@@ -15,9 +15,6 @@ import com.google.inject.Singleton;
  */
 @Singleton
 public class ImageLoader {
-	/**
-	 * Cache of already loaded images
-	 */
 	private final Map<String, Image> loadedImages = new HashMap<>();
 
 	/**
@@ -26,6 +23,7 @@ public class ImageLoader {
 	 * 
 	 * @param name
 	 *            the name of the image
+	 * @return the loaded image
 	 */
 	public Image loadImage(final String name) {
 		if (loadedImages.containsKey(name)) {
@@ -45,6 +43,7 @@ public class ImageLoader {
 	 * 
 	 * @param name
 	 *            the name of the image
+	 * @return the loaded image, wrapped in an {@link ImageDescriptor}
 	 */
 	public ImageDescriptor loadImageDescriptor(final String name) {
 		Image image = loadImage(name);

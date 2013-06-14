@@ -1,4 +1,4 @@
-package fiuba.tptaller2.dialogs;
+package sabri.tptaller2.dialogs;
 //package fiuba.tptaller2.menus;
 //
 //import java.awt.Color;

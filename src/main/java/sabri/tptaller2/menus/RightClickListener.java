@@ -1,4 +1,4 @@
-package fiuba.tptaller2.menus;
+package sabri.tptaller2.menus;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

@@ -1,23 +1,29 @@
-package fiuba.mda.model;
+package fiuba.mda.utilities;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Basic utility class to manage event propagation. Represents an event which
- * can be observed
+ * Basic utility class to manage event propagation. Represents a complex event
+ * which can be observed, allowing interaction between the event raiser and the
+ * event handler through an event parameter.
  * 
  * @param <T>
  *            The type of the class owning the observable event
  * @param <D>
- *            The type of the data associated to the event
+ *            The type of the parameter associated to the event
  */
-public class ObservableEvent<T, D> {
+public class ComplexEvent<T, D> {
 	/**
 	 * Represents an observer which can observe an observable event, being
 	 * notified when the event is raised
 	 * 
-	 * @see ObservableEvent
+	 * @param <T>
+	 *            the type of the class owning the event
+	 * @param <D>
+	 *            the type of the parameter associated to the event
+	 * 
+	 * @see ComplexEvent
 	 */
 	public static interface Observer<T, D> {
 		/**
@@ -25,34 +31,31 @@ public class ObservableEvent<T, D> {
 		 * 
 		 * @param observable
 		 *            the observable which raised the event
-		 * @param eventData
+		 * @param parameter
 		 *            specific event data associated to the observable event
 		 */
-		void notify(final T observable, final D eventData);
+		void notify(final T observable, final D parameter);
 	}
 
-	/**
-	 * The list of registered observers
-	 */
 	private final List<Observer<T, D>> observers = new ArrayList<>();
 
-	/**
-	 * The instance owning the observable event
-	 */
 	private final T observable;
 
 	/**
-	 * Creates a new {@link ObservableEvent} instance
+	 * Creates a new @{link ComplexEvent} instance
 	 * 
 	 * @param observable
-	 *            the instance owning the observable event
+	 *            the observable which owns the event
 	 */
-	public ObservableEvent(final T observable) {
+	public ComplexEvent(final T observable) {
 		this.observable = observable;
 	}
 
 	/**
 	 * Registers an observer to be notified when the event is raised
+	 * 
+	 * @param observer
+	 *            the observer to register
 	 */
 	public void observe(final Observer<T, D> observer) {
 		this.observers.add(observer);
@@ -60,6 +63,9 @@ public class ObservableEvent<T, D> {
 
 	/**
 	 * Unregisters an observer to no longer be notified when the event is raised
+	 * 
+	 * @param observer
+	 *            the observer to unregister
 	 */
 	public void unobserve(final Observer<T, D> observer) {
 		this.observers.remove(observer);

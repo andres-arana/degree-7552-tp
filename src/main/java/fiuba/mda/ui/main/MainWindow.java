@@ -11,7 +11,7 @@ import org.eclipse.swt.widgets.Shell;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import fiuba.mda.model.DocumentModel;
+import fiuba.mda.model.Application;
 import fiuba.mda.ui.main.projectTree.ProjectTreeBuilder;
 
 /**
@@ -19,26 +19,28 @@ import fiuba.mda.ui.main.projectTree.ProjectTreeBuilder;
  */
 @Singleton
 public class MainWindow extends ApplicationWindow {
-	/**
-	 * Builder for the project tree
-	 */
 	private final ProjectTreeBuilder projectTreeBuilder;
 
-	/**
-	 * Builder for the diagram editor
-	 */
 	private final DiagramEditorBuilder diagramEditorBuilder;
 
-	/**
-	 * Set of actions to include in the toolbar
-	 */
 	private final ToolBarActionProvider toolBarActions;
 
 	/**
 	 * Creates a new {@link MainWindow} instance
+	 * 
+	 * @param shell
+	 *            the shell which will contain this window
+	 * @param documentModel
+	 *            the model on which this application window will operate
+	 * @param projectTreeBuilder
+	 *            the builder which will provide the project tree
+	 * @param diagramEditorBuilder
+	 *            the builder which will provide the diagram editor
+	 * @param toolBarActions
+	 *            the provider of all toolbar actions
 	 */
 	@Inject
-	public MainWindow(final Shell shell, final DocumentModel documentModel,
+	public MainWindow(final Shell shell, final Application documentModel,
 			final ProjectTreeBuilder projectTreeBuilder,
 			final DiagramEditorBuilder diagramEditorBuilder,
 			final ToolBarActionProvider toolBarActions) {
@@ -50,10 +52,6 @@ public class MainWindow extends ApplicationWindow {
 		this.addToolBar(SWT.FLAT | SWT.WRAP);
 	}
 
-	/**
-	 * Overrides {@link ApplicationWindow#configureShell} to configure the
-	 * window container
-	 */
 	@Override
 	protected void configureShell(final Shell shell) {
 		super.configureShell(shell);
@@ -61,10 +59,6 @@ public class MainWindow extends ApplicationWindow {
 		shell.setSize(800, 600);
 	}
 
-	/**
-	 * Overrides {@link ApplicationWindow#createToolBarManager} to configure the
-	 * window toolbar
-	 */
 	@Override
 	protected ToolBarManager createToolBarManager(int style) {
 		ToolBarManager result = new ToolBarManager(style);
@@ -72,10 +66,6 @@ public class MainWindow extends ApplicationWindow {
 		return result;
 	}
 
-	/**
-	 * Overrides {@link ApplicationWindow#createControls} to configure the
-	 * window contents
-	 */
 	@Override
 	protected Control createContents(final Composite parent) {
 		SashForm sash = new SashForm(parent, SWT.HORIZONTAL);

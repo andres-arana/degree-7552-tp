@@ -1,4 +1,4 @@
-package fiuba.tptaller2.components;
+package sabri.tptaller2.components;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -17,7 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.TransferHandler;
 
-import fiuba.tptaller2.menus.RightClickListener;
+import sabri.tptaller2.menus.RightClickListener;
 
 public class Button extends JButton implements Transferable, DragSourceListener, DragGestureListener {
 	private static final long serialVersionUID = -8207526176412412851L;

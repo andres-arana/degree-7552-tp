@@ -6,6 +6,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 
+import com.google.common.base.Optional;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -19,6 +20,10 @@ public class SimpleDialogController {
 
 	/**
 	 * Creates a new {@link SimpleDialogController} instance
+	 * 
+	 * @param shell
+	 *            the shell which will contain the dialogs this controller
+	 *            provides
 	 */
 	@Inject
 	public SimpleDialogController(final Shell shell) {
@@ -42,6 +47,7 @@ public class SimpleDialogController {
 	 * 
 	 * @param message
 	 *            the message to display in the dialog
+	 * @return true if the user confirmed the dialog, false otherwise
 	 */
 	public boolean showConfirm(final String message) {
 		return MessageDialog
@@ -59,8 +65,7 @@ public class SimpleDialogController {
 	}
 
 	/**
-	 * Shows a dialog which asks the user for a value. Returns the entered value
-	 * or false if the user cancels the operation.
+	 * Shows a dialog which asks the user for a value.
 	 * 
 	 * @param title
 	 *            the title of the dialog
@@ -73,16 +78,18 @@ public class SimpleDialogController {
 	 *            the validator instance which validates if the input is valid.
 	 *            If the input is not valid, the user won't be able to accept
 	 *            the dialog. Can be null if no validations should be made.
+	 * @return the validated input which the user entered, or absent if the user
+	 *         cancelled the operation
 	 */
-	public String showInput(final String title, final String message,
+	public Optional<String> showInput(final String title, final String message,
 			final String initialValue, final IInputValidator validator) {
 		InputDialog inputDialog = new InputDialog(shell, title, message,
 				initialValue, validator);
 		int result = inputDialog.open();
 		if (result == Window.OK) {
-			return inputDialog.getValue();
+			return Optional.of(inputDialog.getValue());
 		} else {
-			return null;
+			return Optional.absent();
 		}
 	}
 

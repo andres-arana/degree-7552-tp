@@ -3,10 +3,11 @@ package fiuba.mda.ui.actions;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.IInputValidator;
 
+import com.google.common.base.Optional;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import fiuba.mda.model.DocumentModel;
+import fiuba.mda.model.Application;
 import fiuba.mda.model.Project;
 import fiuba.mda.ui.actions.validators.NameValidator;
 import fiuba.mda.ui.dialogs.SimpleDialogController;
@@ -18,26 +19,27 @@ import fiuba.mda.ui.utilities.ImageLoader;
  */
 @Singleton
 public class NewProjectAction extends Action {
-	/**
-	 * The document model on which the project will be created and open
-	 */
-	private final DocumentModel model;
+	private final Application model;
 
-	/**
-	 * The dialog controller which displays the edit project action
-	 */
 	private final SimpleDialogController dialog;
 
-	/**
-	 * The validator which will validate the project name
-	 */
 	private final IInputValidator projectNameValidator;
 
 	/**
-	 * Creates a new {@link NewProjectAction} instancd
+	 * Creates a new {@link NewProjectAction} instance
+	 * 
+	 * @param model
+	 *            the model on which this action will create a new project
+	 * @param dialog
+	 *            the dialog controller used to display associated dialogs
+	 * @param imageLoader
+	 *            the image loader used to provide the image of this action
+	 * @param projectNameValidator
+	 *            the validator used to validate the project name on input
+	 *            dialogs
 	 */
 	@Inject
-	public NewProjectAction(final DocumentModel model,
+	public NewProjectAction(final Application model,
 			final SimpleDialogController dialog, final ImageLoader imageLoader,
 			final NameValidator projectNameValidator) {
 		this.model = model;
@@ -47,29 +49,18 @@ public class NewProjectAction extends Action {
 		setupPresentation(imageLoader);
 	}
 
-	/**
-	 * Sets the action presentation parameters
-	 * 
-	 * @param imageLoader
-	 *            the {@link ImageLoader} instance to use to load the action
-	 *            image
-	 */
 	private void setupPresentation(final ImageLoader imageLoader) {
 		setText("&Nuevo Proyecto@Ctrl+Shift+N");
 		setToolTipText("Cerrar el proyecto actual y crear un nuevo proyecto");
 		setImageDescriptor(imageLoader.loadImageDescriptor("project-new"));
 	}
 
-	/**
-	 * Overrides {@link Action#run()} to add a new project to the
-	 * {@link DocumentModel}
-	 */
 	@Override
 	public void run() {
-		String name = dialog.showInput("Nuevo proyecto",
+		Optional<String> name = dialog.showInput("Nuevo proyecto",
 				"Nombre del nuevo proyecto", null, projectNameValidator);
-		if (name != null) {
-			Project newProject = new Project(name.trim());
+		if (name.isPresent()) {
+			Project newProject = new Project(name.get().trim());
 			model.openProject(newProject);
 		}
 	}
