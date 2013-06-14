@@ -5,7 +5,7 @@ import com.google.common.base.Optional;
 /**
  * Represents a package from the software being modeled
  */
-public class ModelPackage extends ProjectComponent {
+public class ModelPackage extends AbstractContainerProjectComponent {
 	/**
 	 * Creates a new {@link ModelPackage} instance
 	 * 
@@ -17,8 +17,13 @@ public class ModelPackage extends ProjectComponent {
 	}
 
 	@Override
-	public ModelPackage closestOwningPackage() {
+	public ModelPackage locateOwningPackage() {
 		return this;
+	}
+	
+	@Override
+	public void accept(ProjectComponentVisitor visitor) {
+		visitor.visit(this);
 	}
 
 	/**
@@ -37,8 +42,19 @@ public class ModelPackage extends ProjectComponent {
 			}
 		}
 		ModelAspect aspect = new ModelAspect(name);
-		addComponent(aspect);
+		addChildren(aspect);
 		return aspect;
 	}
 
+	/**
+	 * Qualifies the name of a child component, ensuring that the full package
+	 * path to it is present
+	 * 
+	 * @param component
+	 *            the component to qualify
+	 * @return the qualified component name
+	 */
+	public String qualifiedNameFor(ProjectComponent component) {
+		return getQualifiedName() + "." + component.getName();
+	}
 }

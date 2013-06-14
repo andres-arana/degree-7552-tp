@@ -39,7 +39,7 @@ public class PackageEditorController extends BaseEditorController<ModelPackage> 
 			return;
 		}
 
-		final String title = "Editando Paquete " + component.getFullName();
+		final String title = "Editando Paquete " + component.getQualifiedName();
 		Optional<String> name = dialogs.showInput(title, "Nombre del paquete",
 				component.getName(), packageNameValidator);
 

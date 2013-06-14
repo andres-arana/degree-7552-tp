@@ -88,7 +88,7 @@ public class ProjectTreeContentProvider implements ITreeContentProvider {
 		if (model.isRoot()) {
 			return null;
 		}
-		
+
 		return model.getParent();
 	}
 

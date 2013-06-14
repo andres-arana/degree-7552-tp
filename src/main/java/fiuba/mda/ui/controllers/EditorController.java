@@ -13,5 +13,5 @@ public interface EditorController {
 	 * @param component
 	 *            the component to edit
 	 */
-	void launch(ProjectComponent component);
+	void launch(final ProjectComponent component);
 }

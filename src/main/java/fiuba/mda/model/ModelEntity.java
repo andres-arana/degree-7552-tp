@@ -3,7 +3,7 @@ package fiuba.mda.model;
 /**
  * Represents an entity in the static model of the software
  */
-public class ModelEntity extends ProjectComponent {
+public class ModelEntity extends AbstractLeafProjectComponent {
 	/**
 	 * Creates a new {@link ModelEntity} instance
 	 * 
@@ -12,5 +12,10 @@ public class ModelEntity extends ProjectComponent {
 	 */
 	public ModelEntity(String name) {
 		super(name);
+	}
+
+	@Override
+	public void accept(ProjectComponentVisitor visitor) {
+		visitor.visit(this);
 	}
 }

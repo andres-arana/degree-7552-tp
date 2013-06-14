@@ -6,11 +6,12 @@ import fiuba.mda.model.ProjectComponent;
  * Base abstract typed class which allows implementing {@link EditorController}
  * services strongly typed to a given type
  * 
- * @param <T> the type of the accepted components
+ * @param <T>
+ *            the type of the accepted components
  */
 public abstract class BaseEditorController<T extends ProjectComponent>
 		implements EditorController {
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public void launch(ProjectComponent component) {

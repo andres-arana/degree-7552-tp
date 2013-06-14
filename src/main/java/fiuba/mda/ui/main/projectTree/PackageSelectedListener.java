@@ -37,7 +37,7 @@ public class PackageSelectedListener implements ISelectionChangedListener {
 					.getSelection();
 			ProjectComponent selectedComponent = (ProjectComponent) selection
 					.getFirstElement();
-			model.activatePackage(selectedComponent.closestOwningPackage());
+			model.activatePackage(selectedComponent.locateOwningPackage());
 		}
 	}
 }

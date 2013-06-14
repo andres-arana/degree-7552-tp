@@ -8,7 +8,7 @@ import com.google.common.base.Optional;
  * {@link ModelAspect} works as a grouping parent entity for the various other
  * components under the aspect.
  */
-public class ModelAspect extends ProjectComponent {
+public class ModelAspect extends AbstractContainerProjectComponent {
 	/**
 	 * Creates a new @{link ModelAspect} instance
 	 * 
@@ -28,4 +28,8 @@ public class ModelAspect extends ProjectComponent {
 		}
 	}
 
+	@Override
+	public void accept(ProjectComponentVisitor visitor) {
+		visitor.visit(this);
+	}
 }

@@ -75,14 +75,14 @@ public class NewBehaviourDiagramAction extends Action {
 	@Override
 	public void run() {
 		final String title = "Nuevo diagrama de comportamiento en "
-				+ model.getActivePackage().getFullName();
+				+ model.getActivePackage().getQualifiedName();
 		Optional<String> name = dialog.showInput(title,
 				"Nombre del nuevo diagrama", null, dialogNameValidator);
 		if (name.isPresent()) {
 			ModelPackage activePackage = model.getActivePackage();
 			ModelAspect aspect = activePackage.ensureAspect("Comportamiento");
 			BehaviorDiagram newDiagram = new BehaviorDiagram(name.get());
-			aspect.addComponent(newDiagram);
+			aspect.addChildren(newDiagram);
 		}
 	}
 }

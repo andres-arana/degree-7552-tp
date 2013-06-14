@@ -6,6 +6,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 
 import com.google.common.base.Optional;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import fiuba.mda.model.ProjectComponent;
@@ -17,30 +18,31 @@ import fiuba.mda.ui.controllers.EditorController;
  */
 @Singleton
 public class NodeDobleClickListener implements IDoubleClickListener {
-	private final ComponentEditorSelector selector;
+	private final Provider<ComponentEditorVisitor> editorProvider;
 
 	/**
 	 * Creates a new @{link NodeDobleClickListener} instance
 	 * 
-	 * @param selector
-	 *            the selector which provides the editors for a double clicked
-	 *            component
+	 * @param editorProvider
+	 *            the {@link ComponentEditorVisitor} provider used to get the
+	 *            associated editor of a selected model
 	 */
 	@Inject
-	public NodeDobleClickListener(ComponentEditorSelector selector) {
-		this.selector = selector;
+	public NodeDobleClickListener(
+			final Provider<ComponentEditorVisitor> editorProvider) {
+		this.editorProvider = editorProvider;
 	}
 
 	@Override
 	public void doubleClick(DoubleClickEvent event) {
 		IStructuredSelection selection = (IStructuredSelection) event
 				.getSelection();
-		ProjectComponent selectedComponent = (ProjectComponent) selection
-				.getFirstElement();
-		
-		Optional<EditorController> controller = selector.fromInstance(selectedComponent);
+		ProjectComponent model = (ProjectComponent) selection.getFirstElement();
+
+		Optional<EditorController> controller = editorProvider.get()
+				.controllerFor(model);
 		if (controller.isPresent()) {
-			controller.get().launch(selectedComponent);
+			controller.get().launch(model);
 		}
 	}
 }

@@ -5,6 +5,7 @@ import org.eclipse.swt.graphics.Image;
 
 import com.google.common.base.Optional;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import fiuba.mda.model.ProjectComponent;
@@ -14,18 +15,20 @@ import fiuba.mda.model.ProjectComponent;
  */
 @Singleton
 public class ProjectTreeLabelProvider extends LabelProvider {
-	private final ProjectTreeImageSelector selector;
+	private final Provider<ProjectTreeImageVisitor> visitorProvider;
 
 	/**
 	 * Creates a new @{link ProjectTreeLabelProvider} instance
 	 * 
-	 * @param selector
-	 *            the image selector which selects the image of each element in
-	 *            the project tree
+	 * @param visitorProvider
+	 *            a provider for {@link ProjectTreeImageVisitor} instances used
+	 *            to identify the image to associate to a given
+	 *            {@link ProjectComponent}
 	 */
 	@Inject
-	public ProjectTreeLabelProvider(final ProjectTreeImageSelector selector) {
-		this.selector = selector;
+	public ProjectTreeLabelProvider(
+			final Provider<ProjectTreeImageVisitor> visitorProvider) {
+		this.visitorProvider = visitorProvider;
 	}
 
 	@Override
@@ -36,7 +39,8 @@ public class ProjectTreeLabelProvider extends LabelProvider {
 
 	@Override
 	public Image getImage(Object element) {
-		Optional<Image> result = selector.fromInstance(element);
+		ProjectComponent model = (ProjectComponent) element;
+		Optional<Image> result = visitorProvider.get().imageFor(model);
 		if (result.isPresent()) {
 			return result.get();
 		} else {
