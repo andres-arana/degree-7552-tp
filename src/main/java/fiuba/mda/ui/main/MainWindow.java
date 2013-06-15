@@ -12,7 +12,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import fiuba.mda.model.Application;
-import fiuba.mda.ui.main.projectTree.ProjectTreeBuilder;
+import fiuba.mda.ui.main.tree.ProjectTreeBuilder;
 
 /**
  * Main application window

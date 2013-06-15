@@ -1,4 +1,4 @@
-package fiuba.mda.ui.main.projectTree;
+package fiuba.mda.ui.main.tree;
 
 import com.google.common.base.Optional;
 import com.google.inject.Inject;
@@ -9,15 +9,17 @@ import fiuba.mda.model.ModelEntity;
 import fiuba.mda.model.ModelPackage;
 import fiuba.mda.model.ProjectComponent;
 import fiuba.mda.model.ProjectComponentVisitor;
+import fiuba.mda.ui.controllers.BehaviorDiagramEditorController;
 import fiuba.mda.ui.controllers.EditorController;
-import fiuba.mda.ui.controllers.PackageEditorController;
+import fiuba.mda.ui.controllers.ModelPackageEditorController;
 
 /**
  * {@link ProjectComponentVisitor} which allows selecting the appropriate
  * {@link EditorController} for a given {@link ProjectComponent}.
  */
 public class ComponentEditorVisitor implements ProjectComponentVisitor {
-	private final PackageEditorController packageController;
+	private final ModelPackageEditorController packageController;
+	private final BehaviorDiagramEditorController behaviorDiagramController;
 
 	private Optional<EditorController> controller = Optional.absent();
 
@@ -26,11 +28,15 @@ public class ComponentEditorVisitor implements ProjectComponentVisitor {
 	 * 
 	 * @param packageController
 	 *            the controller to use for {@link ModelPackage} instances
+	 * @param behaviorDiagramController
+	 *            the controller to use for {@link BehaviorDiagram} instances
 	 */
 	@Inject
 	public ComponentEditorVisitor(
-			final PackageEditorController packageController) {
+			final ModelPackageEditorController packageController,
+			final BehaviorDiagramEditorController behaviorDiagramController) {
 		this.packageController = packageController;
+		this.behaviorDiagramController = behaviorDiagramController;
 	}
 
 	@Override
@@ -50,7 +56,7 @@ public class ComponentEditorVisitor implements ProjectComponentVisitor {
 
 	@Override
 	public void visit(BehaviorDiagram behaviorDiagram) {
-		// TODO: Add the proper editor controller for this type
+		controller = Optional.<EditorController> of(behaviorDiagramController);
 	}
 
 	/**

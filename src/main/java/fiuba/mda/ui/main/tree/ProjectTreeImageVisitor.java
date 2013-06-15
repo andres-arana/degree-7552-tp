@@ -1,4 +1,4 @@
-package fiuba.mda.ui.main.projectTree;
+package fiuba.mda.ui.main.tree;
 
 import org.eclipse.swt.graphics.Image;
 

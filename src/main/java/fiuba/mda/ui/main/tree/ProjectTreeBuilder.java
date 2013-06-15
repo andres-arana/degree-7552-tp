@@ -1,4 +1,4 @@
-package fiuba.mda.ui.main.projectTree;
+package fiuba.mda.ui.main.tree;
 
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;

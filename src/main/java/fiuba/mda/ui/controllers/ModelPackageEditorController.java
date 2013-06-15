@@ -13,7 +13,7 @@ import fiuba.mda.ui.actions.validators.NameValidator;
  * {@link EditorController} implementation which allows editing a package
  */
 @Singleton
-public class PackageEditorController extends BaseEditorController<ModelPackage> {
+public class ModelPackageEditorController extends BaseEditorController<ModelPackage> {
 	private final SimpleDialogController dialogs;
 	private final IInputValidator packageNameValidator;
 
@@ -27,7 +27,7 @@ public class PackageEditorController extends BaseEditorController<ModelPackage> 
 	 *            dialogs
 	 */
 	@Inject
-	public PackageEditorController(SimpleDialogController dialogs,
+	public ModelPackageEditorController(SimpleDialogController dialogs,
 			final NameValidator packageNameValidator) {
 		this.dialogs = dialogs;
 		this.packageNameValidator = packageNameValidator;
