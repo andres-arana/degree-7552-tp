@@ -10,7 +10,7 @@ import com.google.inject.Singleton;
 import fiuba.mda.model.Application;
 import fiuba.mda.model.Project;
 import fiuba.mda.ui.actions.validators.NameValidator;
-import fiuba.mda.ui.controllers.SimpleDialogController;
+import fiuba.mda.ui.launchers.SimpleDialogLauncher;
 import fiuba.mda.ui.utilities.ImageLoader;
 
 /**
@@ -21,7 +21,7 @@ import fiuba.mda.ui.utilities.ImageLoader;
 public class NewProjectAction extends Action {
 	private final Application model;
 
-	private final SimpleDialogController dialog;
+	private final SimpleDialogLauncher dialog;
 
 	private final IInputValidator projectNameValidator;
 
@@ -40,7 +40,7 @@ public class NewProjectAction extends Action {
 	 */
 	@Inject
 	public NewProjectAction(final Application model,
-			final SimpleDialogController dialog, final ImageLoader imageLoader,
+			final SimpleDialogLauncher dialog, final ImageLoader imageLoader,
 			final NameValidator projectNameValidator) {
 		this.model = model;
 		this.dialog = dialog;

@@ -10,7 +10,7 @@ import com.google.inject.Singleton;
 import fiuba.mda.model.Application;
 import fiuba.mda.model.ModelPackage;
 import fiuba.mda.ui.actions.validators.NameValidator;
-import fiuba.mda.ui.controllers.SimpleDialogController;
+import fiuba.mda.ui.launchers.SimpleDialogLauncher;
 import fiuba.mda.ui.utilities.ImageLoader;
 import fiuba.mda.utilities.SimpleEvent.Observer;
 
@@ -29,7 +29,7 @@ public class NewPackageAction extends Action {
 
 	private final Application model;
 
-	private final SimpleDialogController dialog;
+	private final SimpleDialogLauncher dialog;
 
 	private final IInputValidator packageNameValidator;
 
@@ -48,7 +48,7 @@ public class NewPackageAction extends Action {
 	 */
 	@Inject
 	public NewPackageAction(final Application model,
-			final SimpleDialogController dialog, final ImageLoader imageLoader,
+			final SimpleDialogLauncher dialog, final ImageLoader imageLoader,
 			final NameValidator packageNameValidator) {
 		this.model = model;
 		this.dialog = dialog;

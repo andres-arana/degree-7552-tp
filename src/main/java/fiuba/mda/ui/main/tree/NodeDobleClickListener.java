@@ -10,7 +10,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import fiuba.mda.model.ProjectComponent;
-import fiuba.mda.ui.controllers.EditorController;
+import fiuba.mda.ui.launchers.EditorLauncher;
 
 /**
  * {@link IDoubleClickListener} implementation which launches the editor for a
@@ -39,7 +39,7 @@ public class NodeDobleClickListener implements IDoubleClickListener {
 				.getSelection();
 		ProjectComponent model = (ProjectComponent) selection.getFirstElement();
 
-		Optional<EditorController> controller = editorProvider.get()
+		Optional<EditorLauncher> controller = editorProvider.get()
 				.controllerFor(model);
 		if (controller.isPresent()) {
 			controller.get().launch(model);

@@ -12,7 +12,7 @@ import fiuba.mda.model.BehaviorDiagram;
 import fiuba.mda.model.ModelAspect;
 import fiuba.mda.model.ModelPackage;
 import fiuba.mda.ui.actions.validators.NameValidator;
-import fiuba.mda.ui.controllers.SimpleDialogController;
+import fiuba.mda.ui.launchers.SimpleDialogLauncher;
 import fiuba.mda.ui.utilities.ImageLoader;
 import fiuba.mda.utilities.SimpleEvent.Observer;
 
@@ -31,7 +31,7 @@ public class NewBehaviourDiagramAction extends Action {
 
 	private final Application model;
 
-	private final SimpleDialogController dialog;
+	private final SimpleDialogLauncher dialog;
 
 	private final IInputValidator dialogNameValidator;
 
@@ -50,7 +50,7 @@ public class NewBehaviourDiagramAction extends Action {
 	 */
 	@Inject
 	public NewBehaviourDiagramAction(final Application model,
-			final SimpleDialogController dialog, final ImageLoader imageLoader,
+			final SimpleDialogLauncher dialog, final ImageLoader imageLoader,
 			final NameValidator packageNameValidator) {
 		this.model = model;
 		this.dialog = dialog;

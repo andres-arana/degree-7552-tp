@@ -1,4 +1,4 @@
-package fiuba.mda.ui.controllers;
+package fiuba.mda.ui.launchers;
 
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.InputDialog;
@@ -15,18 +15,18 @@ import com.google.inject.Singleton;
  * and input boxes
  */
 @Singleton
-public class SimpleDialogController {
+public class SimpleDialogLauncher {
 	private final Shell shell;
 
 	/**
-	 * Creates a new {@link SimpleDialogController} instance
+	 * Creates a new {@link SimpleDialogLauncher} instance
 	 * 
 	 * @param shell
 	 *            the shell which will contain the dialogs this controller
 	 *            provides
 	 */
 	@Inject
-	public SimpleDialogController(final Shell shell) {
+	public SimpleDialogLauncher(final Shell shell) {
 		this.shell = shell;
 	}
 

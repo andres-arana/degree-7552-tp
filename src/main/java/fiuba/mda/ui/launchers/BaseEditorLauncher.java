@@ -1,16 +1,16 @@
-package fiuba.mda.ui.controllers;
+package fiuba.mda.ui.launchers;
 
 import fiuba.mda.model.ProjectComponent;
 
 /**
- * Base abstract typed class which allows implementing {@link EditorController}
+ * Base abstract typed class which allows implementing {@link EditorLauncher}
  * services strongly typed to a given type
  * 
  * @param <T>
  *            the type of the accepted components
  */
-public abstract class BaseEditorController<T extends ProjectComponent>
-		implements EditorController {
+public abstract class BaseEditorLauncher<T extends ProjectComponent>
+		implements EditorLauncher {
 
 	@SuppressWarnings("unchecked")
 	@Override

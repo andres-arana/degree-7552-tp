@@ -9,19 +9,19 @@ import fiuba.mda.model.ModelEntity;
 import fiuba.mda.model.ModelPackage;
 import fiuba.mda.model.ProjectComponent;
 import fiuba.mda.model.ProjectComponentVisitor;
-import fiuba.mda.ui.controllers.BehaviorDiagramEditorController;
-import fiuba.mda.ui.controllers.EditorController;
-import fiuba.mda.ui.controllers.ModelPackageEditorController;
+import fiuba.mda.ui.launchers.BehaviorDiagramEditorLauncher;
+import fiuba.mda.ui.launchers.EditorLauncher;
+import fiuba.mda.ui.launchers.ModelPackageEditorLauncher;
 
 /**
  * {@link ProjectComponentVisitor} which allows selecting the appropriate
- * {@link EditorController} for a given {@link ProjectComponent}.
+ * {@link EditorLauncher} for a given {@link ProjectComponent}.
  */
 public class ComponentEditorVisitor implements ProjectComponentVisitor {
-	private final ModelPackageEditorController packageController;
-	private final BehaviorDiagramEditorController behaviorDiagramController;
+	private final ModelPackageEditorLauncher packageController;
+	private final BehaviorDiagramEditorLauncher behaviorDiagramController;
 
-	private Optional<EditorController> controller = Optional.absent();
+	private Optional<EditorLauncher> controller = Optional.absent();
 
 	/**
 	 * Creates a new @{link ComponentEditorVisitor} instance
@@ -33,15 +33,15 @@ public class ComponentEditorVisitor implements ProjectComponentVisitor {
 	 */
 	@Inject
 	public ComponentEditorVisitor(
-			final ModelPackageEditorController packageController,
-			final BehaviorDiagramEditorController behaviorDiagramController) {
+			final ModelPackageEditorLauncher packageController,
+			final BehaviorDiagramEditorLauncher behaviorDiagramController) {
 		this.packageController = packageController;
 		this.behaviorDiagramController = behaviorDiagramController;
 	}
 
 	@Override
 	public void visit(ModelPackage modelPackage) {
-		controller = Optional.<EditorController> of(packageController);
+		controller = Optional.<EditorLauncher> of(packageController);
 	}
 
 	@Override
@@ -56,11 +56,11 @@ public class ComponentEditorVisitor implements ProjectComponentVisitor {
 
 	@Override
 	public void visit(BehaviorDiagram behaviorDiagram) {
-		controller = Optional.<EditorController> of(behaviorDiagramController);
+		controller = Optional.<EditorLauncher> of(behaviorDiagramController);
 	}
 
 	/**
-	 * Obtains the {@link EditorController} for a given {@link ProjectComponent}
+	 * Obtains the {@link EditorLauncher} for a given {@link ProjectComponent}
 	 * by visiting it and obtaining the configured editor through double
 	 * dispatching
 	 * 
@@ -69,7 +69,7 @@ public class ComponentEditorVisitor implements ProjectComponentVisitor {
 	 * @return the controller, if any, or absent if none was configured for the
 	 *         {@link ProjectComponent}
 	 */
-	public Optional<EditorController> controllerFor(ProjectComponent model) {
+	public Optional<EditorLauncher> controllerFor(ProjectComponent model) {
 		model.accept(this);
 		return controller;
 	}

@@ -1,4 +1,4 @@
-package fiuba.mda.ui.controllers;
+package fiuba.mda.ui.launchers;
 
 import org.eclipse.jface.dialogs.IInputValidator;
 
@@ -10,11 +10,11 @@ import fiuba.mda.model.ModelPackage;
 import fiuba.mda.ui.actions.validators.NameValidator;
 
 /**
- * {@link EditorController} implementation which allows editing a package
+ * {@link EditorLauncher} implementation which allows editing a package
  */
 @Singleton
-public class ModelPackageEditorController extends BaseEditorController<ModelPackage> {
-	private final SimpleDialogController dialogs;
+public class ModelPackageEditorLauncher extends BaseEditorLauncher<ModelPackage> {
+	private final SimpleDialogLauncher dialogs;
 	private final IInputValidator packageNameValidator;
 
 	/**
@@ -27,7 +27,7 @@ public class ModelPackageEditorController extends BaseEditorController<ModelPack
 	 *            dialogs
 	 */
 	@Inject
-	public ModelPackageEditorController(SimpleDialogController dialogs,
+	public ModelPackageEditorLauncher(SimpleDialogLauncher dialogs,
 			final NameValidator packageNameValidator) {
 		this.dialogs = dialogs;
 		this.packageNameValidator = packageNameValidator;
