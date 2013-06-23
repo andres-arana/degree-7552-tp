@@ -1,22 +1,20 @@
 package fiuba.mda.ui.main.tree;
 
 import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CTabFolder;
-import org.eclipse.swt.custom.CTabItem;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import fiuba.mda.model.Application;
+import fiuba.mda.ui.main.workspace.ControlBuilder;
 
 /**
  * Builder which creates a new project tree
  */
 @Singleton
-public class ProjectTreeBuilder {
+public class ProjectTreeBuilder implements ControlBuilder {
 	private final Application model;
 
 	private final ProjectTreeLabelProvider labelProvider;
@@ -60,28 +58,16 @@ public class ProjectTreeBuilder {
 	 * 
 	 * @param parent
 	 *            the composite to build the new project tree into
+	 * @return The built {@link TreeViewer} instance
 	 */
-	public void buildInto(Composite parent) {
-		Composite result = new Composite(parent, SWT.NONE);
-		result.setLayout(new FillLayout(SWT.VERTICAL));
-
-		CTabFolder tabs = new CTabFolder(result, SWT.NONE);
-		tabs.setSimple(false);
-		tabs.setBorderVisible(true);
-
-		CTabItem item = new CTabItem(tabs, SWT.NONE);
-		item.setText("Explorador de proyecto");
-
-		TreeViewer treeViewer = new TreeViewer(tabs);
+	public Control buildInto(Composite parent) {
+		TreeViewer treeViewer = new TreeViewer(parent);
 		treeViewer.setContentProvider(contentProvider);
 		treeViewer.setLabelProvider(labelProvider);
 		treeViewer.addSelectionChangedListener(onSelectionChanged);
 		treeViewer.addDoubleClickListener(onDoubleClick);
 		treeViewer.setInput(model);
 		treeViewer.expandAll();
-
-		item.setControl(treeViewer.getControl());
-
-		tabs.setSelection(item);
+		return treeViewer.getControl();
 	}
 }

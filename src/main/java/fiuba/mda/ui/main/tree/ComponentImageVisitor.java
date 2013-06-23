@@ -17,19 +17,19 @@ import fiuba.mda.ui.utilities.ImageLoader;
  * {@link ProjectComponentVisitor} which provides image instances for a given
  * {@link ProjectComponent}.
  */
-public class ProjectTreeImageVisitor implements ProjectComponentVisitor {
+public class ComponentImageVisitor implements ProjectComponentVisitor {
 	private final ImageLoader images;
 
 	private Optional<Image> image = Optional.absent();
 
 	/**
-	 * Creates a new {@link ProjectTreeImageVisitor} instance
+	 * Creates a new {@link ComponentImageVisitor} instance
 	 * 
 	 * @param images
 	 *            the image loader to use to load the images to provide
 	 */
 	@Inject
-	public ProjectTreeImageVisitor(final ImageLoader images) {
+	public ComponentImageVisitor(final ImageLoader images) {
 		this.images = images;
 	}
 

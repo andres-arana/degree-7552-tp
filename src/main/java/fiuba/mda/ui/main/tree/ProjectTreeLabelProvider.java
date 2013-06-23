@@ -15,19 +15,19 @@ import fiuba.mda.model.ProjectComponent;
  */
 @Singleton
 public class ProjectTreeLabelProvider extends LabelProvider {
-	private final Provider<ProjectTreeImageVisitor> visitorProvider;
+	private final Provider<ComponentImageVisitor> visitorProvider;
 
 	/**
 	 * Creates a new @{link ProjectTreeLabelProvider} instance
 	 * 
 	 * @param visitorProvider
-	 *            a provider for {@link ProjectTreeImageVisitor} instances used
+	 *            a provider for {@link ComponentImageVisitor} instances used
 	 *            to identify the image to associate to a given
 	 *            {@link ProjectComponent}
 	 */
 	@Inject
 	public ProjectTreeLabelProvider(
-			final Provider<ProjectTreeImageVisitor> visitorProvider) {
+			final Provider<ComponentImageVisitor> visitorProvider) {
 		this.visitorProvider = visitorProvider;
 	}
 

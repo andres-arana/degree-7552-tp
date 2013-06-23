@@ -1,6 +1,7 @@
 package fiuba.mda.ui.main;
 
 import org.eclipse.jface.action.ToolBarManager;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.window.ApplicationWindow;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
@@ -13,6 +14,7 @@ import com.google.inject.Singleton;
 
 import fiuba.mda.model.Application;
 import fiuba.mda.ui.main.tree.ProjectTreeBuilder;
+import fiuba.mda.ui.main.workspace.TabsFolder;
 
 /**
  * Main application window
@@ -24,6 +26,10 @@ public class MainWindow extends ApplicationWindow {
 	private final DiagramEditorBuilder diagramEditorBuilder;
 
 	private final ToolBarActionProvider toolBarActions;
+
+	private TabsFolder toolTabs;
+
+	private TabsFolder editorTabs;
 
 	/**
 	 * Creates a new {@link MainWindow} instance
@@ -70,9 +76,13 @@ public class MainWindow extends ApplicationWindow {
 	protected Control createContents(final Composite parent) {
 		SashForm sash = new SashForm(parent, SWT.HORIZONTAL);
 		sash.setSashWidth(5);
-
-		projectTreeBuilder.buildInto(sash);
-		diagramEditorBuilder.buildInto(sash);
+		
+		toolTabs = new TabsFolder(sash, SWT.None);
+		toolTabs.addTab("Explorador de proyecto", projectTreeBuilder);
+		
+		editorTabs = new TabsFolder(sash, SWT.None);
+		editorTabs.addTab("Editores", diagramEditorBuilder);
+		
 
 		sash.setWeights(new int[] { 3, 7 });
 
