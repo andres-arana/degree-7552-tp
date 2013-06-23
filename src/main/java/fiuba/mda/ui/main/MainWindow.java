@@ -4,6 +4,7 @@ import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.window.ApplicationWindow;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
@@ -15,6 +16,7 @@ import fiuba.mda.model.Application;
 import fiuba.mda.ui.main.tree.ProjectTreeBuilder;
 import fiuba.mda.ui.main.workspace.ControlBuilder;
 import fiuba.mda.ui.main.workspace.TabsFolder;
+import fiuba.mda.ui.utilities.ImageLoader;
 
 /**
  * Main application window
@@ -24,6 +26,8 @@ public class MainWindow extends ApplicationWindow {
 	private final ProjectTreeBuilder projectTreeBuilder;
 
 	private final ToolBarActionProvider toolBarActions;
+
+	private final ImageLoader imageLoader;
 
 	private TabsFolder toolTabs;
 
@@ -40,14 +44,18 @@ public class MainWindow extends ApplicationWindow {
 	 *            the builder which will provide the project tree
 	 * @param toolBarActions
 	 *            the provider of all toolbar actions
+	 * @param imageLoader
+	 *            the provider of images
 	 */
 	@Inject
 	public MainWindow(final Shell shell, final Application documentModel,
 			final ProjectTreeBuilder projectTreeBuilder,
-			final ToolBarActionProvider toolBarActions) {
+			final ToolBarActionProvider toolBarActions,
+			final ImageLoader imageLoader) {
 		super(shell);
 		this.projectTreeBuilder = projectTreeBuilder;
 		this.toolBarActions = toolBarActions;
+		this.imageLoader = imageLoader;
 
 		this.addToolBar(SWT.FLAT | SWT.WRAP);
 	}
@@ -72,7 +80,8 @@ public class MainWindow extends ApplicationWindow {
 		sash.setSashWidth(5);
 
 		toolTabs = new TabsFolder(sash, SWT.None);
-		toolTabs.addTab("Explorador de proyecto", projectTreeBuilder);
+		toolTabs.ensureTab("Explorador de proyecto",
+				imageLoader.of("folder_explore"), projectTreeBuilder);
 
 		editorTabs = new TabsFolder(sash, SWT.None);
 
@@ -86,12 +95,15 @@ public class MainWindow extends ApplicationWindow {
 	 * 
 	 * @param name
 	 *            the name of the editor window
+	 * @param image
+	 *            the image to show for the editor
 	 * @param builder
 	 *            the builder in charge of creating the control used inside the
 	 *            window
 	 */
-	public void addEditor(final String name, final ControlBuilder builder) {
-		editorTabs.addTab(name, builder);
+	public void ensureEditor(final String name, final Image image,
+			final ControlBuilder builder) {
+		editorTabs.ensureTab(name, image, builder);
 	}
 
 }

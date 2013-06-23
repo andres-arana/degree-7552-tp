@@ -52,7 +52,7 @@ public class NewProjectAction extends Action {
 	private void setupPresentation(final ImageLoader imageLoader) {
 		setText("&Nuevo Proyecto@Ctrl+Shift+N");
 		setToolTipText("Cerrar el proyecto actual y crear un nuevo proyecto");
-		setImageDescriptor(imageLoader.descriptorOf("application_add"));
+		setImageDescriptor(imageLoader.descriptorOf("folder_add"));
 	}
 
 	@Override

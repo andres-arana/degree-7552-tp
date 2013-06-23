@@ -1,4 +1,4 @@
-package fiuba.mda.ui.launchers;
+package fiuba.mda.ui.launchers.editors;
 
 import fiuba.mda.model.ProjectComponent;
 

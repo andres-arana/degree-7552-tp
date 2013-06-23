@@ -35,7 +35,11 @@ public class ComponentImageVisitor implements ProjectComponentVisitor {
 
 	@Override
 	public void visit(ModelPackage modelPackage) {
-		image = Optional.of(images.of("brick"));
+		if (modelPackage.isRoot()) {
+			image = Optional.of(images.of("folder_page"));
+		} else {
+			image = Optional.of(images.of("package"));
+		}
 	}
 
 	@Override

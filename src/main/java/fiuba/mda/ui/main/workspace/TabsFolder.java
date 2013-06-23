@@ -3,9 +3,12 @@ package fiuba.mda.ui.main.workspace;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+
+import com.google.common.base.Optional;
 
 /**
  * Custom {@link Composite} which contains a number of tab folders, each with a
@@ -36,14 +39,32 @@ public class TabsFolder extends Composite {
 	 * 
 	 * @param text
 	 *            the name of the tab folder
+	 * @param image
+	 *            the image to display for the tab
 	 * @param builder
 	 *            the builder in charge of building the control of the tab
 	 *            folder
 	 */
-	public void addTab(final String text, final ControlBuilder builder) {
-		CTabItem item = new CTabItem(tabs, SWT.NONE);
-		item.setText(text);
-		item.setControl(builder.buildInto(tabs));
-		tabs.setSelection(item);
+	public void ensureTab(final String text, final Image image,
+			final ControlBuilder builder) {
+		Optional<CTabItem> tab = tabExists(text);
+		if (tab.isPresent()) {
+			tabs.setSelection(tab.get());
+		} else {
+			CTabItem item = new CTabItem(tabs, SWT.NONE);
+			item.setText(text);
+			item.setImage(image);
+			item.setControl(builder.buildInto(tabs));
+			tabs.setSelection(item);
+		}
+	}
+
+	private Optional<CTabItem> tabExists(String text) {
+		for (CTabItem item : tabs.getItems()) {
+			if (item.getText().equals(text)) {
+				return Optional.of(item);
+			}
+		}
+		return Optional.absent();
 	}
 }

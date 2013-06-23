@@ -10,7 +10,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import fiuba.mda.model.ProjectComponent;
-import fiuba.mda.ui.launchers.EditorLauncher;
+import fiuba.mda.ui.launchers.editors.EditorLauncher;
 
 /**
  * {@link IDoubleClickListener} implementation which launches the editor for a

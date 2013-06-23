@@ -1,4 +1,4 @@
-package fiuba.mda.ui.launchers;
+package fiuba.mda.ui.launchers.editors;
 
 import fiuba.mda.model.ProjectComponent;
 
@@ -9,7 +9,7 @@ import fiuba.mda.model.ProjectComponent;
  * @param <T>
  *            the type of the accepted components
  */
-public abstract class BaseEditorLauncher<T extends ProjectComponent>
+public abstract class BaseLauncher<T extends ProjectComponent>
 		implements EditorLauncher {
 
 	@SuppressWarnings("unchecked")

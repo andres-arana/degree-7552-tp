@@ -9,17 +9,17 @@ import fiuba.mda.model.ModelEntity;
 import fiuba.mda.model.ModelPackage;
 import fiuba.mda.model.ProjectComponent;
 import fiuba.mda.model.ProjectComponentVisitor;
-import fiuba.mda.ui.launchers.BehaviorDiagramEditorLauncher;
-import fiuba.mda.ui.launchers.EditorLauncher;
-import fiuba.mda.ui.launchers.ModelPackageEditorLauncher;
+import fiuba.mda.ui.launchers.editors.BehaviorDiagramLauncher;
+import fiuba.mda.ui.launchers.editors.EditorLauncher;
+import fiuba.mda.ui.launchers.editors.ModelPackageLauncher;
 
 /**
  * {@link ProjectComponentVisitor} which allows selecting the appropriate
  * {@link EditorLauncher} for a given {@link ProjectComponent}.
  */
 public class ComponentEditorVisitor implements ProjectComponentVisitor {
-	private final ModelPackageEditorLauncher packageController;
-	private final BehaviorDiagramEditorLauncher behaviorDiagramController;
+	private final ModelPackageLauncher packageController;
+	private final BehaviorDiagramLauncher behaviorDiagramController;
 
 	private Optional<EditorLauncher> controller = Optional.absent();
 
@@ -33,8 +33,8 @@ public class ComponentEditorVisitor implements ProjectComponentVisitor {
 	 */
 	@Inject
 	public ComponentEditorVisitor(
-			final ModelPackageEditorLauncher packageController,
-			final BehaviorDiagramEditorLauncher behaviorDiagramController) {
+			final ModelPackageLauncher packageController,
+			final BehaviorDiagramLauncher behaviorDiagramController) {
 		this.packageController = packageController;
 		this.behaviorDiagramController = behaviorDiagramController;
 	}
