@@ -68,16 +68,15 @@ public class NewBehaviourDiagramAction extends Action {
 		setText("Nuevo Diagrama de Comportamiento");
 		setToolTipText("Crear un nuevo diagrama de comportamiento en el proyecto");
 		setEnabled(false);
-		// TODO: Define real image to use
 		setImageDescriptor(imageLoader.descriptorOf("chart_line_add"));
 	}
 
 	@Override
 	public void run() {
-		final String title = "Nuevo diagrama de comportamiento en "
+		final String title = "Diagrama de comportamiento en "
 				+ model.getActivePackage().getQualifiedName();
 		Optional<String> name = dialog.showInput(title,
-				"Nombre del nuevo diagrama", null, dialogNameValidator);
+				"Nombre", null, dialogNameValidator);
 		if (name.isPresent()) {
 			ModelPackage activePackage = model.getActivePackage();
 			ModelAspect aspect = activePackage.ensureAspect("Comportamiento");

@@ -57,8 +57,8 @@ public class NewProjectAction extends Action {
 
 	@Override
 	public void run() {
-		Optional<String> name = dialog.showInput("Nuevo proyecto",
-				"Nombre del nuevo proyecto", null, projectNameValidator);
+		Optional<String> name = dialog.showInput("Proyecto",
+				"Nombre", null, projectNameValidator);
 		if (name.isPresent()) {
 			Project newProject = new Project(name.get().trim());
 			model.openProject(newProject);

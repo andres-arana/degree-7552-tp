@@ -13,12 +13,13 @@ import fiuba.mda.ui.actions.validators.NameValidator;
  * {@link EditorLauncher} implementation which allows editing a package
  */
 @Singleton
-public class ModelPackageEditorLauncher extends BaseEditorLauncher<ModelPackage> {
+public class ModelPackageEditorLauncher extends
+		BaseEditorLauncher<ModelPackage> {
 	private final SimpleDialogLauncher dialogs;
 	private final IInputValidator packageNameValidator;
 
 	/**
-	 * Creates a new @{link PackageEditorController} instance
+	 * Creates a new @{link PackageEditorLauncher} instance
 	 * 
 	 * @param dialogs
 	 *            the dialog controller used to create the associated dialogs
@@ -35,12 +36,8 @@ public class ModelPackageEditorLauncher extends BaseEditorLauncher<ModelPackage>
 
 	@Override
 	protected void doLaunch(ModelPackage component) {
-		if (component.isRoot()) {
-			return;
-		}
-
-		final String title = "Editando Paquete " + component.getQualifiedName();
-		Optional<String> name = dialogs.showInput(title, "Nombre del paquete",
+		final String title = "Paquete " + component.getQualifiedName();
+		Optional<String> name = dialogs.showInput(title, "Nombre",
 				component.getName(), packageNameValidator);
 
 		if (name.isPresent()) {

@@ -71,10 +71,10 @@ public class NewPackageAction extends Action {
 
 	@Override
 	public void run() {
-		final String title = "Nuevo paquete en "
+		final String title = "Paquete en "
 				+ model.getActivePackage().getQualifiedName();
 		Optional<String> name = dialog.showInput(title,
-				"Nombre del nuevo paquete", null, packageNameValidator);
+				"Nombre", null, packageNameValidator);
 		if (name.isPresent()) {
 			ModelPackage newPackage = new ModelPackage(name.get());
 			model.getActivePackage().addChildren(newPackage);
