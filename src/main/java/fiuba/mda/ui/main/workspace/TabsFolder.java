@@ -56,6 +56,7 @@ public class TabsFolder extends Composite {
 			item.setImage(image);
 			item.setControl(builder.buildInto(tabs));
 			tabs.setSelection(item);
+			tabs.layout();
 		}
 	}
 
