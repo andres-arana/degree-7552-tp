@@ -1,4 +1,4 @@
-package fiuba.mda.ui.launchers.editors;
+package fiuba.mda.ui.launchers;
 
 import org.eclipse.jface.dialogs.IInputValidator;
 
@@ -8,13 +8,12 @@ import com.google.inject.Singleton;
 
 import fiuba.mda.model.ModelPackage;
 import fiuba.mda.ui.actions.validators.NameValidator;
-import fiuba.mda.ui.launchers.SimpleDialogLauncher;
 
 /**
  * {@link EditorLauncher} implementation which allows editing a package
  */
 @Singleton
-public class ModelPackageLauncher extends BaseLauncher<ModelPackage> {
+public class ModelPackageLauncher extends BaseEditorLauncher<ModelPackage> {
 	private final SimpleDialogLauncher dialogs;
 	private final IInputValidator packageNameValidator;
 

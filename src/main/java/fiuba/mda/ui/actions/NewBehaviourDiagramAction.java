@@ -75,8 +75,8 @@ public class NewBehaviourDiagramAction extends Action {
 	public void run() {
 		final String title = "Diagrama de comportamiento en "
 				+ model.getActivePackage().getQualifiedName();
-		Optional<String> name = dialog.showInput(title,
-				"Nombre", null, dialogNameValidator);
+		Optional<String> name = dialog.showInput(title, "Nombre", null,
+				dialogNameValidator);
 		if (name.isPresent()) {
 			ModelPackage activePackage = model.getActivePackage();
 			ModelAspect aspect = activePackage.ensureAspect("Comportamiento");

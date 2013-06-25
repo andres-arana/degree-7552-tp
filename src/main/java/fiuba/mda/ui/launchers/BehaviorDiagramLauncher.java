@@ -1,7 +1,5 @@
-package fiuba.mda.ui.launchers.editors;
+package fiuba.mda.ui.launchers;
 
-import org.eclipse.draw2d.Ellipse;
-import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
@@ -9,9 +7,12 @@ import org.eclipse.swt.widgets.Control;
 
 import com.google.common.base.Optional;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import fiuba.mda.model.BehaviorDiagram;
+import fiuba.mda.ui.actions.NewBehaviorDiagramStateAction;
+import fiuba.mda.ui.figures.BehaviorDiagramFigure;
 import fiuba.mda.ui.main.MainWindow;
 import fiuba.mda.ui.main.tree.ComponentImageVisitor;
 import fiuba.mda.ui.main.workspace.ControlBuilder;
@@ -21,10 +22,11 @@ import fiuba.mda.ui.main.workspace.DiagramEditor;
  * {@link EditorLauncher} implementation which allows editing a behavior diagram
  */
 @Singleton
-public class BehaviorDiagramLauncher extends BaseLauncher<BehaviorDiagram>
-		implements ControlBuilder {
+public class BehaviorDiagramLauncher extends
+		BaseEditorLauncher<BehaviorDiagram> {
 	private final MainWindow mainWindow;
 	private final ComponentImageVisitor imageVisitor;
+	private final Provider<NewBehaviorDiagramStateAction> newStateActionProvider;
 
 	/**
 	 * Creates a new @{link BehaviorDiagramLauncher} instance
@@ -34,37 +36,38 @@ public class BehaviorDiagramLauncher extends BaseLauncher<BehaviorDiagram>
 	 *            added
 	 * @param imageVisitor
 	 *            the image visitor to get the image for the tab
+	 * @param newStateActionProvider
+	 *            provider for the instances of new state actions bound to the
+	 *            launched diagram
 	 */
 	@Inject
 	public BehaviorDiagramLauncher(final MainWindow mainWindow,
-			final ComponentImageVisitor imageVisitor) {
+			final ComponentImageVisitor imageVisitor,
+			final Provider<NewBehaviorDiagramStateAction> newStateActionProvider) {
 		this.mainWindow = mainWindow;
 		this.imageVisitor = imageVisitor;
+		this.newStateActionProvider = newStateActionProvider;
 	}
 
 	@Override
-	protected void doLaunch(BehaviorDiagram component) {
+	protected void doLaunch(final BehaviorDiagram component) {
 		final String name = component.getQualifiedName();
 		final Optional<Image> optionalImage = imageVisitor.imageFor(component);
 		final Image image = optionalImage.isPresent() ? optionalImage.get()
 				: null;
 
-		mainWindow.ensureEditor(name, image, this);
-	}
+		mainWindow.ensureEditor(name, image, new ControlBuilder() {
+			@Override
+			public Control buildInto(Composite parent) {
+				DiagramEditor editor = new DiagramEditor(parent, SWT.NONE);
+				
+				editor.addFigure(new BehaviorDiagramFigure(component));
+				
+				editor.addAction(newStateActionProvider.get()
+						.boundTo(component));
 
-	@Override
-	public Control buildInto(Composite parent) {
-		DiagramEditor diagramEditor = new DiagramEditor(parent, SWT.NONE);
-
-		Ellipse ellipse = new Ellipse();
-		ellipse.setAntialias(SWT.ON);
-		ellipse.setSize(100, 50);
-		ellipse.setOutline(true);
-		ellipse.setLineWidth(2);
-		ellipse.setLocation(new Point(300, 150));
-
-		diagramEditor.addFigure(ellipse);
-
-		return diagramEditor;
+				return editor;
+			}
+		});
 	}
 }

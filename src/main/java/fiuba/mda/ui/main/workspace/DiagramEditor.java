@@ -44,8 +44,8 @@ public class DiagramEditor extends Composite {
 
 		buildSeparator();
 
-		primaryLayer = buildPrimaryLayer();
-		FreeformLayeredPane root = buildLayeredPane(primaryLayer);
+		primaryLayer = buildPrimaryLayer(parent);
+		FreeformLayeredPane root = buildLayeredPane(primaryLayer, parent);
 		buildCanvas(root);
 	}
 
@@ -56,6 +56,7 @@ public class DiagramEditor extends Composite {
 	 *            the figure to add
 	 */
 	public void addFigure(final IFigure figure) {
+		figure.setFont(primaryLayer.getFont());
 		primaryLayer.add(figure);
 	}
 
@@ -70,15 +71,17 @@ public class DiagramEditor extends Composite {
 		toolBarManager.update(false);
 	}
 
-	private FreeformLayer buildPrimaryLayer() {
+	private FreeformLayer buildPrimaryLayer(final Composite parent) {
 		FreeformLayer result = new FreeformLayer();
 		result.setLayoutManager(new FreeformLayout());
+		result.setFont(parent.getFont());
 		return result;
 	}
 
-	private FreeformLayeredPane buildLayeredPane(FreeformLayer primaryLayer) {
+	private FreeformLayeredPane buildLayeredPane(final FreeformLayer primaryLayer, final Composite parent) {
 		FreeformLayeredPane result = new FreeformLayeredPane();
 		result.add(primaryLayer);
+		result.setFont(parent.getFont());
 		return result;
 	}
 
