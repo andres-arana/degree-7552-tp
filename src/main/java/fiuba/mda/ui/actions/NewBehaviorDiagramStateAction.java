@@ -6,6 +6,7 @@ import com.google.inject.Inject;
 
 import fiuba.mda.model.BehaviorDiagram;
 import fiuba.mda.model.BehaviorState;
+import fiuba.mda.model.Representation;
 import fiuba.mda.ui.utilities.ImageLoader;
 
 /**
@@ -49,8 +50,9 @@ public class NewBehaviorDiagramStateAction extends Action {
 	public void run() {
 		// TODO: Implement dialog to configure the new state
 		BehaviorState state = new BehaviorState("State " + stateNumber);
-		state.setX(stateNumber * 100);
-		boundDiagram.addState(state);
+		Representation<BehaviorState> representation = new Representation<>(state);
+		representation.getPosition().setX(stateNumber * 100);
+		boundDiagram.addState(representation);
 		stateNumber++;
 	}
 }

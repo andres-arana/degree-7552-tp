@@ -1,9 +1,11 @@
 package fiuba.mda.ui.figures;
 
 import org.eclipse.draw2d.FreeformLayer;
+import org.eclipse.draw2d.FreeformLayout;
 
 import fiuba.mda.model.BehaviorDiagram;
 import fiuba.mda.model.BehaviorState;
+import fiuba.mda.model.Representation;
 import fiuba.mda.utilities.SimpleEvent.Observer;
 
 /**
@@ -28,15 +30,14 @@ public class BehaviorDiagramFigure extends FreeformLayer {
 	public BehaviorDiagramFigure(final BehaviorDiagram component) {
 		this.component = component;
 		component.statesChangedEvent().observe(onStatesChanged);
+		setLayoutManager(new FreeformLayout());
 		rebindChildFigures();
 	}
 
 	private void rebindChildFigures() {
 		removeAll();
-		for (BehaviorState state : component.getStates()) {
-			BehaviorStateFigure figure = new BehaviorStateFigure(state);
-			add(figure);
-			figure.updatePreferredSize();
+		for (Representation<BehaviorState> state : component.getStates()) {
+			add(new BehaviorStateFigure(state));
 		}
 	}
 

@@ -7,14 +7,14 @@ import java.util.List;
 import fiuba.mda.utilities.SimpleEvent;
 
 /**
- * Represents a behavior diagram which present details of a particular user
+ * Represents a behavior diagram which presents details of a particular user
  * interaction flow on the modeled software
  */
 public class BehaviorDiagram extends AbstractLeafProjectComponent {
 	private final SimpleEvent<BehaviorDiagram> statesChangedEvent = new SimpleEvent<>(
 			this);
 
-	private final List<BehaviorState> states = new ArrayList<BehaviorState>();
+	private final List<Representation<BehaviorState>> states = new ArrayList<>();
 
 	/**
 	 * Creates a new {@link BehaviorDiagram} instance
@@ -31,22 +31,11 @@ public class BehaviorDiagram extends AbstractLeafProjectComponent {
 		visitor.visit(this);
 	}
 
-	/**
-	 * Obtains an unmodifiable list of the states registered in this diagram
-	 * 
-	 * @return the list of states
-	 */
-	public List<BehaviorState> getStates() {
+	public List<Representation<BehaviorState>> getStates() {
 		return Collections.unmodifiableList(states);
 	}
 
-	/**
-	 * Adds a new state to the diagram
-	 * 
-	 * @param state
-	 *            the state to add
-	 */
-	public void addState(BehaviorState state) {
+	public void addState(Representation<BehaviorState> state) {
 		states.add(state);
 		statesChangedEvent.raise();
 	}
