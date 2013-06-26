@@ -1,5 +1,8 @@
 package fiuba.mda.ui.main.tree;
 
+import fiuba.mda.model.BehaviorDiagram;
+import fiuba.mda.model.ModelEntity;
+import fiuba.mda.model.ModelPackage;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -39,10 +42,12 @@ public class NodeDobleClickListener implements IDoubleClickListener {
 				.getSelection();
 		ProjectComponent model = (ProjectComponent) selection.getFirstElement();
 
-		Optional<EditorLauncher> controller = editorProvider.get()
-				.controllerFor(model);
-		if (controller.isPresent()) {
-			controller.get().launch(model);
-		}
+        if (model instanceof BehaviorDiagram){
+            Optional<EditorLauncher> controller = editorProvider.get()
+                    .controllerFor(model);
+            if (controller.isPresent()) {
+                controller.get().launch(model);
+            }
+        }
 	}
 }

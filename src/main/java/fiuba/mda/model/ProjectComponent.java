@@ -69,6 +69,8 @@ public interface ProjectComponent {
 	 */
 	void addChildren(final ProjectComponent component);
 
+    void removeChildren(final ProjectComponent component);
+
 	/**
 	 * Obtains the parent component
 	 * 

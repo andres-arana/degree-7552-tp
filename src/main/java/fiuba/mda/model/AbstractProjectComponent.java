@@ -82,6 +82,18 @@ public abstract class AbstractProjectComponent implements ProjectComponent {
 		this.hierarchyChangedEvent.raise();
 	}
 
+    @Override
+    public void removeChildren(final ProjectComponent component) {
+        if (isLeaf()) {
+            throw new RuntimeException("Unable to remomove children to leaf component");
+        }
+        component.setParent(null);
+        component.hierarchyChangedEvent().unobserve(onChildrenHierarchyChanged);
+        this.children.remove(component);
+        this.hierarchyChangedEvent.raise();
+    }
+
+
 	@Override
 	public ProjectComponent getParent() {
 		if (isRoot()) {
