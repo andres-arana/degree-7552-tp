@@ -41,7 +41,7 @@ public class Application {
 		return currentProject != null;
 	}
 
-	/**
+   /**
 	 * Obtains the current open project, if any.
 	 * 
 	 * @throws RuntimeException

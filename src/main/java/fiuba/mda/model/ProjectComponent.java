@@ -71,6 +71,10 @@ public interface ProjectComponent {
 
     void removeChildren(final ProjectComponent component);
 
+    void removeChildrens();
+
+    void deleteChildrenFromList(AbstractProjectComponent o);
+
 	/**
 	 * Obtains the parent component
 	 * 

@@ -83,18 +83,44 @@ public abstract class AbstractProjectComponent implements ProjectComponent {
 	}
 
     @Override
+    public void deleteChildrenFromList(AbstractProjectComponent o){
+        children.remove(o);
+    }
+
+    @Override
+    public void removeChildrens() {
+        if (isLeaf()) {
+            throw new RuntimeException("Unable to remomove children to leaf component");
+        }
+
+        for (ProjectComponent component : this.getChildren()){
+            component.removeChildrens();
+            component.getParent().deleteChildrenFromList(this);
+            component.setParent(null);
+            component.hierarchyChangedEvent().unobserve(onChildrenHierarchyChanged);
+            component.hierarchyChangedEvent().raise();
+        }
+
+
+    }
+
+    @Override
     public void removeChildren(final ProjectComponent component) {
         if (isLeaf()) {
             throw new RuntimeException("Unable to remomove children to leaf component");
         }
+
+        component.removeChildrens();
+
+        component.getParent().deleteChildrenFromList(this);
         component.setParent(null);
         component.hierarchyChangedEvent().unobserve(onChildrenHierarchyChanged);
-        this.children.remove(component);
-        this.hierarchyChangedEvent.raise();
+        component.hierarchyChangedEvent().raise();
     }
 
 
-	@Override
+
+    @Override
 	public ProjectComponent getParent() {
 		if (isRoot()) {
 			throw new RuntimeException("This is a root component");

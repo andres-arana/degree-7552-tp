@@ -32,6 +32,8 @@ public class DeletePackageAction extends Action {
 
     @Override
     public void run() {
-       // model.getActivePackage().removeChildren(modelPackageToDelete);
+        /*ModelPackage parentPackage = (ModelPackage)modelPackageToDelete.getParent();
+        parentPackage.removeChildren(modelPackageToDelete);
+        model.clearActivePackage();*/
     }
 }

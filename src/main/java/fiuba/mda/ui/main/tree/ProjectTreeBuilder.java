@@ -93,8 +93,12 @@ public class ProjectTreeBuilder implements ControlBuilder {
                     AbstractContainerProjectComponent object = (AbstractContainerProjectComponent)selection.getFirstElement();
 
                     if (object instanceof ModelPackage) {
-                        manager.add(new EditPackageAction(model, (ModelPackage) object,editorProvider));
-                        manager.add(new DeletePackageAction(model, (ModelPackage) object));
+                        ModelPackage modelPackage = (ModelPackage) object;
+                        manager.add(new EditPackageAction(model, modelPackage,editorProvider));
+                        if(!modelPackage.equals(model.getCurrentProject().getRootPackage())){
+                            manager.add(new DeletePackageAction(model, modelPackage));
+                        }
+
                     }
                     } catch (Exception ex) {
                         AbstractLeafProjectComponent object = (AbstractLeafProjectComponent) selection.getFirstElement();
