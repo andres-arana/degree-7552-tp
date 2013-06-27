@@ -3,6 +3,7 @@ package fiuba.mda.ui.actions;
 import com.google.inject.Inject;
 import fiuba.mda.model.Application;
 import fiuba.mda.model.BehaviorDiagram;
+import fiuba.mda.model.ModelAspect;
 import fiuba.mda.model.ModelPackage;
 import org.eclipse.jface.action.Action;
 
@@ -17,12 +18,12 @@ public class DeleteBehaviorDiagramAction extends Action {
 
     private final Application model;
 
-    private final BehaviorDiagram modelPackageToDelete;
+    private final BehaviorDiagram modelBehaviorDiagramToDelete;
 
     @Inject
-    public DeleteBehaviorDiagramAction(Application model, BehaviorDiagram modelPackageToDelete) {
+    public DeleteBehaviorDiagramAction(Application model, BehaviorDiagram modelBehaviorDiagramToDelete) {
         this.model = model;
-        this.modelPackageToDelete = modelPackageToDelete;
+        this.modelBehaviorDiagramToDelete = modelBehaviorDiagramToDelete;
         setupPresentation();
     }
 
@@ -33,6 +34,12 @@ public class DeleteBehaviorDiagramAction extends Action {
 
     @Override
     public void run() {
-       // model.getActivePackage().removeChildren(modelPackageToDelete);
+        ModelAspect parentAspect = (ModelAspect)modelBehaviorDiagramToDelete.getParent();
+        parentAspect.removeChildren(modelBehaviorDiagramToDelete);
+        if (parentAspect.getChildren().isEmpty()){
+            ModelPackage parentPackage = (ModelPackage) parentAspect.getParent();
+            parentPackage.removeChildren(parentAspect);
+            model.clearActivePackage();
+        }
     }
 }

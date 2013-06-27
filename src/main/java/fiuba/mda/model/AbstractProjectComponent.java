@@ -89,9 +89,6 @@ public abstract class AbstractProjectComponent implements ProjectComponent {
 
     @Override
     public void removeChildrens() {
-        if (isLeaf()) {
-            throw new RuntimeException("Unable to remomove children to leaf component");
-        }
 
         List<ProjectComponent> componentsToDelete = new ArrayList<>();
 
@@ -114,9 +111,6 @@ public abstract class AbstractProjectComponent implements ProjectComponent {
 
     @Override
     public void removeChildren(final ProjectComponent component) {
-        if (isLeaf()) {
-            throw new RuntimeException("Unable to remomove children to leaf component");
-        }
 
         if (!this.children.contains(component)) return;
 
