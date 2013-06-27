@@ -83,7 +83,7 @@ public abstract class AbstractProjectComponent implements ProjectComponent {
 	}
 
     @Override
-    public void deleteChildrenFromList(AbstractProjectComponent o){
+    public void deleteChildrenFromList(ProjectComponent o){
         children.remove(o);
     }
 
@@ -93,13 +93,21 @@ public abstract class AbstractProjectComponent implements ProjectComponent {
             throw new RuntimeException("Unable to remomove children to leaf component");
         }
 
+        List<ProjectComponent> componentsToDelete = new ArrayList<>();
+
         for (ProjectComponent component : this.getChildren()){
             component.removeChildrens();
-            component.getParent().deleteChildrenFromList(this);
+            componentsToDelete.add(component);
+        }
+
+        for (ProjectComponent component : componentsToDelete){
+            this.deleteChildrenFromList(component);
             component.setParent(null);
             component.hierarchyChangedEvent().unobserve(onChildrenHierarchyChanged);
-            component.hierarchyChangedEvent().raise();
         }
+
+
+        this.hierarchyChangedEvent().raise();
 
 
     }
@@ -110,12 +118,13 @@ public abstract class AbstractProjectComponent implements ProjectComponent {
             throw new RuntimeException("Unable to remomove children to leaf component");
         }
 
-        component.removeChildrens();
+        if (!this.children.contains(component)) return;
 
-        component.getParent().deleteChildrenFromList(this);
+        component.removeChildrens();
+        this.deleteChildrenFromList(component);
         component.setParent(null);
         component.hierarchyChangedEvent().unobserve(onChildrenHierarchyChanged);
-        component.hierarchyChangedEvent().raise();
+        this.hierarchyChangedEvent().raise();
     }
 
 
