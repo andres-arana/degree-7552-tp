@@ -21,7 +21,8 @@ public class InjectorConfiguration {
 	 */
 	public static Injector bootstrapInjector() {
 		List<Module> modules = new ArrayList<>();
-		modules.add(new JFaceModule());
+        JFaceModule e = new JFaceModule();
+        modules.add(e);
 		return Guice.createInjector(modules);
 	}
 

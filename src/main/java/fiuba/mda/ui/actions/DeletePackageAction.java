@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import fiuba.mda.model.Application;
 import fiuba.mda.model.ModelPackage;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.dialogs.MessageDialog;
 
 /**
  * Created with IntelliJ IDEA.
@@ -32,8 +33,18 @@ public class DeletePackageAction extends Action {
 
     @Override
     public void run() {
-        ModelPackage parentPackage = (ModelPackage)modelPackageToDelete.getParent();
-        parentPackage.removeChildren(modelPackageToDelete);
-        model.clearActivePackage();
+
+        MessageDialog dialog = new MessageDialog(fiuba.mda.Application.getShell(), "Confirmación de Borrado de Paquete", null,
+                "Desea Borrar?", MessageDialog.CONFIRM, new String[] { "Aceptar",
+                "Cancelar"}, 0);
+
+        int result = dialog.open();
+
+        if (result == 0){
+            ModelPackage parentPackage = (ModelPackage)modelPackageToDelete.getParent();
+            parentPackage.removeChildren(modelPackageToDelete);
+            model.clearActivePackage();
+        }
+
     }
 }

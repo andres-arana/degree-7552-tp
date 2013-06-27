@@ -6,6 +6,7 @@ import fiuba.mda.model.BehaviorDiagram;
 import fiuba.mda.model.ModelAspect;
 import fiuba.mda.model.ModelPackage;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.dialogs.MessageDialog;
 
 /**
  * Created with IntelliJ IDEA.
@@ -34,12 +35,22 @@ public class DeleteBehaviorDiagramAction extends Action {
 
     @Override
     public void run() {
-        ModelAspect parentAspect = (ModelAspect)modelBehaviorDiagramToDelete.getParent();
-        parentAspect.removeChildren(modelBehaviorDiagramToDelete);
-        if (parentAspect.getChildren().isEmpty()){
-            ModelPackage parentPackage = (ModelPackage) parentAspect.getParent();
-            parentPackage.removeChildren(parentAspect);
-            model.clearActivePackage();
+
+        MessageDialog dialog = new MessageDialog(fiuba.mda.Application.getShell(), "Confirmación de Borrado de Diagrama", null,
+                "Desea Borrar?", MessageDialog.CONFIRM, new String[] { "Aceptar",
+                "Cancelar"}, 0);
+
+        int result = dialog.open();
+
+        if(result == 0){
+            ModelAspect parentAspect = (ModelAspect)modelBehaviorDiagramToDelete.getParent();
+            parentAspect.removeChildren(modelBehaviorDiagramToDelete);
+            if (parentAspect.getChildren().isEmpty()){
+                ModelPackage parentPackage = (ModelPackage) parentAspect.getParent();
+                parentPackage.removeChildren(parentAspect);
+                model.clearActivePackage();
+            }
         }
+
     }
 }
