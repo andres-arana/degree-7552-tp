@@ -51,7 +51,7 @@ public class TabsFolder extends Composite {
 		if (tab.isPresent()) {
 			tabs.setSelection(tab.get());
 		} else {
-			CTabItem item = new CTabItem(tabs, SWT.NONE);
+			CTabItem item = new CTabItem(tabs, SWT.CLOSE);
 			item.setText(text);
 			item.setImage(image);
 			item.setControl(builder.buildInto(tabs));
