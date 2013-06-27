@@ -26,7 +26,12 @@ public class ModelPackage extends AbstractContainerProjectComponent {
 		visitor.visit(this);
 	}
 
-	/**
+    @Override
+    public void accept(ProjectComponentVisitor visitor, boolean isEditing) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    /**
 	 * Ensures that a particularly named {@link ModelAspect} instance exists
 	 * under this package and returns it, creating it if it doesn't.
 	 * 

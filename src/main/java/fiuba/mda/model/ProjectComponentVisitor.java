@@ -34,5 +34,7 @@ public interface ProjectComponentVisitor {
 	 * @param behaviorDiagram
 	 *            the visited {@link BehaviorDiagram}
 	 */
-	void visit(final BehaviorDiagram behaviorDiagram);
+	void visit(final BehaviorDiagram behaviorDiagram,boolean isEditing);
+
+    void visit(BehaviorDiagram behaviorDiagram);
 }

@@ -106,4 +106,8 @@ public class MainWindow extends ApplicationWindow {
 		editorTabs.ensureTab(name, image, builder);
 	}
 
+    public void renameEditor(final String oldName,final String newName) {
+        editorTabs.renameTab(oldName,newName);
+    }
+
 }

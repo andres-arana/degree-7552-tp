@@ -15,8 +15,13 @@ public class BehaviorDiagram extends AbstractLeafProjectComponent {
 		super(name);
 	}
 
-	@Override
-	public void accept(ProjectComponentVisitor visitor) {
-		visitor.visit(this);
+    @Override
+    public void accept(ProjectComponentVisitor visitor) {
+        visitor.visit(this);
+    }
+
+    @Override
+	public void accept(ProjectComponentVisitor visitor,boolean isEditing) {
+		visitor.visit(this,isEditing);
 	}
 }

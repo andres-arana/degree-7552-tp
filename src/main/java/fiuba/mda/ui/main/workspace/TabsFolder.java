@@ -60,6 +60,13 @@ public class TabsFolder extends Composite {
 		}
 	}
 
+    public void renameTab(final String oldText,final String newText) {
+        Optional<CTabItem> tab = tabExists(oldText);
+        if (tab.isPresent()) {
+            tab.get().setText(newText);
+        }
+    }
+
 	private Optional<CTabItem> tabExists(String text) {
 		for (CTabItem item : tabs.getItems()) {
 			if (item.getText().equals(text)) {

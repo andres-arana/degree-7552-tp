@@ -9,6 +9,7 @@ import fiuba.mda.model.ModelEntity;
 import fiuba.mda.model.ModelPackage;
 import fiuba.mda.model.ProjectComponent;
 import fiuba.mda.model.ProjectComponentVisitor;
+import fiuba.mda.ui.launchers.editors.BehaviorDiagramEditLauncher;
 import fiuba.mda.ui.launchers.editors.BehaviorDiagramLauncher;
 import fiuba.mda.ui.launchers.editors.EditorLauncher;
 import fiuba.mda.ui.launchers.editors.ModelPackageLauncher;
@@ -20,24 +21,27 @@ import fiuba.mda.ui.launchers.editors.ModelPackageLauncher;
 public class ComponentEditorVisitor implements ProjectComponentVisitor {
 	private final ModelPackageLauncher packageController;
 	private final BehaviorDiagramLauncher behaviorDiagramController;
+    private final BehaviorDiagramEditLauncher behaviorDiagramEditController;
 
 	private Optional<EditorLauncher> controller = Optional.absent();
 
 	/**
 	 * Creates a new @{link ComponentEditorVisitor} instance
-	 * 
-	 * @param packageController
-	 *            the controller to use for {@link ModelPackage} instances
-	 * @param behaviorDiagramController
-	 *            the controller to use for {@link BehaviorDiagram} instances
-	 */
+	 *
+     * @param packageController
+     *            the controller to use for {@link fiuba.mda.model.ModelPackage} instances
+     * @param behaviorDiagramController
+     *            the controller to use for {@link fiuba.mda.model.BehaviorDiagram} instances
+     * @param behaviorDiagramEditController
+     */
 	@Inject
 	public ComponentEditorVisitor(
-			final ModelPackageLauncher packageController,
-			final BehaviorDiagramLauncher behaviorDiagramController) {
+            final ModelPackageLauncher packageController,
+            final BehaviorDiagramLauncher behaviorDiagramController, BehaviorDiagramEditLauncher behaviorDiagramEditController) {
 		this.packageController = packageController;
 		this.behaviorDiagramController = behaviorDiagramController;
-	}
+        this.behaviorDiagramEditController = behaviorDiagramEditController;
+    }
 
 	@Override
 	public void visit(ModelPackage modelPackage) {
@@ -54,9 +58,14 @@ public class ComponentEditorVisitor implements ProjectComponentVisitor {
 		// This type never has any editor
 	}
 
+    @Override
+    public void visit(BehaviorDiagram behaviorDiagram) {
+        controller = Optional.<EditorLauncher> of(behaviorDiagramController);
+    }
+
 	@Override
-	public void visit(BehaviorDiagram behaviorDiagram) {
-		controller = Optional.<EditorLauncher> of(behaviorDiagramController);
+	public void visit(BehaviorDiagram behaviorDiagram,boolean isEditing) {
+		controller = Optional.<EditorLauncher> of(behaviorDiagramEditController);
 	}
 
 	/**
@@ -73,4 +82,9 @@ public class ComponentEditorVisitor implements ProjectComponentVisitor {
 		model.accept(this);
 		return controller;
 	}
+
+    public Optional<EditorLauncher> controllerFor(ProjectComponent model,boolean isEditing) {
+        model.accept(this,isEditing);
+        return controller;
+    }
 }

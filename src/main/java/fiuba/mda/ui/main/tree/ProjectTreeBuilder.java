@@ -3,6 +3,7 @@ package fiuba.mda.ui.main.tree;
 import com.google.inject.Provider;
 import fiuba.mda.model.*;
 import fiuba.mda.ui.actions.DeleteBehaviorDiagramAction;import fiuba.mda.ui.actions.DeletePackageAction;
+import fiuba.mda.ui.actions.EditBehaviourDiagramAction;
 import fiuba.mda.ui.actions.EditPackageAction;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -103,7 +104,9 @@ public class ProjectTreeBuilder implements ControlBuilder {
                     } catch (Exception ex) {
                         AbstractLeafProjectComponent object = (AbstractLeafProjectComponent) selection.getFirstElement();
                         if (object instanceof BehaviorDiagram) {
-                            manager.add(new DeleteBehaviorDiagramAction(model, (BehaviorDiagram) object));
+                            BehaviorDiagram behaviorDiagram = (BehaviorDiagram) object;
+                            manager.add(new EditBehaviourDiagramAction(model, behaviorDiagram,editorProvider));
+                            manager.add(new DeleteBehaviorDiagramAction(model, behaviorDiagram));
                         }
                     }
                 }

@@ -136,4 +136,6 @@ public interface ProjectComponent {
 	 *            the visitor to accept
 	 */
 	void accept(ProjectComponentVisitor visitor);
+
+    void accept(ProjectComponentVisitor visitor,boolean isEditing);
 }

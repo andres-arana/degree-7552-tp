@@ -53,11 +53,16 @@ public class ComponentImageVisitor implements ProjectComponentVisitor {
 	}
 
 	@Override
-	public void visit(BehaviorDiagram behaviorDiagram) {
-		image = Optional.of(images.of("chart_line"));
+	public void visit(BehaviorDiagram behaviorDiagram,boolean isEditing) {
+
 	}
 
-	/**
+    @Override
+    public void visit(BehaviorDiagram behaviorDiagram) {
+        image = Optional.of(images.of("chart_line"));
+    }
+
+    /**
 	 * Obtains the image for a given {@link ProjectComponent} by visiting it and
 	 * obtaining the configured image through double dispatching
 	 * 

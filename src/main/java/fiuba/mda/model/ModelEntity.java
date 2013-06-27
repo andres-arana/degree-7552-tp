@@ -18,4 +18,9 @@ public class ModelEntity extends AbstractLeafProjectComponent {
 	public void accept(ProjectComponentVisitor visitor) {
 		visitor.visit(this);
 	}
+
+    @Override
+    public void accept(ProjectComponentVisitor visitor, boolean isEditing) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
 }
