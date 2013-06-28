@@ -81,7 +81,7 @@ public class MainWindow extends ApplicationWindow {
 
 		toolTabs = new TabsFolder(sash, SWT.None);
 		toolTabs.ensureTab("Explorador de proyecto",
-				imageLoader.of("folder_explore"), projectTreeBuilder);
+				imageLoader.of("folder_explore"), projectTreeBuilder,SWT.NONE);
 
 		editorTabs = new TabsFolder(sash, SWT.None);
 

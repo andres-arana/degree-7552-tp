@@ -45,13 +45,13 @@ public class TabsFolder extends Composite {
 	 *            the builder in charge of building the control of the tab
 	 *            folder
 	 */
-	public void ensureTab(final String text, final Image image,
-			final ControlBuilder builder) {
+    public void ensureTab(final String text, final Image image,
+			final ControlBuilder builder, int type) {
 		Optional<CTabItem> tab = tabExists(text);
 		if (tab.isPresent()) {
 			tabs.setSelection(tab.get());
 		} else {
-			CTabItem item = new CTabItem(tabs, SWT.CLOSE);
+			CTabItem item = new CTabItem(tabs, type);
 			item.setText(text);
 			item.setImage(image);
 			item.setControl(builder.buildInto(tabs));
@@ -59,6 +59,11 @@ public class TabsFolder extends Composite {
 			tabs.layout();
 		}
 	}
+
+    public void ensureTab(final String text, final Image image,
+                          final ControlBuilder builder) {
+        ensureTab(text,image,builder,SWT.CLOSE);
+    }
 
     public void renameTab(final String oldText,final String newText) {
         Optional<CTabItem> tab = tabExists(oldText);
