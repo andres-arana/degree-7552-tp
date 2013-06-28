@@ -2,7 +2,6 @@ package fiuba.mda.ui.launchers.editors;
 
 import fiuba.mda.model.Application;
 import fiuba.mda.model.BehaviorDiagram;
-import fiuba.mda.model.ModelAspect;
 import fiuba.mda.ui.main.MainWindow;
 import org.eclipse.jface.dialogs.IInputValidator;
 
@@ -10,8 +9,7 @@ import com.google.common.base.Optional;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import fiuba.mda.model.ModelPackage;
-import fiuba.mda.ui.actions.validators.NameValidator;
+import fiuba.mda.ui.actions.validators.NameAndExistenceValidator;
 import fiuba.mda.ui.launchers.SimpleDialogLauncher;
 
 /**
@@ -22,7 +20,7 @@ public class BehaviorDiagramEditLauncher extends BaseLauncher<BehaviorDiagram> {
     private final Application model;
     private final MainWindow mainWindow;
     private final SimpleDialogLauncher dialogs;
-    private final IInputValidator dialogNameValidator;
+    private final NameAndExistenceValidator dialogNameValidator;
 
     /**
      * Creates a new @{link {@link ModelPackageLauncher} instance
@@ -31,15 +29,15 @@ public class BehaviorDiagramEditLauncher extends BaseLauncher<BehaviorDiagram> {
      * @param mainWindow
      * @param dialogs
      *            the dialog controller used to create the associated dialogs
-     * @param dialogNameValidator
+     * @param dialogNameAndExistenceValidator
      */
     @Inject
     public BehaviorDiagramEditLauncher(Application model, MainWindow mainWindow, SimpleDialogLauncher dialogs,
-                                       final NameValidator dialogNameValidator) {
+                                       final NameAndExistenceValidator dialogNameAndExistenceValidator) {
         this.model = model;
         this.mainWindow = mainWindow;
         this.dialogs = dialogs;
-        this.dialogNameValidator = dialogNameValidator;
+        this.dialogNameValidator = dialogNameAndExistenceValidator;
     }
 
     @Override
@@ -47,6 +45,7 @@ public class BehaviorDiagramEditLauncher extends BaseLauncher<BehaviorDiagram> {
 
         final String title = "Diagrama de comportamiento en "
                 + model.getActivePackage().getQualifiedName();
+        dialogNameValidator.setParent(component.getParent());
         Optional<String> name = dialogs.showInput(title,
                 "Nombre", component.getName(), dialogNameValidator);
         if (name.isPresent()) {

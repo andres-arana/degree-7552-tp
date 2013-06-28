@@ -11,7 +11,7 @@ import fiuba.mda.model.Application;
 import fiuba.mda.model.BehaviorDiagram;
 import fiuba.mda.model.ModelAspect;
 import fiuba.mda.model.ModelPackage;
-import fiuba.mda.ui.actions.validators.NameValidator;
+import fiuba.mda.ui.actions.validators.NameAndExistenceValidator;
 import fiuba.mda.ui.launchers.SimpleDialogLauncher;
 import fiuba.mda.ui.utilities.ImageLoader;
 import fiuba.mda.utilities.SimpleEvent.Observer;
@@ -33,7 +33,7 @@ public class NewBehaviourDiagramAction extends Action {
 
 	private final SimpleDialogLauncher dialog;
 
-	private final IInputValidator dialogNameValidator;
+	private final NameAndExistenceValidator dialogNameValidator;
 
 	/**
 	 * Creates a new {@link NewBehaviourDiagramAction} instance
@@ -44,17 +44,17 @@ public class NewBehaviourDiagramAction extends Action {
 	 *            the dialog controller used to create the associated dialogs
 	 * @param imageLoader
 	 *            the image loader used to provide the image of this action
-	 * @param packageNameValidator
+	 * @param packageNameAndExistenceValidator
 	 *            the validator used to validate the package name on the input
 	 *            dialogs
 	 */
 	@Inject
 	public NewBehaviourDiagramAction(final Application model,
 			final SimpleDialogLauncher dialog, final ImageLoader imageLoader,
-			final NameValidator packageNameValidator) {
+			final NameAndExistenceValidator packageNameAndExistenceValidator) {
 		this.model = model;
 		this.dialog = dialog;
-		this.dialogNameValidator = packageNameValidator;
+		this.dialogNameValidator = packageNameAndExistenceValidator;
 
 		setupPresentation(imageLoader);
 		setupEventObservation(model);
@@ -75,11 +75,14 @@ public class NewBehaviourDiagramAction extends Action {
 	public void run() {
 		final String title = "Diagrama de comportamiento en "
 				+ model.getActivePackage().getQualifiedName();
-		Optional<String> name = dialog.showInput(title,
+        ModelPackage activePackage = model.getActivePackage();
+        ModelAspect aspect = activePackage.ensureAspect("Comportamiento");
+		if(!aspect.getChildren().isEmpty()){
+            dialogNameValidator.setParent(aspect);
+        }
+        Optional<String> name = dialog.showInput(title,
 				"Nombre", null, dialogNameValidator);
 		if (name.isPresent()) {
-			ModelPackage activePackage = model.getActivePackage();
-			ModelAspect aspect = activePackage.ensureAspect("Comportamiento");
 			BehaviorDiagram newDiagram = new BehaviorDiagram(name.get());
 			aspect.addChildren(newDiagram);
 		}

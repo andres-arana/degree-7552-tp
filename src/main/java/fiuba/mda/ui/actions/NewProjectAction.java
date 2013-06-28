@@ -9,7 +9,7 @@ import com.google.inject.Singleton;
 
 import fiuba.mda.model.Application;
 import fiuba.mda.model.Project;
-import fiuba.mda.ui.actions.validators.NameValidator;
+import fiuba.mda.ui.actions.validators.NameAndExistenceValidator;
 import fiuba.mda.ui.launchers.SimpleDialogLauncher;
 import fiuba.mda.ui.utilities.ImageLoader;
 
@@ -34,17 +34,17 @@ public class NewProjectAction extends Action {
 	 *            the dialog controller used to display associated dialogs
 	 * @param imageLoader
 	 *            the image loader used to provide the image of this action
-	 * @param projectNameValidator
+	 * @param projectNameAndExistenceValidator
 	 *            the validator used to validate the project name on input
 	 *            dialogs
 	 */
 	@Inject
 	public NewProjectAction(final Application model,
 			final SimpleDialogLauncher dialog, final ImageLoader imageLoader,
-			final NameValidator projectNameValidator) {
+			final NameAndExistenceValidator projectNameAndExistenceValidator) {
 		this.model = model;
 		this.dialog = dialog;
-		this.projectNameValidator = projectNameValidator;
+		this.projectNameValidator = projectNameAndExistenceValidator;
 
 		setupPresentation(imageLoader);
 	}

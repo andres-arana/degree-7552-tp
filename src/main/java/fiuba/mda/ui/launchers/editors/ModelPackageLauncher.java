@@ -7,7 +7,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import fiuba.mda.model.ModelPackage;
-import fiuba.mda.ui.actions.validators.NameValidator;
+import fiuba.mda.ui.actions.validators.NameAndExistenceValidator;
 import fiuba.mda.ui.launchers.SimpleDialogLauncher;
 
 /**
@@ -16,31 +16,31 @@ import fiuba.mda.ui.launchers.SimpleDialogLauncher;
 @Singleton
 public class ModelPackageLauncher extends BaseLauncher<ModelPackage> {
 	private final SimpleDialogLauncher dialogs;
-	private final IInputValidator packageNameValidator;
+	private final NameAndExistenceValidator packageNameValidator;
 
 	/**
 	 * Creates a new @{link {@link ModelPackageLauncher} instance
 	 * 
 	 * @param dialogs
 	 *            the dialog controller used to create the associated dialogs
-	 * @param packageNameValidator
+	 * @param packageNameAndExistenceValidator
 	 *            the validator used to validate the package name on the input
 	 *            dialogs
 	 */
 	@Inject
 	public ModelPackageLauncher(SimpleDialogLauncher dialogs,
-			final NameValidator packageNameValidator) {
+			final NameAndExistenceValidator packageNameAndExistenceValidator) {
 		this.dialogs = dialogs;
-		this.packageNameValidator = packageNameValidator;
+		this.packageNameValidator = packageNameAndExistenceValidator;
 	}
 
 	@Override
 	protected void doLaunch(ModelPackage component) {
 		final String title = "Paquete " + component.getQualifiedName();
-		Optional<String> name = dialogs.showInput(title, "Nombre",
+		packageNameValidator.setParent(component.getParent());
+        Optional<String> name = dialogs.showInput(title, "Nombre",
 				component.getName(), packageNameValidator);
-
-		if (name.isPresent()) {
+        if (name.isPresent()) {
 			component.setName(name.get());
 		}
 	}
