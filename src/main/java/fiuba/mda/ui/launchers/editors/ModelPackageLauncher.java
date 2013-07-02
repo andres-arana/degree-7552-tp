@@ -37,7 +37,7 @@ public class ModelPackageLauncher extends BaseLauncher<ModelPackage> {
 	@Override
 	protected void doLaunch(ModelPackage component) {
 		final String title = "Paquete " + component.getQualifiedName();
-		packageNameValidator.setParent(component.getParent());
+		if(!component.isRoot()) packageNameValidator.setParent(component.getParent());
         Optional<String> name = dialogs.showInput(title, "Nombre",
 				component.getName(), packageNameValidator);
         if (name.isPresent()) {
