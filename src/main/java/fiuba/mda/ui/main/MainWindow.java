@@ -65,6 +65,8 @@ public class MainWindow extends ApplicationWindow {
 		super.configureShell(shell);
 		shell.setText("MDA IDE");
 		shell.setSize(800, 600);
+        shell.setMaximized(true);
+
 	}
 
 	@Override

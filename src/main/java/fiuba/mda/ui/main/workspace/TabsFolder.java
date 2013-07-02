@@ -1,12 +1,12 @@
 package fiuba.mda.ui.main.workspace;
 
+import fiuba.mda.Application;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CTabFolder;
-import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.custom.*;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.*;
 
 import com.google.common.base.Optional;
 
@@ -32,6 +32,39 @@ public class TabsFolder extends Composite {
 		tabs = new CTabFolder(this, SWT.NONE);
 		tabs.setSimple(false);
 		tabs.setBorderVisible(true);
+        tabs.addCTabFolder2Listener(new CTabFolder2Listener() {
+            @Override
+            public void close(CTabFolderEvent cTabFolderEvent) {
+                Shell shell = Application.getShell();
+                if (shell.getModified()) {
+                    MessageDialog dialog = new MessageDialog(shell, "Diagrama Modificado", null,
+                            "Desea Guardar?", MessageDialog.CONFIRM, new String[]{"Aceptar",
+                            "Cancelar"}, 0);
+
+                    int result = dialog.open();
+
+                    if (result == 0) {
+                        //Hacer lo necesario para guardar!
+                    }
+                }
+            }
+
+            @Override
+            public void minimize(CTabFolderEvent cTabFolderEvent) {
+            }
+
+            @Override
+            public void maximize(CTabFolderEvent cTabFolderEvent) {
+            }
+
+            @Override
+            public void restore(CTabFolderEvent cTabFolderEvent) {
+            }
+
+            @Override
+            public void showList(CTabFolderEvent cTabFolderEvent) {
+            }
+        });
 	}
 
 	/**
@@ -55,7 +88,7 @@ public class TabsFolder extends Composite {
 			item.setText(text);
 			item.setImage(image);
 			item.setControl(builder.buildInto(tabs));
-			tabs.setSelection(item);
+            tabs.setSelection(item);
 			tabs.layout();
 		}
 	}
