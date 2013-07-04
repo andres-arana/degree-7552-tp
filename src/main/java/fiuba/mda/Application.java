@@ -46,6 +46,10 @@ public class Application {
         return mainWindowStatic.getShell();
     }
 
+    public static final MainWindow getMainWindow(){
+        return mainWindowStatic;
+    }
+
 	/**
 	 * Application entry point
 	 * 

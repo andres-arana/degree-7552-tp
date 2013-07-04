@@ -5,6 +5,7 @@ import fiuba.mda.model.Application;
 import fiuba.mda.model.BehaviorDiagram;
 import fiuba.mda.model.ModelAspect;
 import fiuba.mda.model.ModelPackage;
+import fiuba.mda.ui.main.MainWindow;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
 
@@ -21,12 +22,15 @@ public class DeleteBehaviorDiagramAction extends Action {
 
     private final BehaviorDiagram modelBehaviorDiagramToDelete;
 
+
     @Inject
     public DeleteBehaviorDiagramAction(Application model, BehaviorDiagram modelBehaviorDiagramToDelete) {
         this.model = model;
         this.modelBehaviorDiagramToDelete = modelBehaviorDiagramToDelete;
         setupPresentation();
     }
+
+
 
 
     private void setupPresentation() {
@@ -43,6 +47,7 @@ public class DeleteBehaviorDiagramAction extends Action {
         int result = dialog.open();
 
         if(result == 0){
+            fiuba.mda.Application.getMainWindow().deleteEditor(modelBehaviorDiagramToDelete.getQualifiedName());
             ModelAspect parentAspect = (ModelAspect)modelBehaviorDiagramToDelete.getParent();
             parentAspect.removeChildren(modelBehaviorDiagramToDelete);
             if (parentAspect.getChildren().isEmpty()){

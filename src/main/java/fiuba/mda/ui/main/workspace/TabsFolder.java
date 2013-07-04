@@ -105,6 +105,13 @@ public class TabsFolder extends Composite {
         }
     }
 
+    public void deleteTab(final String oldText) {
+        Optional<CTabItem> tab = tabExists(oldText);
+        if (tab.isPresent()) {
+           tab.get().dispose();
+        }
+    }
+
 	private Optional<CTabItem> tabExists(String text) {
 		for (CTabItem item : tabs.getItems()) {
 			if (item.getText().equals(text)) {

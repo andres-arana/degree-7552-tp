@@ -112,4 +112,8 @@ public class MainWindow extends ApplicationWindow {
         editorTabs.renameTab(oldName,newName);
     }
 
+    public void deleteEditor(final String name){
+        editorTabs.deleteTab(name);
+    }
+
 }

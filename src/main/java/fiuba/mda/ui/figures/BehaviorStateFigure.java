@@ -48,8 +48,9 @@ public class BehaviorStateFigure extends Ellipse implements MouseListener,
 			Position position = state.getPosition();
 			Rectangle constraint = buildPositionalBound(position);
 			p.getLayoutManager().setConstraint(this, constraint);
-			Dimension labelSize = label.getPreferredSize();
-			setPreferredSize(labelSize.width + 40, labelSize.height + 20);
+			//Dimension labelSize = label.getPreferredSize();
+			//setPreferredSize(labelSize.width + 40, labelSize.height + 20);
+            setPreferredSize(label.getText().length() + 40, 10 + 20);
 		}
 	}
 

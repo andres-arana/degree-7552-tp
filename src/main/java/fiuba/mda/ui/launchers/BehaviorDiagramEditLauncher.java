@@ -1,7 +1,8 @@
-package fiuba.mda.ui.launchers.editors;
+package fiuba.mda.ui.launchers;
 
 import fiuba.mda.model.Application;
 import fiuba.mda.model.BehaviorDiagram;
+import fiuba.mda.ui.launchers.BaseEditorLauncher;
 import fiuba.mda.ui.main.MainWindow;
 import org.eclipse.jface.dialogs.IInputValidator;
 
@@ -13,17 +14,17 @@ import fiuba.mda.ui.actions.validators.NameAndExistenceValidator;
 import fiuba.mda.ui.launchers.SimpleDialogLauncher;
 
 /**
- * {@link EditorLauncher} implementation which allows editing a package
+ * {@link } implementation which allows editing a package
  */
 @Singleton
-public class BehaviorDiagramEditLauncher extends BaseLauncher<BehaviorDiagram> {
+public class BehaviorDiagramEditLauncher extends BaseEditorLauncher<BehaviorDiagram> {
     private final Application model;
     private final MainWindow mainWindow;
     private final SimpleDialogLauncher dialogs;
     private final NameAndExistenceValidator dialogNameValidator;
 
     /**
-     * Creates a new @{link {@link ModelPackageLauncher} instance
+     * Creates a new @{link {@link } instance
      *
      * @param model
      * @param mainWindow

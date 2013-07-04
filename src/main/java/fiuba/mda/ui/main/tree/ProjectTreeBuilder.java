@@ -5,6 +5,7 @@ import fiuba.mda.model.*;
 import fiuba.mda.ui.actions.DeleteBehaviorDiagramAction;import fiuba.mda.ui.actions.DeletePackageAction;
 import fiuba.mda.ui.actions.EditBehaviourDiagramAction;
 import fiuba.mda.ui.actions.EditPackageAction;
+import fiuba.mda.ui.main.MainWindow;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
@@ -35,6 +36,7 @@ public class ProjectTreeBuilder implements ControlBuilder {
 
     private final Provider<ComponentEditorVisitor> editorProvider;
 
+
 	/**
 	 * Creates a new {@link ProjectTreeBuilder} instance
 	 *
@@ -49,6 +51,7 @@ public class ProjectTreeBuilder implements ControlBuilder {
 *            current package
      * @param onDoubleClick
      * @param editorProvider
+     *
      */
 	@Inject
 	public ProjectTreeBuilder(final Application model,

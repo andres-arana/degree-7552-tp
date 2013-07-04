@@ -9,7 +9,7 @@ import fiuba.mda.model.ModelEntity;
 import fiuba.mda.model.ModelPackage;
 import fiuba.mda.model.ProjectComponent;
 import fiuba.mda.model.ProjectComponentVisitor;
-import fiuba.mda.ui.launchers.editors.BehaviorDiagramEditLauncher;
+import fiuba.mda.ui.launchers.BehaviorDiagramEditLauncher;
 import fiuba.mda.ui.launchers.BehaviorDiagramLauncher;
 import fiuba.mda.ui.launchers.EditorLauncher;
 import fiuba.mda.ui.launchers.ModelPackageLauncher;

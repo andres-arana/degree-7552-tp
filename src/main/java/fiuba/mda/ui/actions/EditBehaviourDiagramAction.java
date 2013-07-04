@@ -6,7 +6,7 @@ import com.google.inject.Provider;
 import fiuba.mda.model.Application;
 import fiuba.mda.model.BehaviorDiagram;
 import fiuba.mda.model.ModelPackage;
-import fiuba.mda.ui.launchers.editors.EditorLauncher;
+import fiuba.mda.ui.launchers.EditorLauncher;
 import fiuba.mda.ui.main.tree.ComponentEditorVisitor;
 import org.eclipse.jface.action.Action;
 
