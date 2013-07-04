@@ -1,7 +1,7 @@
 package fiuba.mda.ui.actions;
 
 import com.google.inject.Provider;
-import fiuba.mda.ui.launchers.editors.EditorLauncher;
+import fiuba.mda.ui.launchers.EditorLauncher;
 import fiuba.mda.ui.main.tree.ComponentEditorVisitor;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.IInputValidator;
@@ -42,17 +42,17 @@ public class NewBehaviourDiagramAction extends Action {
 
 	/**
 	 * Creates a new {@link NewBehaviourDiagramAction} instance
-	 *
-     * @param model
-     *            the model on which this action will create a new package
-     * @param dialog
-     *            the dialog controller used to create the associated dialogs
-     * @param imageLoader
-*            the image loader used to provide the image of this action
-     * @param packageNameAndExistenceValidator
-*            the validator used to validate the package name on the input
-     * @param editorProvider
-     */
+	 * 
+	 * @param model
+	 *            the model on which this action will create a new package
+	 * @param dialog
+	 *            the dialog controller used to create the associated dialogs
+	 * @param imageLoader
+	 *            the image loader used to provide the image of this action
+	 * @param packageNameAndExistenceValidator
+	 *            the validator used to validate the package name on the input
+	 *            dialogs
+	 */
 	@Inject
 	public NewBehaviourDiagramAction(final Application model,
                                      final SimpleDialogLauncher dialog, final ImageLoader imageLoader,
