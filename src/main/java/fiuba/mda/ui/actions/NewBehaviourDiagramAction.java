@@ -96,6 +96,10 @@ public class NewBehaviourDiagramAction extends Action {
             if (controller.isPresent()) {
                 controller.get().launch(newDiagram);
             }
-		}
+		} else {
+            if(aspect.getChildren().isEmpty()){
+                activePackage.removeChildren(aspect);
+            }
+        }
 	}
 }

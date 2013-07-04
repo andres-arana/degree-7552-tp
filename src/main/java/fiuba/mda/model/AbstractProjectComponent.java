@@ -98,6 +98,9 @@ public abstract class AbstractProjectComponent implements ProjectComponent {
         }
 
         for (ProjectComponent component : componentsToDelete){
+            if (component instanceof BehaviorDiagram){
+                fiuba.mda.Application.getMainWindow().deleteEditor(component.getQualifiedName());
+            }
             this.deleteChildrenFromList(component);
             component.setParent(null);
             component.hierarchyChangedEvent().unobserve(onChildrenHierarchyChanged);
