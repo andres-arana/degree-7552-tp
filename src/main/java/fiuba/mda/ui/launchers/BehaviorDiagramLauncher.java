@@ -1,5 +1,6 @@
 package fiuba.mda.ui.launchers;
 
+import fiuba.mda.ui.actions.NewBehaviorDiagramRelationAction;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
@@ -27,27 +28,29 @@ public class BehaviorDiagramLauncher extends
 	private final MainWindow mainWindow;
 	private final ComponentImageVisitor imageVisitor;
 	private final Provider<NewBehaviorDiagramStateAction> newStateActionProvider;
+    private final Provider<NewBehaviorDiagramRelationAction> newRelationActionProvider;
 
 	/**
 	 * Creates a new @{link BehaviorDiagramLauncher} instance
-	 * 
-	 * @param mainWindow
-	 *            the main window on which behavior diagram editors will be
-	 *            added
-	 * @param imageVisitor
-	 *            the image visitor to get the image for the tab
-	 * @param newStateActionProvider
-	 *            provider for the instances of new state actions bound to the
-	 *            launched diagram
-	 */
+	 *
+     * @param mainWindow
+     *            the main window on which behavior diagram editors will be
+     *            added
+     * @param imageVisitor
+     *            the image visitor to get the image for the tab
+     * @param newStateActionProvider
+*            provider for the instances of new state actions bound to the
+     * @param newRelationActionProvider
+     */
 	@Inject
 	public BehaviorDiagramLauncher(final MainWindow mainWindow,
-			final ComponentImageVisitor imageVisitor,
-			final Provider<NewBehaviorDiagramStateAction> newStateActionProvider) {
+                                   final ComponentImageVisitor imageVisitor,
+                                   final Provider<NewBehaviorDiagramStateAction> newStateActionProvider, Provider<NewBehaviorDiagramRelationAction> newRelationActionProvider) {
 		this.mainWindow = mainWindow;
 		this.imageVisitor = imageVisitor;
 		this.newStateActionProvider = newStateActionProvider;
-	}
+        this.newRelationActionProvider = newRelationActionProvider;
+    }
 
 	@Override
 	protected void doLaunch(final BehaviorDiagram component) {
@@ -66,6 +69,8 @@ public class BehaviorDiagramLauncher extends
 				editor.addAction(newStateActionProvider.get()
 						.boundTo(component));
 
+                editor.addAction(newRelationActionProvider.get()
+                        .boundTo(component));
 				return editor;
 			}
 		});

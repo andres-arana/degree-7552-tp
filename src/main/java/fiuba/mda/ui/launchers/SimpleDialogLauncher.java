@@ -1,5 +1,6 @@
 package fiuba.mda.ui.launchers;
 
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -85,13 +86,22 @@ public class SimpleDialogLauncher {
 			final String initialValue, final IInputValidator validator) {
 		InputDialog inputDialog = new InputDialog(shell, title, message,
 				initialValue, validator);
-		int result = inputDialog.open();
+        int result = inputDialog.open();
 		if (result == Window.OK) {
 			return Optional.of(inputDialog.getValue());
 		} else {
 			return Optional.absent();
 		}
 	}
+
+    public Optional<String> showDialog(final Dialog dialogo) {
+        int result = dialogo.open();
+        if (result == Window.OK) {
+            return Optional.of("OK");
+        } else {
+            return Optional.absent();
+        }
+    }
 
 	/**
 	 * Shows a dialog to display an error message

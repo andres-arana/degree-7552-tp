@@ -1,14 +1,6 @@
 package fiuba.mda.ui.figures;
 
-import org.eclipse.draw2d.Ellipse;
-import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.Label;
-import org.eclipse.draw2d.LayoutManager;
-import org.eclipse.draw2d.MouseEvent;
-import org.eclipse.draw2d.MouseListener;
-import org.eclipse.draw2d.MouseMotionListener;
-import org.eclipse.draw2d.StackLayout;
-import org.eclipse.draw2d.UpdateManager;
+import org.eclipse.draw2d.*;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -21,9 +13,11 @@ import fiuba.mda.model.Representation.Position;
 /**
  * Figure which displays a state in a behavior diagram
  */
-public class BehaviorStateFigure extends Ellipse implements MouseListener,
+public class BehaviorStateFigure extends Figure implements MouseListener,
 		MouseMotionListener {
 	private Point moveStartedLocation;
+
+    private Ellipse elipse;
 
 	private final Label label;
 	private final Representation<BehaviorState> state;
@@ -31,12 +25,13 @@ public class BehaviorStateFigure extends Ellipse implements MouseListener,
 	public BehaviorStateFigure(final Representation<BehaviorState> state) {
 		this.state = state;
 		setLayoutManager(new StackLayout());
-		setAntialias(SWT.ON);
-		setOutline(true);
-		setLineWidth(2);
+        elipse = new Ellipse();
+		elipse.setAntialias(SWT.ON);
+		elipse.setOutline(true);
+		elipse.setLineWidth(2);
 		addMouseListener(this);
 		addMouseMotionListener(this);
-
+        add(elipse);
 		label = new Label(state.getEntity().getName());
 		add(label);
 	}
@@ -120,4 +115,8 @@ public class BehaviorStateFigure extends Ellipse implements MouseListener,
 	public void mouseDoubleClicked(MouseEvent me) {
 		// TODO Auto-generated method stub
 	}
+
+    public Representation<BehaviorState> getState() {
+        return state;
+    }
 }
