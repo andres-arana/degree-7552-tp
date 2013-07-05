@@ -32,8 +32,11 @@ public class BehaviorStateFigure extends Figure implements MouseListener,
 		addMouseListener(this);
 		addMouseMotionListener(this);
         add(elipse);
-		label = new Label(state.getEntity().getName());
+        label = new Label(state.getEntity().getName());
+        label.setTextAlignment(SWT.CENTER);
+        label.setLabelAlignment(SWT.WRAP);
 		add(label);
+
 	}
 
 	@Override
@@ -45,8 +48,9 @@ public class BehaviorStateFigure extends Figure implements MouseListener,
 			p.getLayoutManager().setConstraint(this, constraint);
 			//Dimension labelSize = label.getPreferredSize();
 			//setPreferredSize(labelSize.width + 40, labelSize.height + 20);
-            setPreferredSize(label.getText().length() + 40, 10 + 20);
-		}
+            elipse.setPreferredSize(label.getText().length() * 2 + 80, label.getText().length()  + 20 );
+		    elipse.setSize(label.getText().length() * 2 + 80, label.getText().length()  + 20);
+        }
 	}
 
 	private Rectangle buildPositionalBound(final Position position) {

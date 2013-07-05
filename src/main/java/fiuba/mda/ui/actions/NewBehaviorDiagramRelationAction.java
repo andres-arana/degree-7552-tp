@@ -58,7 +58,7 @@ public class NewBehaviorDiagramRelationAction extends Action {
     @Override
     public void run() {
         if (!isValidSituation()) return;
-        RelationDialog dialogo = new RelationDialog(Application.getShell(), boundDiagram.getStates());
+        RelationDialog dialogo = new RelationDialog(Application.getShell(), boundDiagram.getStates(),boundDiagram.getRelations());
         Optional<String> stringOptional = dialog.showDialog(dialogo);
         if(stringOptional.isPresent()){
             String initialStateName = dialogo.getInitialStateName();

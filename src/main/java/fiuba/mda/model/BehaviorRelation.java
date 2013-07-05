@@ -1,5 +1,8 @@
 package fiuba.mda.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BehaviorRelation {
 	private final String name;
     private final BehaviorState initialState;
@@ -21,5 +24,16 @@ public class BehaviorRelation {
 
     public BehaviorState getFinalState() {
         return finalState;
+    }
+
+    public boolean hasAll(List<String> stateNames) {
+        List<String> relationStatesName = new ArrayList<>();
+        relationStatesName.add(initialState.getName());
+        relationStatesName.add(finalState.getName());
+        return  relationStatesName.containsAll(stateNames);
+    }
+
+    public boolean hasAll(String initialState, String finalState) {
+        return  this.initialState.getName().equals(initialState) && this.finalState.getName().equals(finalState);
     }
 }

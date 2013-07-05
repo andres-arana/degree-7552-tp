@@ -1,7 +1,9 @@
 package fiuba.mda.ui.main.workspace;
 
+import fiuba.mda.model.BehaviorRelation;
 import fiuba.mda.model.BehaviorState;
 import fiuba.mda.model.Representation;
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.SWT;
@@ -21,14 +23,16 @@ import java.util.List;
  */
 public class RelationDialog extends TitleAreaDialog {
     List<Representation<BehaviorState>> states;
+    List<Representation<BehaviorRelation>> existingRelations;
     private Combo initialStateNameCombo;
     private Combo finalStateNameCombo;
     private String initialStateName;
     private String finalStateName;
 
-    public RelationDialog(Shell parentShell, List<Representation<BehaviorState>> states) {
+    public RelationDialog(Shell parentShell, List<Representation<BehaviorState>> states,List<Representation<BehaviorRelation>> existingRelations) {
         super(parentShell);
         this.states = states;
+        this.existingRelations = existingRelations;
     }
 
     @Override
@@ -80,8 +84,13 @@ public class RelationDialog extends TitleAreaDialog {
         return parent;
     }
 
-    private boolean isValidInput() {
-        boolean valid = true;
+    private String isValidInput() {
+        String valid = "OK";
+        if (StringUtils.isBlank(initialStateName) || StringUtils.isBlank(finalStateName)) return "Debe seleccionar 2 estados obligatoriamente";
+        if (finalStateName.equals(initialStateName)) return "Debe seleccionar 2 estados diferentes";
+        for (Representation<BehaviorRelation> relation : existingRelations){
+            if (relation.getEntity().hasAll(initialStateName,finalStateName)) return "La Relación ya existe";
+        }
         return valid;
     }
 
@@ -101,7 +110,9 @@ public class RelationDialog extends TitleAreaDialog {
     @Override
     protected void okPressed() {
         saveInput();
-        super.okPressed();
+        String validInput = isValidInput();
+        if (validInput.equals("OK")) super.okPressed();
+        else super.setErrorMessage(validInput);
     }
 
     public String getInitialStateName() {
