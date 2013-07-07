@@ -1,13 +1,14 @@
 package fiuba.mda.ui.actions;
 
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.dialogs.MessageDialog;
+
 import com.google.inject.Inject;
+
 import fiuba.mda.model.Application;
 import fiuba.mda.model.BehaviorDiagram;
 import fiuba.mda.model.ModelAspect;
 import fiuba.mda.model.ModelPackage;
-import fiuba.mda.ui.main.MainWindow;
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.dialogs.MessageDialog;
 
 /**
  * Created with IntelliJ IDEA.

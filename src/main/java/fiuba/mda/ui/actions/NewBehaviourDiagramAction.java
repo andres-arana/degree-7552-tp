@@ -1,13 +1,10 @@
 package fiuba.mda.ui.actions;
 
-import com.google.inject.Provider;
-import fiuba.mda.ui.launchers.EditorLauncher;
-import fiuba.mda.ui.main.tree.ComponentEditorVisitor;
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.dialogs.IInputValidator;
 
 import com.google.common.base.Optional;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import fiuba.mda.model.Application;
@@ -15,7 +12,9 @@ import fiuba.mda.model.BehaviorDiagram;
 import fiuba.mda.model.ModelAspect;
 import fiuba.mda.model.ModelPackage;
 import fiuba.mda.ui.actions.validators.NameAndExistenceValidator;
+import fiuba.mda.ui.launchers.EditorLauncher;
 import fiuba.mda.ui.launchers.SimpleDialogLauncher;
+import fiuba.mda.ui.main.tree.ComponentEditorVisitor;
 import fiuba.mda.ui.utilities.ImageLoader;
 import fiuba.mda.utilities.SimpleEvent.Observer;
 

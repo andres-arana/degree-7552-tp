@@ -1,15 +1,11 @@
 package fiuba.mda.ui.launchers;
 
-import fiuba.mda.ui.launchers.BaseEditorLauncher;
-import org.eclipse.jface.dialogs.IInputValidator;
-
 import com.google.common.base.Optional;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import fiuba.mda.model.ModelPackage;
 import fiuba.mda.ui.actions.validators.NameAndExistenceValidator;
-import fiuba.mda.ui.launchers.SimpleDialogLauncher;
 
 /**
  * {@link EditorLauncher} implementation which allows editing a package

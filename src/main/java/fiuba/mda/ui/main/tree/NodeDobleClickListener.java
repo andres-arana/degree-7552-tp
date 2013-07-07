@@ -1,8 +1,5 @@
 package fiuba.mda.ui.main.tree;
 
-import fiuba.mda.model.BehaviorDiagram;
-import fiuba.mda.model.ModelEntity;
-import fiuba.mda.model.ModelPackage;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -12,6 +9,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import fiuba.mda.model.BehaviorDiagram;
 import fiuba.mda.model.ProjectComponent;
 import fiuba.mda.ui.launchers.EditorLauncher;
 

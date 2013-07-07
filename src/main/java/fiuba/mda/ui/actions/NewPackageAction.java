@@ -1,7 +1,6 @@
 package fiuba.mda.ui.actions;
 
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.dialogs.IInputValidator;
 
 import com.google.common.base.Optional;
 import com.google.inject.Inject;

@@ -1,13 +1,15 @@
 package fiuba.mda.ui.actions;
 
+import org.eclipse.jface.action.Action;
+
 import com.google.common.base.Optional;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+
 import fiuba.mda.model.Application;
 import fiuba.mda.model.ModelPackage;
 import fiuba.mda.ui.launchers.EditorLauncher;
 import fiuba.mda.ui.main.tree.ComponentEditorVisitor;
-import org.eclipse.jface.action.Action;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,9 +19,6 @@ import org.eclipse.jface.action.Action;
  * To change this template use File | Settings | File Templates.
  */
 public class EditPackageAction extends Action {
-
-    private final Application model;
-
     private final ModelPackage modelPackage;
 
     private final Provider<ComponentEditorVisitor> editorProvider;
@@ -27,7 +26,6 @@ public class EditPackageAction extends Action {
 
     @Inject
     public EditPackageAction(Application model, ModelPackage modelPackage, Provider<ComponentEditorVisitor> editorProvider) {
-        this.model = model;
         this.modelPackage = modelPackage;
         this.editorProvider = editorProvider;
         setupPresentation();

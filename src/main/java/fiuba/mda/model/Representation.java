@@ -1,6 +1,5 @@
 package fiuba.mda.model;
 
-import fiuba.mda.utilities.SimpleEvent;
 
 /**
  * Representation in a diagram for a given entity.

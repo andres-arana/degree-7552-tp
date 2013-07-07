@@ -1,21 +1,27 @@
 package fiuba.mda.ui.main.tree;
 
-import com.google.inject.Provider;
-import fiuba.mda.model.*;
-import fiuba.mda.ui.actions.DeleteBehaviorDiagramAction;import fiuba.mda.ui.actions.DeletePackageAction;
-import fiuba.mda.ui.actions.EditBehaviourDiagramAction;
-import fiuba.mda.ui.actions.EditPackageAction;
-import fiuba.mda.ui.main.MainWindow;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.swt.widgets.*;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Menu;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import fiuba.mda.model.AbstractContainerProjectComponent;
+import fiuba.mda.model.AbstractLeafProjectComponent;
+import fiuba.mda.model.Application;
+import fiuba.mda.model.BehaviorDiagram;
+import fiuba.mda.model.ModelPackage;
+import fiuba.mda.ui.actions.DeleteBehaviorDiagramAction;
+import fiuba.mda.ui.actions.DeletePackageAction;
+import fiuba.mda.ui.actions.EditBehaviourDiagramAction;
+import fiuba.mda.ui.actions.EditPackageAction;
 import fiuba.mda.ui.main.workspace.ControlBuilder;
 
 
