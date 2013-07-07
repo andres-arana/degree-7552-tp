@@ -1,16 +1,16 @@
 package fiuba.mda.ui.actions;
 
-import com.google.common.base.Optional;
-import fiuba.mda.Application;
-import fiuba.mda.ui.launchers.SimpleDialogLauncher;
-import fiuba.mda.ui.main.workspace.StateDialog;
 import org.eclipse.jface.action.Action;
+import org.eclipse.swt.widgets.Shell;
 
+import com.google.common.base.Optional;
 import com.google.inject.Inject;
 
 import fiuba.mda.model.BehaviorDiagram;
 import fiuba.mda.model.BehaviorState;
 import fiuba.mda.model.Representation;
+import fiuba.mda.ui.launchers.SimpleDialogLauncher;
+import fiuba.mda.ui.main.workspace.StateDialog;
 import fiuba.mda.ui.utilities.ImageLoader;
 
 /**
@@ -18,21 +18,24 @@ import fiuba.mda.ui.utilities.ImageLoader;
  * behavior state in the behavior diagram
  */
 public class NewBehaviorDiagramStateAction extends Action {
-    private final SimpleDialogLauncher dialog;
-    private BehaviorDiagram boundDiagram;
+	private final SimpleDialogLauncher dialog;
+	private BehaviorDiagram boundDiagram;
 	private int stateNumber = 0;
+	private final Shell shell;
 
 	/**
 	 * Creates a new {@link NewBehaviorDiagramStateAction} instance
-	 *
-     * @param imageLoader
-     *            the image loader used to provide the image of this action
-     * @param dialog
-     */
+	 * 
+	 * @param imageLoader
+	 *            the image loader used to provide the image of this action
+	 * @param dialog
+	 */
 	@Inject
-	public NewBehaviorDiagramStateAction(final ImageLoader imageLoader, SimpleDialogLauncher dialog) {
-        this.dialog = dialog;
-        setupPresentation(imageLoader);
+	public NewBehaviorDiagramStateAction(final Shell shell,
+			final ImageLoader imageLoader, SimpleDialogLauncher dialog) {
+		this.shell = shell;
+		this.dialog = dialog;
+		setupPresentation(imageLoader);
 	}
 
 	private void setupPresentation(final ImageLoader imageLoader) {
@@ -55,17 +58,19 @@ public class NewBehaviorDiagramStateAction extends Action {
 
 	@Override
 	public void run() {
-        StateDialog dialogo = new StateDialog(Application.getShell());
-        Optional<String> stringOptional = dialog.showDialog(dialogo);
-        if(stringOptional.isPresent()){
-            String formName = dialogo.getFormName();
-            String formTypeName = dialogo.getFormTypeName();
-            BehaviorState state = new BehaviorState(/*"State " + stateNumber*/formName, formTypeName);
-            Representation<BehaviorState> representation = new Representation<>(state);
-            representation.getPosition().setX(stateNumber * 100);
-            boundDiagram.addState(representation);
-            stateNumber++;
-        }
+		StateDialog dialogo = new StateDialog(shell);
+		Optional<String> stringOptional = dialog.showDialog(dialogo);
+		if (stringOptional.isPresent()) {
+			String formName = dialogo.getFormName();
+			String formTypeName = dialogo.getFormTypeName();
+			BehaviorState state = new BehaviorState(
+					/* "State " + stateNumber */formName, formTypeName);
+			Representation<BehaviorState> representation = new Representation<>(
+					state);
+			representation.getPosition().setX(stateNumber * 100);
+			boundDiagram.addState(representation);
+			stateNumber++;
+		}
 
 	}
 }
