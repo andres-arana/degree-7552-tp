@@ -52,11 +52,6 @@ public class ComponentImageVisitor implements ProjectComponentVisitor {
 		image = Optional.of(images.of("folder"));
 	}
 
-	@Override
-	public void visit(BehaviorDiagram behaviorDiagram,boolean isEditing) {
-
-	}
-
     @Override
     public void visit(BehaviorDiagram behaviorDiagram) {
         image = Optional.of(images.of("chart_line"));

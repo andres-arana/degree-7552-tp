@@ -31,13 +31,13 @@ public class PackageSelectedListener implements ISelectionChangedListener {
 	@Override
 	public void selectionChanged(SelectionChangedEvent event) {
 		if (event.getSelection().isEmpty()) {
-			model.clearActivePackage();
+			model.clearSelection();
 		} else {
 			IStructuredSelection selection = (IStructuredSelection) event
 					.getSelection();
 			ProjectComponent selectedComponent = (ProjectComponent) selection
 					.getFirstElement();
-			model.activatePackage(selectedComponent.locateOwningPackage());
+			model.select(selectedComponent);
 		}
 	}
 }

@@ -27,14 +27,12 @@ public interface ProjectComponentVisitor {
 	 *            the visited {@link ModelAspect}
 	 */
 	void visit(final ModelAspect modelAspect);
-	
+
 	/**
 	 * Indicates that the visited component was a {@link BehaviorDiagram}
 	 * 
 	 * @param behaviorDiagram
 	 *            the visited {@link BehaviorDiagram}
 	 */
-	void visit(final BehaviorDiagram behaviorDiagram,boolean isEditing);
-
-    void visit(BehaviorDiagram behaviorDiagram);
+	void visit(BehaviorDiagram behaviorDiagram);
 }

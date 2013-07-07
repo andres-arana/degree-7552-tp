@@ -20,18 +20,13 @@ public class ModelPackage extends AbstractContainerProjectComponent {
 	public ModelPackage locateOwningPackage() {
 		return this;
 	}
-	
+
 	@Override
 	public void accept(ProjectComponentVisitor visitor) {
 		visitor.visit(this);
 	}
 
-    @Override
-    public void accept(ProjectComponentVisitor visitor, boolean isEditing) {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    /**
+	/**
 	 * Ensures that a particularly named {@link ModelAspect} instance exists
 	 * under this package and returns it, creating it if it doesn't.
 	 * 
@@ -47,7 +42,7 @@ public class ModelPackage extends AbstractContainerProjectComponent {
 			}
 		}
 		ModelAspect aspect = new ModelAspect(name);
-		addChildren(aspect);
+		addChild(aspect);
 		return aspect;
 	}
 

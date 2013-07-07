@@ -1,34 +1,23 @@
 package fiuba.mda.model;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import com.google.common.base.Optional;
 
 import fiuba.mda.utilities.SimpleEvent;
-import fiuba.mda.utilities.SimpleEvent.Observer;
 
 /**
  * Base abstract class useful for implementing {@link ProjectComponent}
  * containing default behavior for all methods
  */
 public abstract class AbstractProjectComponent implements ProjectComponent {
-	private final SimpleEvent<ProjectComponent> hierarchyChangedEvent = new SimpleEvent<ProjectComponent>(
+	protected final SimpleEvent<ProjectComponent> hierarchyChangedEvent = new SimpleEvent<ProjectComponent>(
+			this);
+
+	private final SimpleEvent<ProjectComponent> removedEvent = new SimpleEvent<ProjectComponent>(
 			this);
 
 	private String name;
 
 	private ProjectComponent parent;
-
-	private final List<ProjectComponent> children = new ArrayList<>();
-
-	private Observer<ProjectComponent> onChildrenHierarchyChanged = new Observer<ProjectComponent>() {
-		@Override
-		public void notify(ProjectComponent observable) {
-			hierarchyChangedEvent.raise();
-		}
-	};
 
 	/**
 	 * Creates a new {@link AbstractProjectComponent} instance
@@ -38,6 +27,21 @@ public abstract class AbstractProjectComponent implements ProjectComponent {
 	 */
 	public AbstractProjectComponent(final String name) {
 		this.name = name;
+	}
+
+	@Override
+	public boolean isNewNameInConflict(ProjectComponent parent, String newName) {
+		// If this is a root component, it can have any name as it will never
+		// conflict with any siblings
+		if (isRoot()) {
+			return false;
+		}
+
+		Optional<ProjectComponent> conflict = parent.findChildrenNamed(newName);
+
+		// There is a conflict if there is a component with the same name, but
+		// only if the conflicting component isn't this one
+		return conflict.isPresent() && conflict.get() != this;
 	}
 
 	@Override
@@ -62,81 +66,22 @@ public abstract class AbstractProjectComponent implements ProjectComponent {
 	}
 
 	@Override
-	public List<ProjectComponent> getChildren() {
-		return Collections.unmodifiableList(children);
-	}
-	
-	@Override
-	public boolean hasChildren() {
-		return !children.isEmpty();
-	}
-	
-	@Override
-	public void addChildren(final ProjectComponent component) {
-		if (isLeaf()) {
-			throw new RuntimeException("Unable to add children to leaf component");		
-		}
-		component.setParent(this);
-		component.hierarchyChangedEvent().observe(onChildrenHierarchyChanged);
-		this.children.add(component);
-		this.hierarchyChangedEvent.raise();
-	}
-
-    @Override
-    public void deleteChildrenFromList(ProjectComponent o){
-        children.remove(o);
-    }
-
-    @Override
-    public void removeChildrens() {
-
-        List<ProjectComponent> componentsToDelete = new ArrayList<>();
-
-        for (ProjectComponent component : this.getChildren()){
-            component.removeChildrens();
-            componentsToDelete.add(component);
-        }
-
-        for (ProjectComponent component : componentsToDelete){
-            if (component instanceof BehaviorDiagram){
-                fiuba.mda.Application.getMainWindow().deleteEditor(component.getQualifiedName());
-            }
-            this.deleteChildrenFromList(component);
-            component.setParent(null);
-            component.hierarchyChangedEvent().unobserve(onChildrenHierarchyChanged);
-        }
-
-
-        this.hierarchyChangedEvent().raise();
-
-
-    }
-
-    @Override
-    public void removeChildren(final ProjectComponent component) {
-
-        if (!this.children.contains(component)) return;
-
-        component.removeChildrens();
-        this.deleteChildrenFromList(component);
-        component.setParent(null);
-        component.hierarchyChangedEvent().unobserve(onChildrenHierarchyChanged);
-        this.hierarchyChangedEvent().raise();
-    }
-
-
-
-    @Override
 	public ProjectComponent getParent() {
 		if (isRoot()) {
 			throw new RuntimeException("This is a root component");
 		}
 		return parent;
 	}
-	
+
 	@Override
 	public void setParent(ProjectComponent parent) {
 		this.parent = parent;
+	}
+
+	@Override
+	public void removeFromHierarchy() {
+		parent = null;
+		removedEvent.raise();
 	}
 
 	@Override
@@ -148,7 +93,7 @@ public abstract class AbstractProjectComponent implements ProjectComponent {
 	public ModelPackage locateOwningPackage() {
 		return getParent().locateOwningPackage();
 	}
-	
+
 	@Override
 	public Optional<ModelAspect> locateAspect(final String name) {
 		return Optional.absent();
@@ -157,5 +102,10 @@ public abstract class AbstractProjectComponent implements ProjectComponent {
 	@Override
 	public SimpleEvent<ProjectComponent> hierarchyChangedEvent() {
 		return hierarchyChangedEvent;
+	}
+
+	@Override
+	public SimpleEvent<ProjectComponent> removedEvent() {
+		return removedEvent;
 	}
 }

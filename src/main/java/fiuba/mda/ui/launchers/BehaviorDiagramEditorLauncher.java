@@ -20,11 +20,11 @@ import fiuba.mda.ui.main.workspace.ControlBuilder;
 import fiuba.mda.ui.main.workspace.DiagramEditor;
 
 /**
- * {@link EditorLauncher} implementation which allows editing a behavior diagram
+ * {@link Launcher} implementation which allows editing a behavior diagram
  */
 @Singleton
-public class BehaviorDiagramLauncher extends
-		BaseEditorLauncher<BehaviorDiagram> {
+public class BehaviorDiagramEditorLauncher extends
+		BaseLauncher<BehaviorDiagram> {
 	private final MainWindow mainWindow;
 	private final ComponentImageVisitor imageVisitor;
 	private final Provider<NewBehaviorDiagramStateAction> newStateActionProvider;

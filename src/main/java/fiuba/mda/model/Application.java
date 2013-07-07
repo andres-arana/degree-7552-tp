@@ -30,7 +30,7 @@ public class Application {
 
 	private Project currentProject;
 
-	private ModelPackage activePackage;
+	private ProjectComponent selection;
 
 	/**
 	 * Checks if you have a current open project
@@ -41,7 +41,7 @@ public class Application {
 		return currentProject != null;
 	}
 
-   /**
+	/**
 	 * Obtains the current open project, if any.
 	 * 
 	 * @throws RuntimeException
@@ -70,29 +70,32 @@ public class Application {
 		if (!hasCurrentProject()) {
 			throw new RuntimeException("There is no current project");
 		}
-		if (activePackage != null) {
-			return activePackage;
+
+		if (selection != null) {
+			return selection.locateOwningPackage();
 		} else {
 			return currentProject.getRootPackage();
 		}
 	}
 
-	/**
-	 * Sets a given package as the active one
-	 * 
-	 * @param p
-	 *            the package to set as the currently active
-	 */
-	public void activatePackage(final ModelPackage p) {
-		activePackage = p;
+	public ProjectComponent getSelectedComponent() {
+		if (!hasCurrentProject()) {
+			throw new RuntimeException("There is no current project");
+		}
+
+		if (selection == null) {
+			return currentProject.getRootPackage();
+		} else {
+			return selection;
+		}
 	}
 
-	/**
-	 * Clears the currently selected active package, defaulting to the root
-	 * package of the project.
-	 */
-	public void clearActivePackage() {
-		activePackage = null;
+	public void select(final ProjectComponent component) {
+		selection = component;
+	}
+
+	public void clearSelection() {
+		selection = null;
 	}
 
 	/**

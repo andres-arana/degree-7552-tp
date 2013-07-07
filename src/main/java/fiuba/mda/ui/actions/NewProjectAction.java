@@ -1,7 +1,6 @@
 package fiuba.mda.ui.actions;
 
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.dialogs.IInputValidator;
 
 import com.google.common.base.Optional;
 import com.google.inject.Inject;
@@ -9,7 +8,7 @@ import com.google.inject.Singleton;
 
 import fiuba.mda.model.Application;
 import fiuba.mda.model.Project;
-import fiuba.mda.ui.actions.validators.NameAndExistenceValidator;
+import fiuba.mda.ui.actions.validators.NameValidatorFactory;
 import fiuba.mda.ui.launchers.SimpleDialogLauncher;
 import fiuba.mda.ui.utilities.ImageLoader;
 
@@ -23,7 +22,7 @@ public class NewProjectAction extends Action {
 
 	private final SimpleDialogLauncher dialog;
 
-	private final IInputValidator projectNameValidator;
+	private final NameValidatorFactory projectNameValidator;
 
 	/**
 	 * Creates a new {@link NewProjectAction} instance
@@ -34,17 +33,17 @@ public class NewProjectAction extends Action {
 	 *            the dialog controller used to display associated dialogs
 	 * @param imageLoader
 	 *            the image loader used to provide the image of this action
-	 * @param projectNameAndExistenceValidator
+	 * @param projectNameValidator
 	 *            the validator used to validate the project name on input
 	 *            dialogs
 	 */
 	@Inject
 	public NewProjectAction(final Application model,
 			final SimpleDialogLauncher dialog, final ImageLoader imageLoader,
-			final NameAndExistenceValidator projectNameAndExistenceValidator) {
+			final NameValidatorFactory projectNameValidator) {
 		this.model = model;
 		this.dialog = dialog;
-		this.projectNameValidator = projectNameAndExistenceValidator;
+		this.projectNameValidator = projectNameValidator;
 
 		setupPresentation(imageLoader);
 	}
@@ -57,11 +56,19 @@ public class NewProjectAction extends Action {
 
 	@Override
 	public void run() {
-		Optional<String> name = dialog.showInput("Proyecto",
-				"Nombre", null, projectNameValidator);
+		Optional<String> name = askForName();
 		if (name.isPresent()) {
 			Project newProject = new Project(name.get().trim());
 			model.openProject(newProject);
 		}
+	}
+
+	private Optional<String> askForName() {
+		return dialog.showInput(dialogTitle(), "Nombre", null,
+				projectNameValidator.validatorForNewNameRoot());
+	}
+
+	private String dialogTitle() {
+		return "Proyecto";
 	}
 }

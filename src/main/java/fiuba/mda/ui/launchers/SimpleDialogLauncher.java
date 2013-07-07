@@ -50,9 +50,12 @@ public class SimpleDialogLauncher {
 	 *            the message to display in the dialog
 	 * @return true if the user confirmed the dialog, false otherwise
 	 */
-	public boolean showConfirm(final String message) {
-		return MessageDialog
-				.openConfirm(shell, "Confirme su elección", message);
+	public boolean showConfirm(final String title, final String message) {
+		MessageDialog dialog = new MessageDialog(shell, title, null, message,
+				MessageDialog.CONFIRM, new String[] { "Aceptar", "Cancelar" },
+				0);
+
+		return dialog.open() == 0;
 	}
 
 	/**

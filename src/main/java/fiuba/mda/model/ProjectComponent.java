@@ -12,6 +12,19 @@ import fiuba.mda.utilities.SimpleEvent;
  */
 public interface ProjectComponent {
 	/**
+	 * Checks to see if a candidate new name is in conflict with other named
+	 * components in a given parent
+	 * 
+	 * @param parent
+	 *            the parent on which the candidate new name will be checked, or
+	 *            null if the component is a root component.
+	 * @param newName
+	 *            the new name to check
+	 * @return true if the new name is in conflict, false otherwise
+	 */
+	boolean isNewNameInConflict(ProjectComponent parent, String newName);
+
+	/**
 	 * Obtains the name of the component, a short string identifying the
 	 * component to the user
 	 * 
@@ -43,6 +56,16 @@ public interface ProjectComponent {
 	List<ProjectComponent> getChildren();
 
 	/**
+	 * Finds a children component given it's name
+	 * 
+	 * @param name
+	 *            the name to find
+	 * @return {@link Optional} containing the found children, or absent if it
+	 *         could not be found
+	 */
+	Optional<ProjectComponent> findChildrenNamed(String newName);
+
+	/**
 	 * Checks if this component has any children. Returns true if it has, false
 	 * otherwise
 	 * 
@@ -67,13 +90,16 @@ public interface ProjectComponent {
 	 *             if this is a leaf component, you can ensure it isn't by
 	 *             checking {@link ProjectComponent#isLeaf()}
 	 */
-	void addChildren(final ProjectComponent component);
+	void addChild(final ProjectComponent component);
 
-    void removeChildren(final ProjectComponent component);
-
-    void removeChildrens();
-
-    void deleteChildrenFromList(ProjectComponent o);
+	/**
+	 * Removes an existing child so that it is no longer a child of this
+	 * component
+	 * 
+	 * @param child
+	 *            the child to remove
+	 */
+	void removeChild(final ProjectComponent child);
 
 	/**
 	 * Obtains the parent component
@@ -93,6 +119,12 @@ public interface ProjectComponent {
 	 *            the new parent of this component
 	 */
 	void setParent(final ProjectComponent parent);
+
+	/**
+	 * Sets the parent of this component to nothing, making it an orphan, and
+	 * cascading to any children the component has
+	 */
+	void removeFromHierarchy();
 
 	/**
 	 * Checks if this component is a root component having no parent. Returns
@@ -129,6 +161,13 @@ public interface ProjectComponent {
 	SimpleEvent<ProjectComponent> hierarchyChangedEvent();
 
 	/**
+	 * An event raised when the component has been removed from the hierarchy
+	 * 
+	 * @return the event
+	 */
+	SimpleEvent<ProjectComponent> removedEvent();
+
+	/**
 	 * Visitor implementation method for {@link ProjectComponentVisitor}
 	 * instances
 	 * 
@@ -136,6 +175,4 @@ public interface ProjectComponent {
 	 *            the visitor to accept
 	 */
 	void accept(ProjectComponentVisitor visitor);
-
-    void accept(ProjectComponentVisitor visitor,boolean isEditing);
 }

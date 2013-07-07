@@ -9,9 +9,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import fiuba.mda.model.BehaviorDiagram;
 import fiuba.mda.model.ProjectComponent;
-import fiuba.mda.ui.launchers.EditorLauncher;
+import fiuba.mda.ui.launchers.Launcher;
 
 /**
  * {@link IDoubleClickListener} implementation which launches the editor for a
@@ -19,18 +18,18 @@ import fiuba.mda.ui.launchers.EditorLauncher;
  */
 @Singleton
 public class NodeDobleClickListener implements IDoubleClickListener {
-	private final Provider<ComponentEditorVisitor> editorProvider;
+	private final Provider<ComponentDefaultActionVisitor> editorProvider;
 
 	/**
 	 * Creates a new @{link NodeDobleClickListener} instance
 	 * 
 	 * @param editorProvider
-	 *            the {@link ComponentEditorVisitor} provider used to get the
-	 *            associated editor of a selected model
+	 *            the {@link ComponentDefaultActionVisitor} provider used to get
+	 *            the associated editor of a selected model
 	 */
 	@Inject
 	public NodeDobleClickListener(
-			final Provider<ComponentEditorVisitor> editorProvider) {
+			final Provider<ComponentDefaultActionVisitor> editorProvider) {
 		this.editorProvider = editorProvider;
 	}
 
@@ -40,12 +39,10 @@ public class NodeDobleClickListener implements IDoubleClickListener {
 				.getSelection();
 		ProjectComponent model = (ProjectComponent) selection.getFirstElement();
 
-        if (model instanceof BehaviorDiagram){
-            Optional<EditorLauncher> controller = editorProvider.get()
-                    .controllerFor(model);
-            if (controller.isPresent()) {
-                controller.get().launch(model);
-            }
-        }
+		Optional<Launcher> controller = editorProvider.get().controllerFor(
+				model);
+		if (controller.isPresent()) {
+			controller.get().launch(model);
+		}
 	}
 }

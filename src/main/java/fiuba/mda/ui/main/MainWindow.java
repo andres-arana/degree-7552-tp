@@ -65,7 +65,7 @@ public class MainWindow extends ApplicationWindow {
 		super.configureShell(shell);
 		shell.setText("MDA IDE");
 		shell.setSize(800, 600);
-        shell.setMaximized(true);
+		shell.setMaximized(true);
 
 	}
 
@@ -82,8 +82,8 @@ public class MainWindow extends ApplicationWindow {
 		sash.setSashWidth(5);
 
 		toolTabs = new TabsFolder(sash, SWT.None);
-		toolTabs.ensureTab("Explorador de proyecto",
-				imageLoader.of("folder_explore"), projectTreeBuilder,SWT.NONE);
+		toolTabs.ensurePermanentTab("Explorador de proyecto",
+				imageLoader.of("folder_explore"), projectTreeBuilder);
 
 		editorTabs = new TabsFolder(sash, SWT.None);
 
@@ -105,15 +105,15 @@ public class MainWindow extends ApplicationWindow {
 	 */
 	public void ensureEditor(final String name, final Image image,
 			final ControlBuilder builder) {
-		editorTabs.ensureTab(name, image, builder);
+		editorTabs.ensureCloseableTab(name, image, builder);
 	}
 
-    public void renameEditor(final String oldName,final String newName) {
-        editorTabs.renameTab(oldName,newName);
-    }
+	public void renameEditor(final String oldName, final String newName) {
+		editorTabs.renameTab(oldName, newName);
+	}
 
-    public void deleteEditor(final String name){
-        editorTabs.deleteTab(name);
-    }
+	public void deleteEditor(final String name) {
+		editorTabs.deleteTab(name);
+	}
 
 }

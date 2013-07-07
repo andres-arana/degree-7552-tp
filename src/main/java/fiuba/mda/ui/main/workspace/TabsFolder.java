@@ -1,12 +1,12 @@
 package fiuba.mda.ui.main.workspace;
 
-import fiuba.mda.Application;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.*;
+import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.widgets.*;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 
 import com.google.common.base.Optional;
 
@@ -32,39 +32,6 @@ public class TabsFolder extends Composite {
 		tabs = new CTabFolder(this, SWT.NONE);
 		tabs.setSimple(false);
 		tabs.setBorderVisible(true);
-        tabs.addCTabFolder2Listener(new CTabFolder2Listener() {
-            @Override
-            public void close(CTabFolderEvent cTabFolderEvent) {
-                Shell shell = Application.getShell();
-                if (shell.getModified()) {
-                    MessageDialog dialog = new MessageDialog(shell, "Diagrama Modificado", null,
-                            "Desea Guardar?", MessageDialog.CONFIRM, new String[]{"Aceptar",
-                            "Cancelar"}, 0);
-
-                    int result = dialog.open();
-
-                    if (result == 0) {
-                        //Hacer lo necesario para guardar!
-                    }
-                }
-            }
-
-            @Override
-            public void minimize(CTabFolderEvent cTabFolderEvent) {
-            }
-
-            @Override
-            public void maximize(CTabFolderEvent cTabFolderEvent) {
-            }
-
-            @Override
-            public void restore(CTabFolderEvent cTabFolderEvent) {
-            }
-
-            @Override
-            public void showList(CTabFolderEvent cTabFolderEvent) {
-            }
-        });
 	}
 
 	/**
@@ -78,41 +45,46 @@ public class TabsFolder extends Composite {
 	 *            the builder in charge of building the control of the tab
 	 *            folder
 	 */
-    public void ensureTab(final String text, final Image image,
-			final ControlBuilder builder, int type) {
-		Optional<CTabItem> tab = tabExists(text);
+	public void ensureCloseableTab(final String text, final Image image,
+			final ControlBuilder builder) {
+		ensureTab(text, image, builder, SWT.CLOSE);
+	}
+
+	public void ensurePermanentTab(final String text, final Image image,
+			final ControlBuilder builder) {
+		ensureTab(text, image, builder, SWT.NONE);
+	}
+
+	private void ensureTab(final String text, final Image image,
+			final ControlBuilder builder, final int style) {
+		Optional<CTabItem> tab = findTab(text);
 		if (tab.isPresent()) {
 			tabs.setSelection(tab.get());
 		} else {
-			CTabItem item = new CTabItem(tabs, type);
+			CTabItem item = new CTabItem(tabs, style);
 			item.setText(text);
 			item.setImage(image);
 			item.setControl(builder.buildInto(tabs));
-            tabs.setSelection(item);
+			tabs.setSelection(item);
 			tabs.layout();
 		}
 	}
 
-    public void ensureTab(final String text, final Image image,
-                          final ControlBuilder builder) {
-        ensureTab(text,image,builder,SWT.CLOSE);
-    }
+	public void renameTab(final String oldText, final String newText) {
+		Optional<CTabItem> tab = findTab(oldText);
+		if (tab.isPresent()) {
+			tab.get().setText(newText);
+		}
+	}
 
-    public void renameTab(final String oldText,final String newText) {
-        Optional<CTabItem> tab = tabExists(oldText);
-        if (tab.isPresent()) {
-            tab.get().setText(newText);
-        }
-    }
+	public void deleteTab(final String oldText) {
+		Optional<CTabItem> tab = findTab(oldText);
+		if (tab.isPresent()) {
+			tab.get().dispose();
+		}
+	}
 
-    public void deleteTab(final String oldText) {
-        Optional<CTabItem> tab = tabExists(oldText);
-        if (tab.isPresent()) {
-           tab.get().dispose();
-        }
-    }
-
-	private Optional<CTabItem> tabExists(String text) {
+	private Optional<CTabItem> findTab(String text) {
 		for (CTabItem item : tabs.getItems()) {
 			if (item.getText().equals(text)) {
 				return Optional.of(item);

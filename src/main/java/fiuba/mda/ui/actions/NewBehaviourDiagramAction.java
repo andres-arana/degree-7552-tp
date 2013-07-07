@@ -11,10 +11,10 @@ import fiuba.mda.model.Application;
 import fiuba.mda.model.BehaviorDiagram;
 import fiuba.mda.model.ModelAspect;
 import fiuba.mda.model.ModelPackage;
-import fiuba.mda.ui.actions.validators.NameAndExistenceValidator;
-import fiuba.mda.ui.launchers.EditorLauncher;
+import fiuba.mda.ui.actions.validators.NameValidatorFactory;
+import fiuba.mda.ui.launchers.Launcher;
 import fiuba.mda.ui.launchers.SimpleDialogLauncher;
-import fiuba.mda.ui.main.tree.ComponentEditorVisitor;
+import fiuba.mda.ui.main.tree.ComponentDefaultActionVisitor;
 import fiuba.mda.ui.utilities.ImageLoader;
 import fiuba.mda.utilities.SimpleEvent.Observer;
 
@@ -35,9 +35,9 @@ public class NewBehaviourDiagramAction extends Action {
 
 	private final SimpleDialogLauncher dialog;
 
-	private final NameAndExistenceValidator dialogNameValidator;
+	private final NameValidatorFactory dialogNameValidator;
 
-    private final Provider<ComponentEditorVisitor> editorProvider;
+	private final Provider<ComponentDefaultActionVisitor> editorProvider;
 
 	/**
 	 * Creates a new {@link NewBehaviourDiagramAction} instance
@@ -48,20 +48,21 @@ public class NewBehaviourDiagramAction extends Action {
 	 *            the dialog controller used to create the associated dialogs
 	 * @param imageLoader
 	 *            the image loader used to provide the image of this action
-	 * @param packageNameAndExistenceValidator
+	 * @param dialogNameValidator
 	 *            the validator used to validate the package name on the input
 	 *            dialogs
 	 */
 	@Inject
 	public NewBehaviourDiagramAction(final Application model,
-                                     final SimpleDialogLauncher dialog, final ImageLoader imageLoader,
-                                     final NameAndExistenceValidator packageNameAndExistenceValidator, Provider<ComponentEditorVisitor> editorProvider) {
+			final SimpleDialogLauncher dialog, final ImageLoader imageLoader,
+			final NameValidatorFactory dialogNameValidator,
+			Provider<ComponentDefaultActionVisitor> editorProvider) {
 		this.model = model;
 		this.dialog = dialog;
-		this.dialogNameValidator = packageNameAndExistenceValidator;
-        this.editorProvider = editorProvider;
+		this.dialogNameValidator = dialogNameValidator;
+		this.editorProvider = editorProvider;
 
-        setupPresentation(imageLoader);
+		setupPresentation(imageLoader);
 		setupEventObservation(model);
 	}
 
@@ -78,27 +79,28 @@ public class NewBehaviourDiagramAction extends Action {
 
 	@Override
 	public void run() {
-		final String title = "Diagrama de comportamiento en "
-				+ model.getActivePackage().getQualifiedName();
-        ModelPackage activePackage = model.getActivePackage();
-        ModelAspect aspect = activePackage.ensureAspect("Comportamiento");
-		if(!aspect.getChildren().isEmpty()){
-            dialogNameValidator.setParent(aspect);
-        }
-        Optional<String> name = dialog.showInput(title,
-				"Nombre", null, dialogNameValidator);
+		ModelPackage activePackage = model.getActivePackage();
+		ModelAspect aspect = activePackage.ensureAspect("Comportamiento");
+		Optional<String> name = askForName(aspect);
 		if (name.isPresent()) {
 			BehaviorDiagram newDiagram = new BehaviorDiagram(name.get());
-			aspect.addChildren(newDiagram);
-            Optional<EditorLauncher> controller = editorProvider.get()
-                    .controllerFor(newDiagram);
-            if (controller.isPresent()) {
-                controller.get().launch(newDiagram);
-            }
-		} else {
-            if(aspect.getChildren().isEmpty()){
-                activePackage.removeChildren(aspect);
-            }
-        }
+			aspect.addChild(newDiagram);
+			Optional<Launcher> controller = editorProvider.get()
+					.controllerFor(newDiagram);
+			if (controller.isPresent()) {
+				controller.get().launch(newDiagram);
+			}
+		}
+		aspect.removeIfUnnecessary();
+	}
+
+	private Optional<String> askForName(ModelAspect aspect) {
+		return dialog.showInput(dialogTitle(), "Nombre", null,
+				dialogNameValidator.validatorForNewNameInParent(aspect));
+	}
+
+	private String dialogTitle() {
+		return "Diagrama de comportamiento en "
+				+ model.getActivePackage().getQualifiedName();
 	}
 }
