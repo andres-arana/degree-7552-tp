@@ -32,7 +32,7 @@ public class BehaviorDiagramFigure extends FreeformLayer {
 
 	private final BehaviorDiagram component;
 
-    private final List<BehaviorStateFigure> behaviorStateFigures;
+    private List<BehaviorStateFigure> behaviorStateFigures;
 	/**
 	 * Creates a new @{link BehaviorDiagramFigure} instance
 	 * 
@@ -53,11 +53,17 @@ public class BehaviorDiagramFigure extends FreeformLayer {
 		for (Representation<BehaviorState> state : component.getStates()) {
             BehaviorStateFigure figure = new BehaviorStateFigure(state);
             add(figure);
-            behaviorStateFigures.add(figure);
+            getBehaviorStateFigures().add(figure);
 		}
         for (Representation<BehaviorRelation> relation : component.getRelations()) {
-            add(new BehaviorRelationFigure(relation,behaviorStateFigures));
+            add(new BehaviorRelationFigure(relation,getBehaviorStateFigures()));
         }
 	}
 
+    public List<BehaviorStateFigure> getBehaviorStateFigures() {
+        if (behaviorStateFigures == null){
+            behaviorStateFigures = new ArrayList<>();
+        }
+        return behaviorStateFigures;
+    }
 }
