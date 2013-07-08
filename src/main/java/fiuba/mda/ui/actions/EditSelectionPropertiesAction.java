@@ -1,5 +1,6 @@
 package fiuba.mda.ui.actions;
 
+import fiuba.mda.ui.main.tree.ComponentPropEditorVisitor;
 import org.eclipse.jface.action.Action;
 
 import com.google.common.base.Optional;

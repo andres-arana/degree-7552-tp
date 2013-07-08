@@ -1,4 +1,4 @@
-package fiuba.mda.ui.actions;
+package fiuba.mda.ui.main.tree;
 
 import com.google.common.base.Optional;
 import com.google.inject.Inject;

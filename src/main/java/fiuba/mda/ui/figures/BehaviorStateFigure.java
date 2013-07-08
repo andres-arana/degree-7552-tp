@@ -86,22 +86,18 @@ public class BehaviorStateFigure extends Figure implements MouseListener,
 
 	@Override
 	public void mouseEntered(MouseEvent me) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void mouseExited(MouseEvent me) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void mouseHover(MouseEvent me) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent me) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -112,12 +108,10 @@ public class BehaviorStateFigure extends Figure implements MouseListener,
 
 	@Override
 	public void mouseReleased(MouseEvent me) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void mouseDoubleClicked(MouseEvent me) {
-		// TODO Auto-generated method stub
 	}
 
     public Representation<BehaviorState> getState() {
