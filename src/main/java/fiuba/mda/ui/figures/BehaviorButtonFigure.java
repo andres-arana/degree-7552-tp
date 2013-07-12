@@ -1,67 +1,66 @@
 package fiuba.mda.ui.figures;
 
-import org.eclipse.draw2d.*;
+import org.eclipse.draw2d.Button;
+import org.eclipse.draw2d.Figure;
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.LayoutManager;
+import org.eclipse.draw2d.MouseEvent;
+import org.eclipse.draw2d.MouseListener;
+import org.eclipse.draw2d.MouseMotionListener;
+import org.eclipse.draw2d.StackLayout;
+import org.eclipse.draw2d.UpdateManager;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
 
-import fiuba.mda.model.BehaviorState;
+import fiuba.mda.model.BehaviorButton;
 import fiuba.mda.model.Representation;
 import fiuba.mda.model.Representation.Position;
 
-/**
- * Figure which displays a state in a behavior diagram
- */
-public class BehaviorStateFigure extends Figure implements MouseListener,
-		MouseMotionListener {
+public class BehaviorButtonFigure extends Figure implements MouseListener,MouseMotionListener{
 	private Point moveStartedLocation;
-
-    private Ellipse elipse;
-
+	
+	private Button buttonBox;
+	
 	private final Label label;
-	private final Representation<BehaviorState> state;
-
-	public BehaviorStateFigure(final Representation<BehaviorState> state) {
-		this.state = state;
+	private final Representation<BehaviorButton> button;
+	
+	public BehaviorButtonFigure(final Representation<BehaviorButton> button) {
+		this.button = button;
 		setLayoutManager(new StackLayout());
-        elipse = new Ellipse();
-		elipse.setAntialias(SWT.ON);
-		elipse.setOutline(true);
-		elipse.setLineWidth(2);
+		buttonBox = new Button();
 		addMouseListener(this);
 		addMouseMotionListener(this);
-        add(elipse);
-        label = new Label(state.getEntity().getName());
-        label.setTextAlignment(SWT.CENTER);
-        label.setLabelAlignment(SWT.WRAP);
-		add(label);
-
+		add(buttonBox);
+		label = new Label(button.getEntity().getName());
+		label.setTextAlignment(SWT.CENTER);
+		label.setLabelAlignment(SWT.WRAP);
+		add(label);	
 	}
-
+	
 	@Override
 	public void setParent(IFigure p) {
 		super.setParent(p);
 		if (p != null) {
-			Position position = state.getPosition();
+			Position position = button.getPosition();
 			Rectangle constraint = buildPositionalBound(position);
 			p.getLayoutManager().setConstraint(this, constraint);
-			//Dimension labelSize = label.getPreferredSize();
-			//setPreferredSize(labelSize.width + 40, labelSize.height + 20);
-            elipse.setPreferredSize(label.getText().length() * 2 + 80, label.getText().length()  + 20 );
-		    elipse.setSize(label.getText().length() * 2 + 80, label.getText().length()  + 20);
-        }
+			buttonBox.setPreferredSize(label.getText().length() * 2 + 120, 30);
+		}
 	}
-
+	
 	private Rectangle buildPositionalBound(final Position position) {
 		return new Rectangle(position.getX(), position.getY(), -1, -1);
 	}
-
+	
 	@Override
 	public void mouseDragged(MouseEvent me) {
 		if (moveStartedLocation == null) {
 			return;
 		}
+			
 		Point moveEndedLocation = me.getLocation();
 		if (moveEndedLocation == null) {
 			return;
@@ -69,10 +68,10 @@ public class BehaviorStateFigure extends Figure implements MouseListener,
 		Dimension offset = moveEndedLocation.getDifference(moveStartedLocation);
 		if (offset.width == 0 && offset.height == 0)
 			return;
-
+		
 		moveStartedLocation = moveEndedLocation;
-		state.getPosition().translate(offset.width, offset.height);
-
+		button.getPosition().translate(offset.width, offset.height);
+		
 		UpdateManager updateMgr = this.getUpdateManager();
 		LayoutManager layoutMgr = this.getParent().getLayoutManager();
 		Rectangle bounds = this.getBounds();
@@ -83,44 +82,44 @@ public class BehaviorStateFigure extends Figure implements MouseListener,
 		updateMgr.addDirtyRegion(this.getParent(), bounds);
 		me.consume();
 	}
-
+	
 	@Override
 	public void mouseEntered(MouseEvent me) {
 		// TODO Auto-generated method stub
 	}
-
+	
 	@Override
 	public void mouseExited(MouseEvent me) {
 		// TODO Auto-generated method stub
 	}
-
+	
 	@Override
 	public void mouseHover(MouseEvent me) {
 		// TODO Auto-generated method stub
 	}
-
+	
 	@Override
 	public void mouseMoved(MouseEvent me) {
 		// TODO Auto-generated method stub
 	}
-
+	
 	@Override
 	public void mousePressed(MouseEvent me) {
 		moveStartedLocation = me.getLocation();
 		me.consume();
 	}
-
+	
 	@Override
 	public void mouseReleased(MouseEvent me) {
 		// TODO Auto-generated method stub
 	}
-
+	
 	@Override
 	public void mouseDoubleClicked(MouseEvent me) {
 		// TODO Auto-generated method stub
 	}
-
-    public Representation<BehaviorState> getState() {
-        return state;
-    }
+	
+	public Representation<BehaviorButton> getButton() {
+		return button;
+	}	
 }
