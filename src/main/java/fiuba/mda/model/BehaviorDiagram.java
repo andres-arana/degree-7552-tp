@@ -20,11 +20,11 @@ public class BehaviorDiagram extends AbstractLeafProjectComponent {
 
     private final List<Representation<BehaviorRelation>> relations = new ArrayList<>();
     
-    private final List<Representation<BehaviorText>> texts = new ArrayList<>();
+    /*private final List<Representation<BehaviorText>> texts = new ArrayList<>();
 
     private final List<Representation<BehaviorButton>> buttons = new ArrayList<>();
     
-    private final List<Representation<BehaviorField>> fields = new ArrayList<>();
+    private final List<Representation<BehaviorField>> fields = new ArrayList<>();*/
     
     /**
 	 * Creates a new {@link BehaviorDiagram} instance
@@ -49,7 +49,7 @@ public class BehaviorDiagram extends AbstractLeafProjectComponent {
         return Collections.unmodifiableList(relations);
     }
     
-    public List<Representation<BehaviorText>> getTexts() {
+/*    public List<Representation<BehaviorText>> getTexts() {
         return Collections.unmodifiableList(texts);
     }
     
@@ -59,7 +59,7 @@ public class BehaviorDiagram extends AbstractLeafProjectComponent {
 
     public List<Representation<BehaviorField>> getFields() {
         return Collections.unmodifiableList(fields);
-    }
+    }*/
     
 	public void addState(Representation<BehaviorState> state) {
 		states.add(state);
@@ -71,7 +71,7 @@ public class BehaviorDiagram extends AbstractLeafProjectComponent {
         relationChangedEvent.raise();
     }
 
-    public void addText(Representation<BehaviorText> text) {
+  /*  public void addText(Representation<BehaviorText> text) {
         texts.add(text);
         relationChangedEvent.raise();
     }
@@ -85,7 +85,7 @@ public class BehaviorDiagram extends AbstractLeafProjectComponent {
         fields.add(field);
         relationChangedEvent.raise();
     }
-    
+  */
 	/**
 	 * An event raised when some states have been added or removed
 	 * 

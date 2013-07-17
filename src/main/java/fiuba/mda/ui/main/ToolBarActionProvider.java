@@ -3,6 +3,7 @@ package fiuba.mda.ui.main;
 import java.util.ArrayList;
 import java.util.List;
 
+import fiuba.mda.ui.actions.NewGraficInterfaceDiagramAction;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.ToolBarManager;
 
@@ -33,10 +34,11 @@ public class ToolBarActionProvider {
 	@Inject
 	public ToolBarActionProvider(final NewProjectAction newProject,
 			final NewPackageAction newPackage,
-			final NewBehaviourDiagramAction newBehaviorDiagram) {
+			final NewBehaviourDiagramAction newBehaviorDiagram,final NewGraficInterfaceDiagramAction newGraficInterfaceDiagramAction) {
 		actions.add(newProject);
 		actions.add(newPackage);
 		actions.add(newBehaviorDiagram);
+        actions.add(newGraficInterfaceDiagramAction);
 	}
 
 	/**

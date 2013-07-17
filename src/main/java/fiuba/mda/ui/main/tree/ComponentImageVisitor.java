@@ -1,16 +1,11 @@
 package fiuba.mda.ui.main.tree;
 
+import fiuba.mda.model.*;
 import org.eclipse.swt.graphics.Image;
 
 import com.google.common.base.Optional;
 import com.google.inject.Inject;
 
-import fiuba.mda.model.BehaviorDiagram;
-import fiuba.mda.model.ModelAspect;
-import fiuba.mda.model.ModelEntity;
-import fiuba.mda.model.ModelPackage;
-import fiuba.mda.model.ProjectComponent;
-import fiuba.mda.model.ProjectComponentVisitor;
 import fiuba.mda.ui.utilities.ImageLoader;
 
 /**
@@ -55,6 +50,11 @@ public class ComponentImageVisitor implements ProjectComponentVisitor {
     @Override
     public void visit(BehaviorDiagram behaviorDiagram) {
         image = Optional.of(images.of("chart_line"));
+    }
+
+    @Override
+    public void visit(GraficInterfaceDiagram graficInterfaceDiagram) {
+        image = Optional.of(images.of("image"));
     }
 
     /**

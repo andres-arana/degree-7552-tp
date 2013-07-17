@@ -1,5 +1,6 @@
 package fiuba.mda.ui.actions;
 
+import fiuba.mda.model.GraficInterfaceDiagram;
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.widgets.Shell;
 
@@ -15,7 +16,7 @@ import fiuba.mda.ui.utilities.ImageLoader;
 
 public class NewFieldAction extends Action {
 	private final SimpleDialogLauncher dialog;
-	private BehaviorDiagram boundDiagram;
+	private GraficInterfaceDiagram boundDiagram;
 	private int fieldNumber = 0;
 	private final Shell shell;
 
@@ -46,10 +47,10 @@ public class NewFieldAction extends Action {
 	 *            the diagram to bind this action to
 	 * @return this for method chaining
 	 */
-	public NewFieldAction boundTo(final BehaviorDiagram diagram) {
-		boundDiagram = diagram;
-		return this;
-	}
+	public NewFieldAction boundTo(final GraficInterfaceDiagram diagram) {
+        boundDiagram = diagram;
+        return this;
+    }
 
 	@Override
 	public void run() {

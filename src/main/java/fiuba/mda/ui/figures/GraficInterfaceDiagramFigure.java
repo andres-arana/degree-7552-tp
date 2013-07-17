@@ -1,16 +1,9 @@
 package fiuba.mda.ui.figures;
 
-import fiuba.mda.model.BehaviorRelation;
+import fiuba.mda.model.*;
+import fiuba.mda.utilities.SimpleEvent.Observer;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayout;
-
-import fiuba.mda.model.BehaviorButton;
-import fiuba.mda.model.BehaviorDiagram;
-import fiuba.mda.model.BehaviorField;
-import fiuba.mda.model.BehaviorState;
-import fiuba.mda.model.BehaviorText;
-import fiuba.mda.model.Representation;
-import fiuba.mda.utilities.SimpleEvent.Observer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,59 +11,58 @@ import java.util.List;
 /**
  * Figure which displays a behavior diagram
  */
-public class BehaviorDiagramFigure extends FreeformLayer {
-	private Observer<BehaviorDiagram> onStatesChanged = new Observer<BehaviorDiagram>() {
+public class GraficInterfaceDiagramFigure extends FreeformLayer {
+	private Observer<GraficInterfaceDiagram> onTextChanged = new Observer<GraficInterfaceDiagram>() {
 		@Override
-		public void notify(BehaviorDiagram observable) {
+		public void notify(GraficInterfaceDiagram observable) {
 			rebindChildFigures();
 		}
 	};
 
-    private Observer<BehaviorDiagram> onRelationChanged = new Observer<BehaviorDiagram>() {
+    private Observer<GraficInterfaceDiagram> onFieldChanged = new Observer<GraficInterfaceDiagram>() {
         @Override
-        public void notify(BehaviorDiagram observable) {
+        public void notify(GraficInterfaceDiagram observable) {
             rebindChildFigures();
         }
     };
 
-	private final BehaviorDiagram component;
+    private Observer<GraficInterfaceDiagram> onButtonChanged = new Observer<GraficInterfaceDiagram>() {
+        @Override
+        public void notify(GraficInterfaceDiagram observable) {
+            rebindChildFigures();
+        }
+    };
 
-    private List<BehaviorStateFigure> behaviorStateFigures;
-    
-  /*  private List<BehaviorTextFigure> behaviorTextFigures;
-    
+	private final GraficInterfaceDiagram component;
+
+
+    private List<BehaviorTextFigure> behaviorTextFigures;
+
     private List<BehaviorButtonFigure> behaviorButtonFigures;
-    
+
     private List<BehaviorFieldFigure> behaviorFieldFigures;
-  */
+
 	/**
 	 * Creates a new @{link BehaviorDiagramFigure} instance
-	 * 
+	 *
 	 * @param component
-	 *            the {@link BehaviorDiagram} instance to display
+	 *            the {@link fiuba.mda.model.BehaviorDiagram} instance to display
 	 */
-	public BehaviorDiagramFigure(final BehaviorDiagram component) {
+	public GraficInterfaceDiagramFigure(final GraficInterfaceDiagram component) {
 		this.component = component;
-		component.statesChangedEvent().observe(onStatesChanged);
-        component.relationChangedEvent().observe(onRelationChanged);
+        component.textsChangedEvent().observe(onTextChanged);
+        component.fieldsChangedEvent().observe(onFieldChanged);
+        component.buttonsChangedEvent().observe(onButtonChanged);
 		setLayoutManager(new FreeformLayout());
 		rebindChildFigures();
-        behaviorStateFigures = new ArrayList<>();
-    /*    behaviorTextFigures = new ArrayList<>();
+        behaviorTextFigures = new ArrayList<>();
         behaviorButtonFigures = new ArrayList<>();
-    */}
+        behaviorFieldFigures = new ArrayList<>();
+    }
 
 	private void rebindChildFigures() {
 		removeAll();
-		for (Representation<BehaviorState> state : component.getStates()) {
-            BehaviorStateFigure figure = new BehaviorStateFigure(state);
-            add(figure);
-            getBehaviorStateFigures().add(figure);
-		}
-        for (Representation<BehaviorRelation> relation : component.getRelations()) {
-            add(new BehaviorRelationFigure(relation,getBehaviorStateFigures()));
-        }
-	/*	for (Representation<BehaviorText> text : component.getTexts()) {
+		for (Representation<BehaviorText> text : component.getTexts()) {
             BehaviorTextFigure figure = new BehaviorTextFigure(text);
             add(figure);
             getBehaviorTextFigures().add(figure);
@@ -84,10 +76,9 @@ public class BehaviorDiagramFigure extends FreeformLayer {
 			BehaviorFieldFigure figure = new BehaviorFieldFigure(field);
             add(figure);
             getBehaviorFieldFigures().add(figure);
-		}*/
+		}
 	}
 	
-/*
 	public List<BehaviorTextFigure> getBehaviorTextFigures() {
 		if (behaviorTextFigures == null){
             behaviorTextFigures = new ArrayList<>();
@@ -108,13 +99,7 @@ public class BehaviorDiagramFigure extends FreeformLayer {
         }
         return behaviorFieldFigures;
     } 
-*/
+	
 
-	public List<BehaviorStateFigure> getBehaviorStateFigures() {
-		if (behaviorStateFigures == null){
-			behaviorStateFigures = new ArrayList<>();
-		}
-		return behaviorStateFigures;
-	} 
 
 }

@@ -3,13 +3,9 @@ package fiuba.mda.ui.main.tree;
 import com.google.common.base.Optional;
 import com.google.inject.Inject;
 
-import fiuba.mda.model.BehaviorDiagram;
-import fiuba.mda.model.ModelAspect;
-import fiuba.mda.model.ModelEntity;
-import fiuba.mda.model.ModelPackage;
-import fiuba.mda.model.ProjectComponent;
-import fiuba.mda.model.ProjectComponentVisitor;
+import fiuba.mda.model.*;
 import fiuba.mda.ui.launchers.BehaviorDiagramEditorLauncher;
+import fiuba.mda.ui.launchers.GraficInterfaceDiagramEditorLauncher;
 import fiuba.mda.ui.launchers.Launcher;
 
 /**
@@ -18,14 +14,16 @@ import fiuba.mda.ui.launchers.Launcher;
  */
 public class ComponentDefaultActionVisitor implements ProjectComponentVisitor {
 	private final BehaviorDiagramEditorLauncher behaviorDiagramController;
+    private final GraficInterfaceDiagramEditorLauncher graficInterfaceDiagramController;
 
 	private Optional<Launcher> controller = Optional.absent();
 
 	@Inject
 	public ComponentDefaultActionVisitor(
-			final BehaviorDiagramEditorLauncher behaviorDiagramController) {
+            final BehaviorDiagramEditorLauncher behaviorDiagramController, GraficInterfaceDiagramEditorLauncher graficInterfaceDiagramController) {
 		this.behaviorDiagramController = behaviorDiagramController;
-	}
+        this.graficInterfaceDiagramController = graficInterfaceDiagramController;
+    }
 
 	@Override
 	public void visit(ModelPackage modelPackage) {
@@ -46,6 +44,11 @@ public class ComponentDefaultActionVisitor implements ProjectComponentVisitor {
 	public void visit(BehaviorDiagram behaviorDiagram) {
 		controller = Optional.<Launcher> of(behaviorDiagramController);
 	}
+
+    @Override
+    public void visit(GraficInterfaceDiagram behaviorDiagram) {
+        controller = Optional.<Launcher> of(graficInterfaceDiagramController);
+    }
 
 	/**
 	 * Obtains the {@link Launcher} for a given {@link ProjectComponent} by

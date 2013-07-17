@@ -12,6 +12,7 @@ public interface ProjectComponentVisitor {
 	 */
 	void visit(final ModelPackage modelPackage);
 
+
 	/**
 	 * Indicates that the visited component was a {@link ModelEntity}
 	 * 
@@ -35,4 +36,13 @@ public interface ProjectComponentVisitor {
 	 *            the visited {@link BehaviorDiagram}
 	 */
 	void visit(BehaviorDiagram behaviorDiagram);
+
+    /**
+     * Indicates that the visited component was a {@link GraficInterfaceDiagram}
+     *
+     * @param graficInterfaceDiagram
+     *            the visited {@link GraficInterfaceDiagram}
+     */
+    void visit (final GraficInterfaceDiagram graficInterfaceDiagram);
+
 }
