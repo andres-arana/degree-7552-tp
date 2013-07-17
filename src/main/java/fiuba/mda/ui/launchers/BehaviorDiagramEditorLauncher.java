@@ -32,9 +32,6 @@ public class BehaviorDiagramEditorLauncher extends
 	private final ComponentImageVisitor imageVisitor;
 	private final Provider<NewBehaviorDiagramStateAction> newStateActionProvider;
 	private final Provider<NewBehaviorDiagramRelationAction> newRelationActionProvider;
-	private final Provider<NewTextAction> newTextActionProvider;
-	private final Provider<NewButtonAction> newButtonActionProvider;
-	private final Provider<NewFieldAction> newFieldActionProvider;
 
 	/**
 	 * Creates a new @{link BehaviorDiagramLauncher} instance
@@ -47,25 +44,17 @@ public class BehaviorDiagramEditorLauncher extends
 	 * @param newStateActionProvider
 	 *            provider for the instances of new state actions bound to the
 	 * @param newRelationActionProvider
-	 * @param newTextActionProvider
-	 * @param newButtonActionProvider
 	 */
 	@Inject
 	public BehaviorDiagramEditorLauncher(
 			final MainWindow mainWindow,
 			final ComponentImageVisitor imageVisitor,
 			final Provider<NewBehaviorDiagramStateAction> newStateActionProvider,
-			final Provider<NewBehaviorDiagramRelationAction> newRelationActionProvider,
-			final Provider<NewTextAction> newTextActionProvider,
-			final Provider<NewButtonAction> newButtonActionProvider,
-			final Provider<NewFieldAction> newFieldActionProvider) {
+			final Provider<NewBehaviorDiagramRelationAction> newRelationActionProvider) {
 		this.mainWindow = mainWindow;
 		this.imageVisitor = imageVisitor;
 		this.newStateActionProvider = newStateActionProvider;
 		this.newRelationActionProvider = newRelationActionProvider;
-		this.newTextActionProvider = newTextActionProvider;
-		this.newButtonActionProvider = newButtonActionProvider;
-		this.newFieldActionProvider = newFieldActionProvider;
 	}
 
 	@Override
@@ -87,9 +76,6 @@ public class BehaviorDiagramEditorLauncher extends
 
 				editor.addAction(newRelationActionProvider.get().boundTo(
 						component));
-				editor.addAction(newTextActionProvider.get().boundTo(component));
-				editor.addAction(newButtonActionProvider.get().boundTo(component));
-				editor.addAction(newFieldActionProvider.get().boundTo(component));
 				return editor;
 			}
 		});
