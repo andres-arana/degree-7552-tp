@@ -5,6 +5,9 @@ import com.google.inject.Singleton;
 import fiuba.mda.utilities.SimpleEvent;
 import fiuba.mda.utilities.SimpleEvent.Observer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Represents the document model of the application, managing the different
  * selections an states the application goes through when interacting with the
@@ -77,6 +80,28 @@ public class Application {
 			return currentProject.getRootPackage();
 		}
 	}
+
+    public List<String> getAllGIDiagramForActivePackage(){
+        return getAllGIDiagramForPackage(getActivePackage());
+    }
+
+    public List<String> getAllGIDiagramForPackage(ModelPackage modelPackage){
+        List<String> returnList = new ArrayList<>();
+        List<ProjectComponent> childrens = modelPackage.getChildren();
+        for (ProjectComponent children : childrens){
+            if (children instanceof ModelPackage){
+                returnList.addAll(getAllGIDiagramForPackage((ModelPackage) children));
+            }
+
+            if (children instanceof ModelAspect && children.getName().equals("Interfaces Gráficas")){
+                List<ProjectComponent> children1 = children.getChildren();
+                for (ProjectComponent pc : children1){
+                    returnList.add(pc.getQualifiedName());
+                }
+            }
+        }
+        return returnList;
+    }
 
 	public ProjectComponent getSelectedComponent() {
 		if (!hasCurrentProject()) {

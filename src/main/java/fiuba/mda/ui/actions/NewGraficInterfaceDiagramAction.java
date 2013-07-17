@@ -75,7 +75,7 @@ public class NewGraficInterfaceDiagramAction extends Action {
 	@Override
 	public void run() {
 		ModelPackage activePackage = model.getActivePackage();
-		ModelAspect aspect = activePackage.ensureAspect("Interfáz Gráfica");
+		ModelAspect aspect = activePackage.ensureAspect("Interfaces Gráficas");
 		Optional<String> name = askForName(aspect);
 		if (name.isPresent()) {
 			GraficInterfaceDiagram newDiagram = new GraficInterfaceDiagram(name.get());

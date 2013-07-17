@@ -8,10 +8,12 @@ public class BehaviorState {
 
     private final String name;
     private final String type;
+    private final String interfazName;
 	
-	public BehaviorState(final String name, String type) {
+	public BehaviorState(final String name,final String type,final String interfaz) {
 		this.name = name;
         this.type = type;
+        this.interfazName = interfaz;
     }
 
 	public String getName() {
@@ -20,5 +22,9 @@ public class BehaviorState {
 
     public String getType() {
         return type;
+    }
+
+    public String getInterfazName() {
+        return interfazName;
     }
 }

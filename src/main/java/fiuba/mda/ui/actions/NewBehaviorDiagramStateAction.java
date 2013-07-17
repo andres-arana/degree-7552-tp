@@ -1,5 +1,6 @@
 package fiuba.mda.ui.actions;
 
+import fiuba.mda.model.Application;
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.widgets.Shell;
 
@@ -13,28 +14,34 @@ import fiuba.mda.ui.launchers.SimpleDialogLauncher;
 import fiuba.mda.ui.main.workspace.StateDialog;
 import fiuba.mda.ui.utilities.ImageLoader;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * {@link Action} implementation which represents the command of creating a new
  * behavior state in the behavior diagram
  */
 public class NewBehaviorDiagramStateAction extends Action {
-	private final SimpleDialogLauncher dialog;
+    private final Application model;
+    private final SimpleDialogLauncher dialog;
 	private BehaviorDiagram boundDiagram;
 	private int stateNumber = 0;
 	private final Shell shell;
 
 	/**
 	 * Creates a new {@link NewBehaviorDiagramStateAction} instance
-	 * 
-	 * @param imageLoader
-	 *            the image loader used to provide the image of this action
-	 * @param dialog
-	 */
+	 *
+     * @param imageLoader
+     *            the image loader used to provide the image of this action
+     * @param model
+     * @param dialog
+     */
 	@Inject
 	public NewBehaviorDiagramStateAction(final Shell shell,
-			final ImageLoader imageLoader, SimpleDialogLauncher dialog) {
+                                         final ImageLoader imageLoader, Application model, SimpleDialogLauncher dialog) {
 		this.shell = shell;
-		this.dialog = dialog;
+        this.model = model;
+        this.dialog = dialog;
 		setupPresentation(imageLoader);
 	}
 
@@ -58,13 +65,15 @@ public class NewBehaviorDiagramStateAction extends Action {
 
 	@Override
 	public void run() {
-		StateDialog dialogo = new StateDialog(shell);
+        List<String> interfaces = model.getAllGIDiagramForActivePackage();
+		StateDialog dialogo = new StateDialog(shell,interfaces);
 		Optional<String> stringOptional = dialog.showDialog(dialogo);
 		if (stringOptional.isPresent()) {
 			String formName = dialogo.getFormName();
 			String formTypeName = dialogo.getFormTypeName();
+            String interfazName = dialogo.getGraficInterfaceName();
 			BehaviorState state = new BehaviorState(
-					/* "State " + stateNumber */formName, formTypeName);
+					/* "State " + stateNumber */formName, formTypeName,interfazName);
 			Representation<BehaviorState> representation = new Representation<>(
 					state);
 			representation.getPosition().setX(stateNumber * 100);

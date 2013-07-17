@@ -21,13 +21,17 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class StateDialog extends TitleAreaDialog {
+    private Combo graficInterfaceNameCombo;
     private Combo formTypeNameCombo;
     private Text formNameText;
     private String formTypeName;
     private String formName;
+    private String graficInterfaceName;
+    private List<String> nombresInterfacesGraficas;
 
-    public StateDialog(Shell parentShell) {
+    public StateDialog(Shell parentShell ,List<String> nombresInterfacesGraficas) {
         super(parentShell);
+        this.nombresInterfacesGraficas = nombresInterfacesGraficas;
     }
 
     @Override
@@ -68,6 +72,25 @@ public class StateDialog extends TitleAreaDialog {
         formTypeNameCombo.setItems(strings);
         formTypeNameCombo.setLayoutData(gridData2);
 
+        GridData gridData3 = new GridData();
+        gridData3.grabExcessHorizontalSpace = true;
+        gridData3.horizontalAlignment = GridData.FILL;
+
+        Label label3 = new Label(parent, SWT.NONE);
+        label3.setText("Interfáz Gráfica");
+
+        String[] strings3 = new String[nombresInterfacesGraficas.size()];
+        int i = 0;
+        for (String s : nombresInterfacesGraficas){
+            strings3[i] = s;
+            i++;
+        }
+
+        graficInterfaceNameCombo = new Combo(parent, SWT.READ_ONLY);
+        graficInterfaceNameCombo.setItems(strings3);
+        graficInterfaceNameCombo.setLayoutData(gridData3);
+
+
         return parent;
     }
 
@@ -77,6 +100,9 @@ public class StateDialog extends TitleAreaDialog {
         }
         if (StringUtils.isBlank(formTypeName)){
             return "Debe elegir un tipo";
+        }
+        if (StringUtils.isBlank(graficInterfaceName)){
+            return "Debe elegir una interfáz gráfica";
         }
         return "OK";
     }
@@ -91,6 +117,7 @@ public class StateDialog extends TitleAreaDialog {
     private void saveInput() {
         formTypeName = formTypeNameCombo.getText();
         formName = formNameText.getText();
+        graficInterfaceName = graficInterfaceNameCombo.getText();
     }
 
     @Override
@@ -108,5 +135,9 @@ public class StateDialog extends TitleAreaDialog {
 
     public String getFormName() {
         return formName;
+    }
+
+    public String getGraficInterfaceName() {
+        return graficInterfaceName;
     }
 }
