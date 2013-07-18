@@ -21,19 +21,21 @@ public class BehaviorRelationFigure extends PolylineConnection  {
 
 	public BehaviorRelationFigure(final Representation<BehaviorRelation> relation, List<BehaviorStateFigure> behaviorStateFigures) {
 		this.relation = relation;
+        BehaviorRelation behaviorRelation = relation.getEntity();
 
-        BehaviorState initialState = relation.getEntity().getInitialState();
+        BehaviorState initialState = behaviorRelation.getInitialState();
         if (initialState != null){
             for (BehaviorStateFigure behaviorStateFigure : behaviorStateFigures){
                 if (behaviorStateFigure.getState().getEntity().equals(initialState)){
                     ChopboxAnchor sourceAnchor = new ChopboxAnchor(behaviorStateFigure);
                     this.setTargetAnchor(sourceAnchor);
+
                 }
             }
 
         }
 
-        BehaviorState finalState = relation.getEntity().getFinalState();
+        BehaviorState finalState = behaviorRelation.getFinalState();
         if (finalState != null){
             for (BehaviorStateFigure behaviorStateFigure : behaviorStateFigures){
                 if (behaviorStateFigure.getState().getEntity().equals(finalState)){
@@ -52,6 +54,14 @@ public class BehaviorRelationFigure extends PolylineConnection  {
             }
 
         }
+
+        /* Adding labels to the connection */
+        ConnectionEndpointLocator targetEndpointLocator =
+                new ConnectionEndpointLocator(this, true);
+        targetEndpointLocator.setVDistance(5);
+        targetEndpointLocator.setUDistance(100);
+        Label targetMultiplicityLabel = new Label(behaviorRelation.getName());
+        this.add(targetMultiplicityLabel, targetEndpointLocator);
 
 
 	}
