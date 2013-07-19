@@ -55,20 +55,15 @@ public class BehaviorRelationFigure extends PolylineConnection  {
 
         }
 
-        /* Adding labels to the connection */
-        /*ConnectionEndpointLocator targetEndpointLocator =
-                new ConnectionEndpointLocator(this, true);
-        targetEndpointLocator.setVDistance(5);
-        targetEndpointLocator.setUDistance(100);
-        Label targetMultiplicityLabel = new Label();
-        this.add(targetMultiplicityLabel, targetEndpointLocator);*/
 
-        Label label = new Label(behaviorRelation.getName());
+        String labelString = "Id: " + behaviorRelation.getName();
+        labelString = labelString + "\n" + "FA: Indicar FA";
+        //TODO - Agregar el nombre de la función que la activa
+        Label label = new Label(labelString);
         label.setOpaque(true);
         label.setBackgroundColor(ColorConstants.buttonLightest);
         label.setBorder(new LineBorder());
         this.add(label, new MidpointLocator(this, 0));
-        //conn.setSourceDecoration(new ConnectionLabel());
 
 
 	}

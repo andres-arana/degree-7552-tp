@@ -20,8 +20,6 @@ public class BehaviorDiagram extends AbstractLeafProjectComponent {
 
     private Representation<BehaviorState> initialState = null;
 
-    private Representation<BehaviorState> finalState = null;
-
     private final List<Representation<BehaviorRelation>> relations = new ArrayList<>();
     
     /*private final List<Representation<BehaviorText>> texts = new ArrayList<>();
@@ -67,7 +65,6 @@ public class BehaviorDiagram extends AbstractLeafProjectComponent {
     
 	public void addState(Representation<BehaviorState> state) {
 		if (state.getEntity().getType().equals(BehaviorState.FORM_ENTRADA)) initialState = state;
-        if (state.getEntity().getType().equals(BehaviorState.FORM_SALIDA)) finalState = state;
         states.add(state);
 		statesChangedEvent.raise();
 	}
@@ -118,8 +115,5 @@ public class BehaviorDiagram extends AbstractLeafProjectComponent {
         return true;
     }
 
-    public boolean hasFinalState() {
-        if (finalState == null) return false;  //To change body of created methods use File | Settings | File Templates.
-        return true;
-    }
+
 }

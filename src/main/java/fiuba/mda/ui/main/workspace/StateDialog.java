@@ -29,12 +29,10 @@ public class StateDialog extends TitleAreaDialog {
     private String graficInterfaceName;
     private List<String> nombresInterfacesGraficas;
     private boolean existsInitialstate;
-    private boolean existsFinalState;
 
-    public StateDialog(Shell parentShell ,List<String> nombresInterfacesGraficas,boolean existsInitialstate,boolean existsFinalState) {
+    public StateDialog(Shell parentShell ,List<String> nombresInterfacesGraficas,boolean existsInitialstate) {
         super(parentShell);
         this.nombresInterfacesGraficas = nombresInterfacesGraficas;
-        this.existsFinalState = existsFinalState;
         this.existsInitialstate = existsInitialstate;
     }
 
@@ -82,10 +80,8 @@ public class StateDialog extends TitleAreaDialog {
         } else {
 
         posiblesTipos.add(BehaviorState.FORM_COMPUESTO);
+        posiblesTipos.add(BehaviorState.FORM_SALIDA);
 
-        if (!existsFinalState){
-            posiblesTipos.add(BehaviorState.FORM_SALIDA);
-        }
         }
 
         String[] strings = posiblesTipos.toArray(new String[0]);
