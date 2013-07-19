@@ -28,7 +28,7 @@ public class BehaviorRelationFigure extends PolylineConnection  {
             for (BehaviorStateFigure behaviorStateFigure : behaviorStateFigures){
                 if (behaviorStateFigure.getState().getEntity().equals(initialState)){
                     ChopboxAnchor sourceAnchor = new ChopboxAnchor(behaviorStateFigure);
-                    this.setTargetAnchor(sourceAnchor);
+                    this.setSourceAnchor(sourceAnchor);
 
                 }
             }
@@ -40,15 +40,15 @@ public class BehaviorRelationFigure extends PolylineConnection  {
             for (BehaviorStateFigure behaviorStateFigure : behaviorStateFigures){
                 if (behaviorStateFigure.getState().getEntity().equals(finalState)){
                     ChopboxAnchor targetAnchor = new ChopboxAnchor(behaviorStateFigure);
-                    this.setSourceAnchor(targetAnchor);
+                    this.setTargetAnchor(targetAnchor);
                     PolygonDecoration decoration = new PolygonDecoration();
-                    PointList decorationPointList = new PointList();
+                    /*PointList decorationPointList = new PointList();
                     decorationPointList.addPoint(0,0);
                     decorationPointList.addPoint(-2,2);
                     decorationPointList.addPoint(-2,0);
                     decorationPointList.addPoint(-2,-2);
-                    decoration.setTemplate(decorationPointList);
-                    this.setSourceDecoration(decoration);
+                    decoration.setTemplate(decorationPointList);*/
+                    this.setTargetDecoration(decoration);
 
                 }
             }
@@ -56,12 +56,19 @@ public class BehaviorRelationFigure extends PolylineConnection  {
         }
 
         /* Adding labels to the connection */
-        ConnectionEndpointLocator targetEndpointLocator =
+        /*ConnectionEndpointLocator targetEndpointLocator =
                 new ConnectionEndpointLocator(this, true);
         targetEndpointLocator.setVDistance(5);
         targetEndpointLocator.setUDistance(100);
-        Label targetMultiplicityLabel = new Label(behaviorRelation.getName());
-        this.add(targetMultiplicityLabel, targetEndpointLocator);
+        Label targetMultiplicityLabel = new Label();
+        this.add(targetMultiplicityLabel, targetEndpointLocator);*/
+
+        Label label = new Label(behaviorRelation.getName());
+        label.setOpaque(true);
+        label.setBackgroundColor(ColorConstants.buttonLightest);
+        label.setBorder(new LineBorder());
+        this.add(label, new MidpointLocator(this, 0));
+        //conn.setSourceDecoration(new ConnectionLabel());
 
 
 	}

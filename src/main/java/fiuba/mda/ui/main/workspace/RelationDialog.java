@@ -127,7 +127,7 @@ public class RelationDialog extends TitleAreaDialog {
         String valid = "OK";
         if (StringUtils.isBlank(name)) return "Debe ingresar un nombre";
         if (StringUtils.isBlank(tipo)) return "Debe ingresar un tipo";
-        if (tipo.equals(BehaviorRelation.TIPO_CONTROL) && StringUtils.isBlank(codigo)) return "Al ser una relacion de control, debe ingresar un código para ejecutar";
+        if (tipo.equals(BehaviorRelation.TIPO_FUNCIONAL) && StringUtils.isBlank(codigo)) return "Al ser una relacion de control, debe ingresar un código para ejecutar";
         if (StringUtils.isBlank(initialStateName) || StringUtils.isBlank(finalStateName)) return "Debe seleccionar 2 estados obligatoriamente";
         if (finalStateName.equals(initialStateName)) return "Debe seleccionar 2 estados diferentes";
         for (Representation<BehaviorRelation> relation : existingRelations){
