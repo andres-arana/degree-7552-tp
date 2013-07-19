@@ -94,12 +94,23 @@ public class RelationDialog extends TitleAreaDialog {
         codigoText.setLayoutData(gridData);
 
 
-        List<String> stringList = new ArrayList<>();
+        List<String> posibleInitialStates = new ArrayList<>();
+        List<String> posibleFinalStates = new ArrayList<>();
         for (Representation<BehaviorState> state : states) {
-            stringList.add(state.getEntity().getName());
+            if (state.getEntity().getType().equals(BehaviorState.FORM_ENTRADA)){
+                posibleInitialStates.add(state.getEntity().getName());
+                continue;
+            }
+            if (state.getEntity().getType().equals(BehaviorState.FORM_SALIDA)){
+                posibleFinalStates.add(state.getEntity().getName());
+                continue;
+            }
+            posibleFinalStates.add(state.getEntity().getName());
+            posibleInitialStates.add(state.getEntity().getName());
         }
 
-        String[] strings = stringList.toArray(new String[0]);
+        String[] stringsInitial = posibleInitialStates.toArray(new String[0]);
+        String[] stringsFinal =  posibleFinalStates.toArray(new String[0]);
 
         //Estado Inicial
         gridData = new GridData();
@@ -108,7 +119,7 @@ public class RelationDialog extends TitleAreaDialog {
         Label label4 = new Label(parent, SWT.NONE);
         label4.setText("Estado Inicial");
         initialStateNameCombo = new Combo(parent, SWT.READ_ONLY);
-        initialStateNameCombo.setItems(strings);
+        initialStateNameCombo.setItems(stringsInitial);
         initialStateNameCombo.setLayoutData(gridData);
 
         //Estado Final
@@ -118,7 +129,7 @@ public class RelationDialog extends TitleAreaDialog {
         Label label2 = new Label(parent, SWT.NONE);
         label2.setText("Estado Final");
         finalStateNameCombo = new Combo(parent, SWT.READ_ONLY);
-        finalStateNameCombo.setItems(strings);
+        finalStateNameCombo.setItems(stringsFinal);
         finalStateNameCombo.setLayoutData(gridData);
         return parent;
     }

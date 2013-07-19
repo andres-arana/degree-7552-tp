@@ -66,7 +66,7 @@ public class NewBehaviorDiagramStateAction extends Action {
 	@Override
 	public void run() {
         List<String> interfaces = model.getAllGIDiagramForActivePackage();
-		StateDialog dialogo = new StateDialog(shell,interfaces);
+        StateDialog dialogo = new StateDialog(shell,interfaces,boundDiagram.hasInitialState(),boundDiagram.hasFinalState());
 		Optional<String> stringOptional = dialog.showDialog(dialogo);
 		if (stringOptional.isPresent()) {
 			String formName = dialogo.getFormName();

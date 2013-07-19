@@ -9,6 +9,8 @@ import org.eclipse.swt.SWT;
 import fiuba.mda.model.BehaviorState;
 import fiuba.mda.model.Representation;
 import fiuba.mda.model.Representation.Position;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Device;
 
 /**
  * Figure which displays a state in a behavior diagram
@@ -35,7 +37,16 @@ public class BehaviorStateFigure extends Figure implements MouseListener,
         label = new Label(state.getEntity().getName());
         label.setTextAlignment(SWT.CENTER);
         label.setLabelAlignment(SWT.WRAP);
-		add(label);
+        label.setForegroundColor(ColorConstants.black);
+        if (state.getEntity().getType().equals(BehaviorState.FORM_ENTRADA)){
+            elipse.setBackgroundColor(ColorConstants.darkGreen);
+            label.setForegroundColor(ColorConstants.white);
+        }
+        if (state.getEntity().getType().equals(BehaviorState.FORM_SALIDA)){
+            elipse.setBackgroundColor(ColorConstants.black);
+            label.setForegroundColor(ColorConstants.white);
+        }
+        add(label);
 
 	}
 

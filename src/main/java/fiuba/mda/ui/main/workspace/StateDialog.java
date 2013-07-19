@@ -28,10 +28,14 @@ public class StateDialog extends TitleAreaDialog {
     private String formName;
     private String graficInterfaceName;
     private List<String> nombresInterfacesGraficas;
+    private boolean existsInitialstate;
+    private boolean existsFinalState;
 
-    public StateDialog(Shell parentShell ,List<String> nombresInterfacesGraficas) {
+    public StateDialog(Shell parentShell ,List<String> nombresInterfacesGraficas,boolean existsInitialstate,boolean existsFinalState) {
         super(parentShell);
         this.nombresInterfacesGraficas = nombresInterfacesGraficas;
+        this.existsFinalState = existsFinalState;
+        this.existsInitialstate = existsInitialstate;
     }
 
     @Override
@@ -66,11 +70,34 @@ public class StateDialog extends TitleAreaDialog {
 
         Label label2 = new Label(parent, SWT.NONE);
         label2.setText("Tipo");
-        String[] strings = {BehaviorState.FORM_COMPUESTO,BehaviorState.FORM_ENTRADA,BehaviorState.FORM_SALIDA};
+
+
 
         formTypeNameCombo = new Combo(parent, SWT.READ_ONLY);
+
+        ArrayList<String> posiblesTipos = new ArrayList<>();
+
+        if (!existsInitialstate){
+            posiblesTipos.add(BehaviorState.FORM_ENTRADA);
+        } else {
+
+        posiblesTipos.add(BehaviorState.FORM_COMPUESTO);
+
+        if (!existsFinalState){
+            posiblesTipos.add(BehaviorState.FORM_SALIDA);
+        }
+        }
+
+        String[] strings = posiblesTipos.toArray(new String[0]);
+
         formTypeNameCombo.setItems(strings);
+
+        if (posiblesTipos.size() == 1){
+            formTypeNameCombo.select(0);
+        }
+
         formTypeNameCombo.setLayoutData(gridData2);
+
 
         GridData gridData3 = new GridData();
         gridData3.grabExcessHorizontalSpace = true;
