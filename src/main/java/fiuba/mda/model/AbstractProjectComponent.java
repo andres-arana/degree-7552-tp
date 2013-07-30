@@ -60,7 +60,15 @@ public abstract class AbstractProjectComponent implements ProjectComponent {
 		if (isRoot()) {
 			return getName();
 		} else {
-			return getParent().locateOwningPackage().qualifiedNameFor(this);
+            String s = this.getName();
+            ProjectComponent parent = getParent();
+            while (parent != null){
+                s = parent.getName() + "." + s;
+                if (parent.isRoot()) parent = null;
+                else parent = parent.getParent();
+            }
+            s = s.replace(" ","_");
+            return s;
 		}
 
 	}

@@ -44,4 +44,6 @@ public class ModelAspect extends AbstractContainerProjectComponent {
 	public void accept(ProjectComponentVisitor visitor) {
 		visitor.visit(this);
 	}
+
+
 }
