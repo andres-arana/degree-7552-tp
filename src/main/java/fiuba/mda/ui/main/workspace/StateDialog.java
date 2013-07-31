@@ -1,6 +1,7 @@
 package fiuba.mda.ui.main.workspace;
 
 import fiuba.mda.model.BehaviorState;
+import fiuba.mda.model.GraficInterfaceDiagram;
 import fiuba.mda.model.Representation;
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.jface.dialogs.IMessageProvider;
@@ -26,11 +27,12 @@ public class StateDialog extends TitleAreaDialog {
     private Text formNameText;
     private String formTypeName;
     private String formName;
-    private String graficInterfaceName;
-    private List<String> nombresInterfacesGraficas;
+    private GraficInterfaceDiagram graficInterfaceDiagram;
+    String graficInterfaceName;
+    private List<GraficInterfaceDiagram> nombresInterfacesGraficas;
     private boolean existsInitialstate;
 
-    public StateDialog(Shell parentShell ,List<String> nombresInterfacesGraficas,boolean existsInitialstate) {
+    public StateDialog(Shell parentShell ,List<GraficInterfaceDiagram> nombresInterfacesGraficas,boolean existsInitialstate) {
         super(parentShell);
         this.nombresInterfacesGraficas = nombresInterfacesGraficas;
         this.existsInitialstate = existsInitialstate;
@@ -104,8 +106,8 @@ public class StateDialog extends TitleAreaDialog {
 
         String[] strings3 = new String[nombresInterfacesGraficas.size()];
         int i = 0;
-        for (String s : nombresInterfacesGraficas){
-            strings3[i] = s;
+        for (GraficInterfaceDiagram s : nombresInterfacesGraficas){
+            strings3[i] = s.getQualifiedName();
             i++;
         }
 
@@ -141,6 +143,11 @@ public class StateDialog extends TitleAreaDialog {
         formTypeName = formTypeNameCombo.getText();
         formName = formNameText.getText();
         graficInterfaceName = graficInterfaceNameCombo.getText();
+        for (GraficInterfaceDiagram ig : nombresInterfacesGraficas){
+            if (ig.getQualifiedName().equals(graficInterfaceName)) {
+                graficInterfaceDiagram = ig;
+            }
+        }
     }
 
     @Override
@@ -162,5 +169,9 @@ public class StateDialog extends TitleAreaDialog {
 
     public String getGraficInterfaceName() {
         return graficInterfaceName;
+    }
+
+    public GraficInterfaceDiagram getGraficInterfaceDiagram() {
+        return graficInterfaceDiagram;
     }
 }

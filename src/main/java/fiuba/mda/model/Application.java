@@ -81,12 +81,12 @@ public class Application {
 		}
 	}
 
-    public List<String> getAllGIDiagramForActivePackage(){
+    public List<GraficInterfaceDiagram> getAllGIDiagramForActivePackage(){
         return getAllGIDiagramForPackage(getActivePackage());
     }
 
-    public List<String> getAllGIDiagramForPackage(ModelPackage modelPackage){
-        List<String> returnList = new ArrayList<>();
+    public List<GraficInterfaceDiagram> getAllGIDiagramForPackage(ModelPackage modelPackage){
+        List<GraficInterfaceDiagram> returnList = new ArrayList<>();
         List<ProjectComponent> childrens = modelPackage.getChildren();
         for (ProjectComponent children : childrens){
             if (children instanceof ModelPackage){
@@ -96,7 +96,8 @@ public class Application {
             if (children instanceof ModelAspect && children.getName().equals("interfaces")){
                 List<ProjectComponent> children1 = children.getChildren();
                 for (ProjectComponent pc : children1){
-                    returnList.add(pc.getQualifiedName());
+                    GraficInterfaceDiagram gid = (GraficInterfaceDiagram) pc;
+                    returnList.add(gid);
                 }
             }
         }

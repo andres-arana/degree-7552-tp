@@ -79,7 +79,30 @@ public class GraficInterfaceDiagram extends AbstractLeafProjectComponent {
         fields.add(field);
         fieldsChangedEvent.raise();
     }
-    
 
 
+    //Devuelve en un string todos los elementos de la pantalla con su nombre y tipo.
+    public List<String> getElementsStringList() {
+        List<String> s = new ArrayList<>();
+        for (Representation<BehaviorField> f : fields){
+            BehaviorField entity = f.getEntity();
+            String str = entity.getName() + ":Field;";
+            s.add(str);
+        }
+
+
+        for (Representation<BehaviorText> t : texts){
+            BehaviorText entity = t.getEntity();
+            String str = entity.getName() + ":Text;";
+            s.add(str);
+        }
+
+        for (Representation<BehaviorButton> b : buttons){
+            BehaviorButton entity = b.getEntity();
+            String str = entity.getName() + ":Button;";
+            s.add(str);
+        }
+
+        return s;
+    }
 }

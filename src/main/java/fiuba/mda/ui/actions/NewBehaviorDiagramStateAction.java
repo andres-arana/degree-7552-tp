@@ -1,20 +1,16 @@
 package fiuba.mda.ui.actions;
 
-import fiuba.mda.model.Application;
+import fiuba.mda.model.*;
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.widgets.Shell;
 
 import com.google.common.base.Optional;
 import com.google.inject.Inject;
 
-import fiuba.mda.model.BehaviorDiagram;
-import fiuba.mda.model.BehaviorState;
-import fiuba.mda.model.Representation;
 import fiuba.mda.ui.launchers.SimpleDialogLauncher;
 import fiuba.mda.ui.main.workspace.StateDialog;
 import fiuba.mda.ui.utilities.ImageLoader;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -65,15 +61,15 @@ public class NewBehaviorDiagramStateAction extends Action {
 
 	@Override
 	public void run() {
-        List<String> interfaces = model.getAllGIDiagramForActivePackage();
+        List<GraficInterfaceDiagram> interfaces = model.getAllGIDiagramForActivePackage();
         StateDialog dialogo = new StateDialog(shell,interfaces,boundDiagram.hasInitialState());
 		Optional<String> stringOptional = dialog.showDialog(dialogo);
 		if (stringOptional.isPresent()) {
 			String formName = dialogo.getFormName();
 			String formTypeName = dialogo.getFormTypeName();
-            String interfazName = dialogo.getGraficInterfaceName();
+            GraficInterfaceDiagram interfazGrafica = dialogo.getGraficInterfaceDiagram();
 			BehaviorState state = new BehaviorState(
-					/* "State " + stateNumber */formName, formTypeName,interfazName);
+					formName, formTypeName,interfazGrafica);
 			Representation<BehaviorState> representation = new Representation<>(
 					state);
 			representation.getPosition().setX(stateNumber * 100);

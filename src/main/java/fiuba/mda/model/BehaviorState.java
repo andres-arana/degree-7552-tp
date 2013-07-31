@@ -8,12 +8,13 @@ public class BehaviorState {
 
     private final String name;
     private final String type;
-    private final String interfazName;
+    private final GraficInterfaceDiagram interfazGrafica;
 	
-	public BehaviorState(final String name,final String type,final String interfaz) {
+	public BehaviorState(final String name, final String type, GraficInterfaceDiagram interfazGrafica) {
 		this.name = name;
         this.type = type;
-        this.interfazName = interfaz;
+        this.interfazGrafica = interfazGrafica;
+
     }
 
 	public String getName() {
@@ -24,7 +25,7 @@ public class BehaviorState {
         return type;
     }
 
-    public String getInterfazName() {
-        return interfazName;
+    public GraficInterfaceDiagram getInterfazGrafica() {
+        return interfazGrafica;
     }
 }
