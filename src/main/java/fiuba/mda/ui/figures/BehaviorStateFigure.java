@@ -1,5 +1,9 @@
 package fiuba.mda.ui.figures;
 
+import com.google.inject.Injector;
+import fiuba.mda.injection.InjectorConfiguration;
+import fiuba.mda.ui.actions.EditBehaviorDiagramRelationAction;
+import fiuba.mda.ui.actions.NewBehaviorDiagramStateAction;
 import org.eclipse.draw2d.*;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
@@ -128,7 +132,7 @@ public class BehaviorStateFigure extends Figure implements MouseListener,
 
 	@Override
 	public void mouseDoubleClicked(MouseEvent me) {
-		// TODO Auto-generated method stub
+
 	}
 
     public Representation<BehaviorState> getState() {

@@ -68,12 +68,11 @@ public class NewBehaviorDiagramRelationAction extends Action {
 		if (stringOptional.isPresent()) {
             String nombre = dialogo.getName();
             String tipo = dialogo.getTipo();
-            String codigo = dialogo.getCodigo();
-			String initialStateName = dialogo.getInitialStateName();
+            String initialStateName = dialogo.getInitialStateName();
 			String finalStateName = dialogo.getFinalStateName();
 			// TODO - Validar que la relación no exista
 			BehaviorRelation relation = new BehaviorRelation(nombre,
-                    tipo, codigo, boundDiagram.getStateByName(initialStateName),
+                    tipo, "", boundDiagram.getStateByName(initialStateName),
 					boundDiagram.getStateByName(finalStateName));
 			Representation<BehaviorRelation> representation = new Representation<>(
 					relation);

@@ -29,8 +29,6 @@ public class RelationDialog extends TitleAreaDialog {
     private Combo finalStateNameCombo;
     private Text nameText;
     private Combo tipoCombo;
-    private Text codigoText;
-    private String codigo;
     private String name;
     private String tipo;
     private String initialStateName;
@@ -82,17 +80,6 @@ public class RelationDialog extends TitleAreaDialog {
         tipoCombo.setItems(new String[]{BehaviorRelation.TIPO_CONTROL,BehaviorRelation.TIPO_FUNCIONAL});
         tipoCombo.setLayoutData(gridData);
 
-        //Codigo
-        gridData = new GridData();
-        gridData.grabExcessHorizontalSpace = true;
-        gridData.horizontalAlignment = GridData.FILL_BOTH;
-        gridData.heightHint = 200;
-        gridData.widthHint = 400;
-        Label label5 = new Label(parent, SWT.NONE);
-        label5.setText("Codigo");
-        codigoText = new Text(parent, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
-        codigoText.setLayoutData(gridData);
-
 
         List<String> posibleInitialStates = new ArrayList<>();
         List<String> posibleFinalStates = new ArrayList<>();
@@ -138,7 +125,6 @@ public class RelationDialog extends TitleAreaDialog {
         String valid = "OK";
         if (StringUtils.isBlank(name)) return "Debe ingresar un nombre";
         if (StringUtils.isBlank(tipo)) return "Debe ingresar un tipo";
-        if (tipo.equals(BehaviorRelation.TIPO_FUNCIONAL) && StringUtils.isBlank(codigo)) return "Al ser una relacion de control, debe ingresar un código para ejecutar";
         if (StringUtils.isBlank(initialStateName) || StringUtils.isBlank(finalStateName)) return "Debe seleccionar 2 estados obligatoriamente";
         if (finalStateName.equals(initialStateName)) return "Debe seleccionar 2 estados diferentes";
         for (Representation<BehaviorRelation> relation : existingRelations){
@@ -157,7 +143,6 @@ public class RelationDialog extends TitleAreaDialog {
     private void saveInput() {
         name = nameText.getText();
         tipo = tipoCombo.getText();
-        codigo = codigoText.getText();
         initialStateName = initialStateNameCombo.getText();
         finalStateName = finalStateNameCombo.getText();
 
@@ -177,10 +162,6 @@ public class RelationDialog extends TitleAreaDialog {
 
     public String getFinalStateName() {
         return finalStateName;
-    }
-
-    public String getCodigo() {
-        return codigo;
     }
 
     public String getName() {

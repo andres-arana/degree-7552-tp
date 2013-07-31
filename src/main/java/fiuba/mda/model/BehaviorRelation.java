@@ -10,7 +10,7 @@ public class BehaviorRelation {
 
 	private final String name;
     private final String tipo;
-    private final String codigo;
+    private String codigo;
     private final BehaviorState initialState;
     private final BehaviorState finalState;
 
@@ -41,6 +41,10 @@ public class BehaviorRelation {
 
     public String getCodigo() {
         return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     public boolean hasAll(List<String> stateNames) {
