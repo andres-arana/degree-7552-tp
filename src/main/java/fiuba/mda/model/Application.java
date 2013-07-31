@@ -93,7 +93,7 @@ public class Application {
                 returnList.addAll(getAllGIDiagramForPackage((ModelPackage) children));
             }
 
-            if (children instanceof ModelAspect && children.getName().equals("Interfaces")){
+            if (children instanceof ModelAspect && children.getName().equals("interfaces")){
                 List<ProjectComponent> children1 = children.getChildren();
                 for (ProjectComponent pc : children1){
                     returnList.add(pc.getQualifiedName());
