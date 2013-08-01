@@ -37,33 +37,32 @@ public class BehaviorStateFigure extends Figure implements MouseListener,
 
 	public BehaviorStateFigure(final Representation<BehaviorState> state) {
 		this.state = state;
-		setLayoutManager(new ToolbarLayout());
-        setBorder(new BehaviourStateFigureBorder());
-        /*setBorder(new LineBorder(ColorConstants.black,1));*/
-        setOpaque(true);
-        /*elipse = new RoundedRectangle();
-		elipse.setAntialias(SWT.ON);
-		elipse.setOutline(true);
-		elipse.setLineWidth(2);*/
-		addMouseListener(this);
-		addMouseMotionListener(this);
-        /*add(elipse);*/
         BehaviorState entity = state.getEntity();
-
+        String name = entity.getName();
+        String type = entity.getType();
         GraficInterfaceDiagram interfazGrafica = entity.getInterfazGrafica();
         List<String> iElements = interfazGrafica.getElementsStringList();
 
-        nameCompartment = new CompartmentFigure(true,false);
-        if (iElements.isEmpty()){
-            typeCompartment = new CompartmentFigure(false,true);
-        } else {
-            typeCompartment = new CompartmentFigure(false,false);
-            elemntsCompartment = new CompartmentFigure(false,true);
+        addMouseListener(this);
+        addMouseMotionListener(this);
+        StackLayout manager = new StackLayout();
+        setLayoutManager(manager);
+        setBorder(new BehaviourStateFigureBorder());
+        setOpaque(true);
+
+
+        Color color = ColorConstants.black;
+        if (type.equals(BehaviorState.FORM_ENTRADA) || type.equals(BehaviorState.FORM_SALIDA)){
+            color = ColorConstants.white;
         }
-        String name = entity.getName();
-        String type = entity.getType();
 
-
+        nameCompartment = new CompartmentFigure(color,true,false);
+        if (iElements.isEmpty()){
+            typeCompartment = new CompartmentFigure(color,false,true);
+        } else {
+            typeCompartment = new CompartmentFigure(color,false,false);
+            elemntsCompartment = new CompartmentFigure(color,false,true);
+        }
 
 
         addLabellToCompartment(nameCompartment,type,name);
@@ -72,19 +71,27 @@ public class BehaviorStateFigure extends Figure implements MouseListener,
             addLabellToCompartment(elemntsCompartment,type,s);
         }
 
-        add(nameCompartment);
-        add(typeCompartment);
-        if (!iElements.isEmpty()){
-            add(elemntsCompartment);
-        }
-
-        /*if (type.equals(BehaviorState.FORM_ENTRADA)){
-            setBackgroundColor(ColorConstants.darkGreen);
-
+        RoundedRectangle roundedRectangle = new RoundedRectangle();
+        roundedRectangle.setSize(100, 200);
+        if (type.equals(BehaviorState.FORM_ENTRADA)){
+            roundedRectangle.setForegroundColor(ColorConstants.darkGreen);
+            roundedRectangle.setBackgroundColor(ColorConstants.darkGreen);
         }
         if (type.equals(BehaviorState.FORM_SALIDA)){
-            setBackgroundColor(ColorConstants.black);
-        }*/
+            roundedRectangle.setForegroundColor(ColorConstants.black);
+            roundedRectangle.setBackgroundColor(ColorConstants.black);
+        }
+        add(roundedRectangle);
+
+        MultiCompartmentFigure multiCompartmentFigure = new MultiCompartmentFigure();
+
+        multiCompartmentFigure.add(nameCompartment);
+        multiCompartmentFigure.add(typeCompartment);
+        if (!iElements.isEmpty()){
+            multiCompartmentFigure.add(elemntsCompartment);
+        }
+
+        add(multiCompartmentFigure);
 	}
 
     private void addLabellToCompartment(CompartmentFigure compartment, String type,String labelTxt) {
@@ -93,10 +100,10 @@ public class BehaviorStateFigure extends Figure implements MouseListener,
         label.setLabelAlignment(SWT.WRAP);
         label.setForegroundColor(ColorConstants.black);
         if (type.equals(BehaviorState.FORM_ENTRADA)){
-            label.setForegroundColor(ColorConstants.black);
+            label.setForegroundColor(ColorConstants.white);
         }
         if (type.equals(BehaviorState.FORM_SALIDA)){
-            label.setForegroundColor(ColorConstants.black);
+            label.setForegroundColor(ColorConstants.white);
         }
         compartment.add(label);
     }
@@ -107,8 +114,10 @@ public class BehaviorStateFigure extends Figure implements MouseListener,
 		if (p != null) {
 			Position position = state.getPosition();
 			Rectangle constraint = buildPositionalBound(position);
-			p.getLayoutManager().setConstraint(this, constraint);
-			//Dimension labelSize = label.getPreferredSize();
+            constraint.setWidth(100);
+            constraint.setHeight(200);
+            p.getLayoutManager().setConstraint(this, constraint);
+            //Dimension labelSize = label.getPreferredSize();
 			//setPreferredSize(labelSize.width + 40, labelSize.height + 20);
            /* elipse.setPreferredSize(label.getText().length() * 2 + 80, label.getText().length()  + 20 );
 		    elipse.setSize(label.getText().length() * 2 + 80, label.getText().length()  + 20);*/
@@ -116,8 +125,7 @@ public class BehaviorStateFigure extends Figure implements MouseListener,
 	}
 
 	private Rectangle buildPositionalBound(final Position position) {
-
-		return new Rectangle(position.getX(), position.getY(), -1,-1);
+        return new Rectangle(position.getX(), position.getY(), -1,-1);
 	}
 
 	@Override
@@ -194,27 +202,47 @@ public class BehaviorStateFigure extends Figure implements MouseListener,
         public void paint(IFigure figure, Graphics graphics, Insets insets) {
             Rectangle paintRectangle = getPaintRectangle(figure, insets);
             /*paintRectangle.performScale(2);*/
-            graphics.drawRoundRectangle(paintRectangle,10,100);
+            graphics.setLineWidth(2);
+            graphics.setBackgroundColor(ColorConstants.darkGreen);
+            graphics.setForegroundColor(ColorConstants.darkGreen);
+            graphics.drawRoundRectangle(paintRectangle, 20, 50);
         }
     }
 
+    public class MultiCompartmentFigure extends Figure {
+
+        public MultiCompartmentFigure() {
+            ToolbarLayout layout = new ToolbarLayout();
+            layout.setMinorAlignment(ToolbarLayout.ALIGN_CENTER);
+            layout.setStretchMinorAxis(false);
+            layout.setSpacing(2);
+            setLayoutManager(layout);
+        }
+
+
+    }
+
+
+
     public class CompartmentFigure extends Figure {
 
-        public CompartmentFigure(Boolean isFirst, Boolean isLast) {
+        public CompartmentFigure(Color color,Boolean isFirst, Boolean isLast) {
             ToolbarLayout layout = new ToolbarLayout();
             layout.setMinorAlignment(ToolbarLayout.ALIGN_TOPLEFT);
             layout.setStretchMinorAxis(false);
             layout.setSpacing(2);
             setLayoutManager(layout);
-            setBorder(new CompartmentFigureBorder(isFirst,isLast));
+            setBorder(new CompartmentFigureBorder(color,isFirst,isLast));
         }
 
         public class CompartmentFigureBorder extends AbstractBorder {
             private boolean isFirst;
             private boolean isLast;
-            public CompartmentFigureBorder(Boolean first, Boolean last) {
+            private Color color;
+            public CompartmentFigureBorder(Color color,Boolean first, Boolean last) {
                 isFirst = first;
                 isLast = last;
+                this.color = color;
             }
 
             public Insets getInsets(IFigure figure) {
@@ -228,6 +256,8 @@ public class BehaviorStateFigure extends Figure implements MouseListener,
                 return new Insets(1,0,1,0);
             }
             public void paint(IFigure figure, Graphics graphics, Insets insets) {
+                graphics.setForegroundColor(color);
+                graphics.setBackgroundColor(color);
                 if (isFirst){
                     graphics.drawLine(getPaintRectangle(figure, insets).getBottomLeft(),
                             tempRect.getBottomRight());
