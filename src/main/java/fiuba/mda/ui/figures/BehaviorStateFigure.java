@@ -28,6 +28,8 @@ public class BehaviorStateFigure extends Figure implements MouseListener,
 		MouseMotionListener {
 	private Point moveStartedLocation;
 
+    private int espaciadoPalabraTitulo = 20;
+
     private CompartmentFigure nameCompartment;
     private CompartmentFigure typeCompartment;
     private CompartmentFigure elemntsCompartment;
@@ -60,26 +62,39 @@ public class BehaviorStateFigure extends Figure implements MouseListener,
             color = ColorConstants.white;
         }
 
+        List<String> stateStrings = new ArrayList<>();
+        List<String> titleStrings = new ArrayList<>();
+
         nameCompartment = new CompartmentFigure(color,true,false);
+        String nombre = "Nombre";
+        addTittleToCompartment(nameCompartment, type, nombre);
+        titleStrings.add(nombre);
+        addTextToCompartment(nameCompartment, type, name);
+        stateStrings.add(name);
+
         if (iElements.isEmpty()){
             typeCompartment = new CompartmentFigure(color,false,true);
         } else {
             typeCompartment = new CompartmentFigure(color,false,false);
             elemntsCompartment = new CompartmentFigure(color,false,true);
+            String componentes = "Componentes";
+            addTittleToCompartment(elemntsCompartment, type, componentes);
+            titleStrings.add(componentes);
+            for (String s : iElements){
+                addTextToCompartment(elemntsCompartment, type, s);
+                stateStrings.add(s);
+            }
         }
 
-        List<String> stateStrings = new ArrayList<>();
 
-        addLabellToCompartment(nameCompartment,type,name);
-        stateStrings.add(name);
-        addLabellToCompartment(typeCompartment, type, type);
+        String tipo = "Tipo";
+        addTittleToCompartment(typeCompartment, type, tipo);
+        titleStrings.add(tipo);
+        addTextToCompartment(typeCompartment, type, type);
         stateStrings.add(type);
-        for (String s : iElements){
-            addLabellToCompartment(elemntsCompartment,type,s);
-            stateStrings.add(s);
-        }
 
-        calculateFigureHeidthAndWidth(stateStrings);
+
+        calculateFigureHeidthAndWidth(titleStrings,stateStrings);
 
         RoundedRectangle roundedRectangle = new RoundedRectangle();
         roundedRectangle.setSize(width, heidth);
@@ -104,8 +119,8 @@ public class BehaviorStateFigure extends Figure implements MouseListener,
         add(multiCompartmentFigure);
 	}
 
-    private void calculateFigureHeidthAndWidth(List<String> stateStrings) {
-        int cantidadDeLineas = stateStrings.size();
+    private void calculateFigureHeidthAndWidth(List<String> titleStrings ,List<String> stateStrings) {
+        int cantidadDeLineas = stateStrings.size() + titleStrings.size();
         int heidthPorLinea = 20;
         heidth = cantidadDeLineas * heidthPorLinea;
 
@@ -113,22 +128,40 @@ public class BehaviorStateFigure extends Figure implements MouseListener,
         for (String s : stateStrings){
             if (maxCantidadCharDeStrings < s.length()) maxCantidadCharDeStrings = s.length();
         }
-        int margenesLaterales = 60; // izq + der en forma equivalente
-        width = maxCantidadCharDeStrings+margenesLaterales;
+        int maxCantChar = maxCantidadCharDeStrings + espaciadoPalabraTitulo;
+        width = maxCantChar *4+ maxCantChar /2;
     }
 
-    private void addLabellToCompartment(CompartmentFigure compartment, String type,String labelTxt) {
+
+    private void addTittleToCompartment(CompartmentFigure compartment, String type,String labelTxt) {
+        String txt = labelTxt.substring(0,1).toUpperCase() + labelTxt.substring(1).toLowerCase() + ":";
+        Color color = defineLabelColor(type);
+        addLabellToCompartment(compartment, txt, color, SWT.LEFT);
+    }
+
+    private void addTextToCompartment(CompartmentFigure compartment, String type,String labelTxt) {
+        String txt = "";
+        for (int i = 0 ; i< espaciadoPalabraTitulo; i++){
+            txt = txt + " ";
+        }
+        txt = txt + labelTxt.toUpperCase();
+        Color color = defineLabelColor(type);
+        addLabellToCompartment(compartment,txt,color,SWT.LEFT);
+    }
+
+    private void addLabellToCompartment(CompartmentFigure compartment, String labelTxt,Color color,int aligment) {
         Label label = new Label(labelTxt);
-        label.setTextAlignment(SWT.CENTER);
+        label.setTextAlignment(aligment);
+        label.setForegroundColor(color);
         label.setLabelAlignment(SWT.WRAP);
-        label.setForegroundColor(ColorConstants.black);
-        if (type.equals(BehaviorState.FORM_ENTRADA)){
-            label.setForegroundColor(ColorConstants.white);
-        }
-        if (type.equals(BehaviorState.FORM_SALIDA)){
-            label.setForegroundColor(ColorConstants.white);
-        }
         compartment.add(label);
+    }
+
+    private Color defineLabelColor(String type) {
+        if (type.equals(BehaviorState.FORM_ENTRADA) || type.equals(BehaviorState.FORM_SALIDA)){
+            return ColorConstants.white;
+        }
+        return ColorConstants.black;
     }
 
     @Override
@@ -227,7 +260,7 @@ public class BehaviorStateFigure extends Figure implements MouseListener,
 
         public MultiCompartmentFigure() {
             ToolbarLayout layout = new ToolbarLayout();
-            layout.setMinorAlignment(ToolbarLayout.ALIGN_CENTER);
+            layout.setMinorAlignment(ToolbarLayout.ALIGN_TOPLEFT);
             layout.setStretchMinorAxis(false);
             layout.setSpacing(2);
             setLayoutManager(layout);
@@ -272,21 +305,27 @@ public class BehaviorStateFigure extends Figure implements MouseListener,
             public void paint(IFigure figure, Graphics graphics, Insets insets) {
                 graphics.setForegroundColor(color);
                 graphics.setBackgroundColor(color);
+                Rectangle paintRectangle = getPaintRectangle(figure, insets);
+
                 if (isFirst){
-                    graphics.drawLine(getPaintRectangle(figure, insets).getBottomLeft(),
-                            tempRect.getBottomRight());
+                    int x = paintRectangle.getBottomLeft().x();
+                    int y = paintRectangle.getBottomLeft().y();
+                    graphics.drawLine(x, y,x+width,y);
                 }
                 else if (isLast){
-                    graphics.drawLine(getPaintRectangle(figure, insets).getTopLeft(),
-                            tempRect.getTopRight());
+                    int x = paintRectangle.getTopLeft().x();
+                    int y = paintRectangle.getTopLeft().y();
+                    graphics.drawLine(x, y,x+width,y);
+
                 }
                 else {
-                    graphics.drawLine(getPaintRectangle(figure, insets).getTopLeft(),
-                            tempRect.getTopRight());
-                    graphics.drawLine(getPaintRectangle(figure, insets).getBottomLeft(),
-                            tempRect.getBottomRight());
+                    int x = paintRectangle.getTopLeft().x();
+                    int y = paintRectangle.getTopLeft().y();
+                    graphics.drawLine(x, y,x+width,y);
+                    x = paintRectangle.getBottomLeft().x();
+                    y = paintRectangle.getBottomLeft().y();
+                    graphics.drawLine(x, y,x+width,y);
                 }
-
             }
         }
     }
