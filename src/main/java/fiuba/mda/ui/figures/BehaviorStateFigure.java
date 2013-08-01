@@ -18,6 +18,7 @@ import fiuba.mda.model.Representation.Position;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,6 +31,10 @@ public class BehaviorStateFigure extends Figure implements MouseListener,
     private CompartmentFigure nameCompartment;
     private CompartmentFigure typeCompartment;
     private CompartmentFigure elemntsCompartment;
+
+    private int heidth;
+
+    private int width;
 
 	private final Representation<BehaviorState> state;
 
@@ -47,7 +52,6 @@ public class BehaviorStateFigure extends Figure implements MouseListener,
         addMouseMotionListener(this);
         StackLayout manager = new StackLayout();
         setLayoutManager(manager);
-        setBorder(new BehaviourStateFigureBorder());
         setOpaque(true);
 
 
@@ -64,15 +68,21 @@ public class BehaviorStateFigure extends Figure implements MouseListener,
             elemntsCompartment = new CompartmentFigure(color,false,true);
         }
 
+        List<String> stateStrings = new ArrayList<>();
 
         addLabellToCompartment(nameCompartment,type,name);
-        addLabellToCompartment(typeCompartment,type,type);
+        stateStrings.add(name);
+        addLabellToCompartment(typeCompartment, type, type);
+        stateStrings.add(type);
         for (String s : iElements){
             addLabellToCompartment(elemntsCompartment,type,s);
+            stateStrings.add(s);
         }
 
+        calculateFigureHeidthAndWidth(stateStrings);
+
         RoundedRectangle roundedRectangle = new RoundedRectangle();
-        roundedRectangle.setSize(100, 200);
+        roundedRectangle.setSize(width, heidth);
         if (type.equals(BehaviorState.FORM_ENTRADA)){
             roundedRectangle.setForegroundColor(ColorConstants.darkGreen);
             roundedRectangle.setBackgroundColor(ColorConstants.darkGreen);
@@ -94,6 +104,19 @@ public class BehaviorStateFigure extends Figure implements MouseListener,
         add(multiCompartmentFigure);
 	}
 
+    private void calculateFigureHeidthAndWidth(List<String> stateStrings) {
+        int cantidadDeLineas = stateStrings.size();
+        int heidthPorLinea = 20;
+        heidth = cantidadDeLineas * heidthPorLinea;
+
+        int maxCantidadCharDeStrings = 0;
+        for (String s : stateStrings){
+            if (maxCantidadCharDeStrings < s.length()) maxCantidadCharDeStrings = s.length();
+        }
+        int margenesLaterales = 60; // izq + der en forma equivalente
+        width = maxCantidadCharDeStrings+margenesLaterales;
+    }
+
     private void addLabellToCompartment(CompartmentFigure compartment, String type,String labelTxt) {
         Label label = new Label(labelTxt);
         label.setTextAlignment(SWT.CENTER);
@@ -114,13 +137,9 @@ public class BehaviorStateFigure extends Figure implements MouseListener,
 		if (p != null) {
 			Position position = state.getPosition();
 			Rectangle constraint = buildPositionalBound(position);
-            constraint.setWidth(100);
-            constraint.setHeight(200);
+            constraint.setWidth(width);
+            constraint.setHeight(heidth);
             p.getLayoutManager().setConstraint(this, constraint);
-            //Dimension labelSize = label.getPreferredSize();
-			//setPreferredSize(labelSize.width + 40, labelSize.height + 20);
-           /* elipse.setPreferredSize(label.getText().length() * 2 + 80, label.getText().length()  + 20 );
-		    elipse.setSize(label.getText().length() * 2 + 80, label.getText().length()  + 20);*/
         }
 	}
 
@@ -128,7 +147,15 @@ public class BehaviorStateFigure extends Figure implements MouseListener,
         return new Rectangle(position.getX(), position.getY(), -1,-1);
 	}
 
-	@Override
+    public int getHeidth() {
+        return heidth;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    @Override
 	public void mouseDragged(MouseEvent me) {
 		if (moveStartedLocation == null) {
 			return;
@@ -195,19 +222,6 @@ public class BehaviorStateFigure extends Figure implements MouseListener,
         return state;
     }
 
-    public class BehaviourStateFigureBorder extends AbstractBorder {
-        public Insets getInsets(IFigure figure) {
-            return new Insets(1,1,1,1);
-        }
-        public void paint(IFigure figure, Graphics graphics, Insets insets) {
-            Rectangle paintRectangle = getPaintRectangle(figure, insets);
-            /*paintRectangle.performScale(2);*/
-            graphics.setLineWidth(2);
-            graphics.setBackgroundColor(ColorConstants.darkGreen);
-            graphics.setForegroundColor(ColorConstants.darkGreen);
-            graphics.drawRoundRectangle(paintRectangle, 20, 50);
-        }
-    }
 
     public class MultiCompartmentFigure extends Figure {
 
