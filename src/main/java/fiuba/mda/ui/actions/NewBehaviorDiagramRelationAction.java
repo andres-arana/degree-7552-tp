@@ -70,7 +70,6 @@ public class NewBehaviorDiagramRelationAction extends Action {
             String tipo = dialogo.getTipo();
             String initialStateName = dialogo.getInitialStateName();
 			String finalStateName = dialogo.getFinalStateName();
-			// TODO - Validar que la relación no exista
 			BehaviorRelation relation = new BehaviorRelation(nombre,
                     tipo, "", boundDiagram.getStateByName(initialStateName),
 					boundDiagram.getStateByName(finalStateName));

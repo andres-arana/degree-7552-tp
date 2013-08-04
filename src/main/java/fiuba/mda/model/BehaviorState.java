@@ -28,4 +28,16 @@ public class BehaviorState {
     public GraficInterfaceDiagram getInterfazGrafica() {
         return interfazGrafica;
     }
+
+    public boolean isFormSalida(){
+        return type.equals(FORM_SALIDA);
+    }
+
+    public boolean isFormEntrada(){
+        return type.equals(FORM_ENTRADA);
+    }
+
+    public boolean isFormCompuesto(){
+        return type.equals(FORM_COMPUESTO);
+    }
 }

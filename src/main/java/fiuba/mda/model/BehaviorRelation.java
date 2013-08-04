@@ -8,11 +8,12 @@ public class BehaviorRelation {
     public final static String TIPO_FUNCIONAL = "FUNCIONAL";
     public final static String TIPO_CONTROL = "CONTROL";
 
-	private final String name;
-    private final String tipo;
-    private String codigo;
-    private final BehaviorState initialState;
-    private final BehaviorState finalState;
+	private  String name;
+    private  String tipo;
+    private  String codigo;
+    private  BehaviorState initialState;
+    private  BehaviorState finalState;
+    private  BehaviorRelation bilateralRelation;
 
 	public BehaviorRelation(final String name, String tipo, String codigo, BehaviorState initialState, BehaviorState finalState) {
 		this.name = name;
@@ -21,6 +22,7 @@ public class BehaviorRelation {
         else this.codigo = "";
         this.initialState = initialState;
         this.finalState = finalState;
+        this.bilateralRelation = null;
     }
 
 	public String getName() {
@@ -45,6 +47,18 @@ public class BehaviorRelation {
 
     public void setCodigo(String codigo) {
         this.codigo = codigo;
+    }
+
+    public BehaviorRelation getBilateralRelation() {
+        return bilateralRelation;
+    }
+
+    public void setBilateralRelation(BehaviorRelation bilateralRelation) {
+        this.bilateralRelation = bilateralRelation;
+    }
+
+    public boolean hasBillateralRelation(){
+        return bilateralRelation != null;
     }
 
     public boolean hasAll(List<String> stateNames) {

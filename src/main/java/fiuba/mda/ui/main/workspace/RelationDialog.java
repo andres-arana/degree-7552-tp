@@ -2,6 +2,7 @@ package fiuba.mda.ui.main.workspace;
 
 import fiuba.mda.model.BehaviorRelation;
 import fiuba.mda.model.BehaviorState;
+import fiuba.mda.model.GraficInterfaceDiagram;
 import fiuba.mda.model.Representation;
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.draw2d.text.TextFragmentBox;
@@ -84,14 +85,14 @@ public class RelationDialog extends TitleAreaDialog {
         List<String> posibleInitialStates = new ArrayList<>();
         List<String> posibleFinalStates = new ArrayList<>();
         for (Representation<BehaviorState> state : states) {
-            if (state.getEntity().getType().equals(BehaviorState.FORM_ENTRADA)){
+            /*if (state.getEntity().getType().equals(BehaviorState.FORM_ENTRADA)){
                 posibleInitialStates.add(state.getEntity().getName());
                 continue;
             }
             if (state.getEntity().getType().equals(BehaviorState.FORM_SALIDA)){
                 posibleFinalStates.add(state.getEntity().getName());
                 continue;
-            }
+            }*/
             posibleFinalStates.add(state.getEntity().getName());
             posibleInitialStates.add(state.getEntity().getName());
         }
@@ -124,12 +125,16 @@ public class RelationDialog extends TitleAreaDialog {
     private String isValidInput() {
         String valid = "OK";
         if (StringUtils.isBlank(name)) return "Debe ingresar un nombre";
+        //TODO: Validar que el nombre no este repetido
         if (StringUtils.isBlank(tipo)) return "Debe ingresar un tipo";
         if (StringUtils.isBlank(initialStateName) || StringUtils.isBlank(finalStateName)) return "Debe seleccionar 2 estados obligatoriamente";
         if (finalStateName.equals(initialStateName)) return "Debe seleccionar 2 estados diferentes";
         for (Representation<BehaviorRelation> relation : existingRelations){
             if (relation.getEntity().hasAll(initialStateName,finalStateName)) return "La Relación ya existe";
         }
+
+
+
         return valid;
     }
 
@@ -170,5 +175,14 @@ public class RelationDialog extends TitleAreaDialog {
 
     public String getTipo() {
         return tipo;
+    }
+
+    private Representation<BehaviorState> getStateByName(String stateName){
+        for (Representation<BehaviorState> state : states){
+            if (state.getEntity().getName().equals(stateName)) {
+                return state;
+            }
+        }
+        return null;
     }
 }

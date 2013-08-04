@@ -46,12 +46,7 @@ public class BehaviorRelationFigure extends PolylineConnection  implements Mouse
                     ChopboxAnchor targetAnchor = new ChopboxAnchor(behaviorStateFigure);
                     this.setTargetAnchor(targetAnchor);
                     PolygonDecoration decoration = new PolygonDecoration();
-                    /*PointList decorationPointList = new PointList();
-                    decorationPointList.addPoint(0,0);
-                    decorationPointList.addPoint(-2,2);
-                    decorationPointList.addPoint(-2,0);
-                    decorationPointList.addPoint(-2,-2);
-                    decoration.setTemplate(decorationPointList);*/
+                    //POner color?
                     this.setTargetDecoration(decoration);
 
                 }
@@ -63,12 +58,17 @@ public class BehaviorRelationFigure extends PolylineConnection  implements Mouse
         String labelString = "Id: " + behaviorRelation.getName();
         labelString = labelString + "\n" + "FA: Indicar FA";
         //TODO - Agregar el nombre de la función que la activa
+
+        if (behaviorRelation.hasBillateralRelation()){
+            //Completar informacion bilateral para mostrar
+        }
+
         Label label = new Label(labelString);
         label.setOpaque(true);
         label.setBackgroundColor(ColorConstants.buttonLightest);
         label.setBorder(new LineBorder());
-        addMouseListener(this);
         this.add(label, new MidpointLocator(this, 0));
+        addMouseListener(this);
 
 
 	}

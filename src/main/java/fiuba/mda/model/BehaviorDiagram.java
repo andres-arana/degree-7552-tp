@@ -70,8 +70,26 @@ public class BehaviorDiagram extends AbstractLeafProjectComponent {
 	}
 
     public void addRelation(Representation<BehaviorRelation> relation) {
+        updateBilateralRelationIfExists(relation);
         relations.add(relation);
         relationChangedEvent.raise();
+    }
+
+    private void updateBilateralRelationIfExists(Representation<BehaviorRelation> relation) {
+        Representation<BehaviorRelation> existingRelation = findRelationByStates(relation.getEntity().getFinalState(),relation.getEntity().getInitialState());
+        if (existingRelation != null){
+            existingRelation.getEntity().setBilateralRelation(relation.getEntity());
+            relation.getEntity().setBilateralRelation(existingRelation.getEntity());
+        }
+    }
+
+    private Representation<BehaviorRelation> findRelationByStates(BehaviorState initialState, BehaviorState finalState) {
+        for (Representation<BehaviorRelation> behaviorRelation : relations){
+            if (behaviorRelation.getEntity().getInitialState().getName().equals(initialState.getName()) && behaviorRelation.getEntity().getFinalState().getName().equals(finalState.getName())){
+                return behaviorRelation;
+            }
+        }
+        return null;
     }
 
   /*  public void addText(Representation<BehaviorText> text) {

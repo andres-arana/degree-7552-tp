@@ -58,7 +58,8 @@ public class BehaviorStateFigure extends Figure implements MouseListener,
 
 
         Color color = ColorConstants.black;
-        if (type.equals(BehaviorState.FORM_ENTRADA) || type.equals(BehaviorState.FORM_SALIDA)){
+        boolean isEntradaOrSalida = entity.isFormEntrada() || entity.isFormSalida();
+        if (isEntradaOrSalida){
             color = ColorConstants.white;
         }
 
@@ -67,9 +68,9 @@ public class BehaviorStateFigure extends Figure implements MouseListener,
 
         nameCompartment = new CompartmentFigure(color,true,false);
         String nombre = "Nombre";
-        addTittleToCompartment(nameCompartment, type, nombre);
+        addTittleToCompartment(nameCompartment, isEntradaOrSalida, nombre);
         titleStrings.add(nombre);
-        addTextToCompartment(nameCompartment, type, name);
+        addTextToCompartment(nameCompartment, isEntradaOrSalida, name);
         stateStrings.add(name);
 
         if (iElements.isEmpty()){
@@ -78,19 +79,19 @@ public class BehaviorStateFigure extends Figure implements MouseListener,
             typeCompartment = new CompartmentFigure(color,false,false);
             elemntsCompartment = new CompartmentFigure(color,false,true);
             String componentes = "Componentes";
-            addTittleToCompartment(elemntsCompartment, type, componentes);
+            addTittleToCompartment(elemntsCompartment, isEntradaOrSalida, componentes);
             titleStrings.add(componentes);
             for (String s : iElements){
-                addTextToCompartment(elemntsCompartment, type, s);
+                addTextToCompartment(elemntsCompartment, isEntradaOrSalida, s);
                 stateStrings.add(s);
             }
         }
 
 
         String tipo = "Tipo";
-        addTittleToCompartment(typeCompartment, type, tipo);
+        addTittleToCompartment(typeCompartment, isEntradaOrSalida, tipo);
         titleStrings.add(tipo);
-        addTextToCompartment(typeCompartment, type, type);
+        addTextToCompartment(typeCompartment, isEntradaOrSalida, type);
         stateStrings.add(type);
 
 
@@ -98,11 +99,11 @@ public class BehaviorStateFigure extends Figure implements MouseListener,
 
         RoundedRectangle roundedRectangle = new RoundedRectangle();
         roundedRectangle.setSize(width, heidth);
-        if (type.equals(BehaviorState.FORM_ENTRADA)){
+        if (entity.isFormEntrada()){
             roundedRectangle.setForegroundColor(ColorConstants.darkGreen);
             roundedRectangle.setBackgroundColor(ColorConstants.darkGreen);
         }
-        if (type.equals(BehaviorState.FORM_SALIDA)){
+        if (entity.isFormSalida()){
             roundedRectangle.setForegroundColor(ColorConstants.black);
             roundedRectangle.setBackgroundColor(ColorConstants.black);
         }
@@ -133,19 +134,19 @@ public class BehaviorStateFigure extends Figure implements MouseListener,
     }
 
 
-    private void addTittleToCompartment(CompartmentFigure compartment, String type,String labelTxt) {
+    private void addTittleToCompartment(CompartmentFigure compartment, boolean isEntradaOrSalida,String labelTxt) {
         String txt = labelTxt.substring(0,1).toUpperCase() + labelTxt.substring(1).toLowerCase() + ":";
-        Color color = defineLabelColor(type);
+        Color color = defineLabelColor(isEntradaOrSalida);
         addLabellToCompartment(compartment, txt, color, SWT.LEFT);
     }
 
-    private void addTextToCompartment(CompartmentFigure compartment, String type,String labelTxt) {
+    private void addTextToCompartment(CompartmentFigure compartment, Boolean isEntradaOrSalida,String labelTxt) {
         String txt = "";
         for (int i = 0 ; i< espaciadoPalabraTitulo; i++){
             txt = txt + " ";
         }
         txt = txt + labelTxt.toUpperCase();
-        Color color = defineLabelColor(type);
+        Color color = defineLabelColor(isEntradaOrSalida);
         addLabellToCompartment(compartment,txt,color,SWT.LEFT);
     }
 
@@ -157,8 +158,8 @@ public class BehaviorStateFigure extends Figure implements MouseListener,
         compartment.add(label);
     }
 
-    private Color defineLabelColor(String type) {
-        if (type.equals(BehaviorState.FORM_ENTRADA) || type.equals(BehaviorState.FORM_SALIDA)){
+    private Color defineLabelColor(boolean isEntradaOrSalida) {
+        if (isEntradaOrSalida){
             return ColorConstants.white;
         }
         return ColorConstants.black;
