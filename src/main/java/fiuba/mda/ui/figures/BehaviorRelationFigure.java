@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Figure which displays a state in a behavior diagram
  */
-public class BehaviorRelationFigure extends PolylineConnection  implements MouseListener{
+public class BehaviorRelationFigure extends PolylineConnection {
 	private Representation<BehaviorRelation> relation;
 
 
@@ -68,6 +68,25 @@ public class BehaviorRelationFigure extends PolylineConnection  implements Mouse
         label.setBackgroundColor(ColorConstants.buttonLightest);
         label.setForegroundColor(ColorConstants.black);
         label.setBorder(new LineBorder());
+        label.addMouseListener(new MouseListener() {
+            @Override
+            public void mousePressed(MouseEvent mouseEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent mouseEvent) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            @Override
+            public void mouseDoubleClicked(MouseEvent mouseEvent) {
+                Injector injector = InjectorConfiguration.bootstrapInjector();
+                EditBehaviorDiagramRelationAction action = injector.getInstance(EditBehaviorDiagramRelationAction.class);
+                action.boundTo(relation.getEntity());
+                action.run();
+            }
+        });
 
         EndPointFigureLocator conecLocator = new EndPointFigureLocator(this,ConnectionLocator.TARGET,label);
 
@@ -86,6 +105,25 @@ public class BehaviorRelationFigure extends PolylineConnection  implements Mouse
             label2.setBackgroundColor(ColorConstants.buttonLightest);
             label2.setForegroundColor(ColorConstants.black);
             label2.setBorder(new LineBorder());
+            label2.addMouseListener(new MouseListener() {
+                @Override
+                public void mousePressed(MouseEvent mouseEvent) {
+                    //To change body of implemented methods use File | Settings | File Templates.
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent mouseEvent) {
+                    //To change body of implemented methods use File | Settings | File Templates.
+                }
+
+                @Override
+                public void mouseDoubleClicked(MouseEvent mouseEvent) {
+                    Injector injector = InjectorConfiguration.bootstrapInjector();
+                    EditBehaviorDiagramRelationAction action = injector.getInstance(EditBehaviorDiagramRelationAction.class);
+                    action.boundTo(relation.getEntity().getBilateralRelation());
+                    action.run();
+                }
+            });
 
             EndPointFigureLocator conecLocator2 = new EndPointFigureLocator(this,ConnectionLocator.SOURCE,label);
 
@@ -93,29 +131,13 @@ public class BehaviorRelationFigure extends PolylineConnection  implements Mouse
 
         }
 
-        addMouseListener(this);
+
 
 
 	}
 
 
-    @Override
-    public void mousePressed(MouseEvent mouseEvent) {
 
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent mouseEvent) {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void mouseDoubleClicked(MouseEvent mouseEvent) {
-        Injector injector = InjectorConfiguration.bootstrapInjector();
-        EditBehaviorDiagramRelationAction action = injector.getInstance(EditBehaviorDiagramRelationAction.class);
-        action.boundTo(relation.getEntity());
-        action.run();
-    }
 
     private static class EndPointFigureLocator extends ConnectionLocator {
 
