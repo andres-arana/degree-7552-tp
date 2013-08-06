@@ -68,47 +68,13 @@ public class BehaviorDiagramFigure extends FreeformLayer {
             getBehaviorStateFigures().add(figure);
 		}
         for (Representation<BehaviorRelation> relation : component.getRelations()) {
-            add(new BehaviorRelationFigure(relation,getBehaviorStateFigures()));
+            BehaviorRelationFigure figure = new BehaviorRelationFigure(relation, getBehaviorStateFigures());
+            add(figure);
         }
-	/*	for (Representation<BehaviorText> text : component.getTexts()) {
-            BehaviorTextFigure figure = new BehaviorTextFigure(text);
-            add(figure);
-            getBehaviorTextFigures().add(figure);
-		}
-		for (Representation<BehaviorButton> button : component.getButtons()) {
-			BehaviorButtonFigure figure = new BehaviorButtonFigure(button);
-            add(figure);
-            getBehaviorButtonFigures().add(figure);
-		}
-		for (Representation<BehaviorField> field : component.getFields()) {
-			BehaviorFieldFigure figure = new BehaviorFieldFigure(field);
-            add(figure);
-            getBehaviorFieldFigures().add(figure);
-		}*/
+
 	}
 	
-/*
-	public List<BehaviorTextFigure> getBehaviorTextFigures() {
-		if (behaviorTextFigures == null){
-            behaviorTextFigures = new ArrayList<>();
-        }
-        return behaviorTextFigures;
-    } 
-	
-	public List<BehaviorButtonFigure> getBehaviorButtonFigures() {
-		if (behaviorButtonFigures == null){
-            behaviorButtonFigures = new ArrayList<>();
-        }
-        return behaviorButtonFigures;
-    } 
-	
-	public List<BehaviorFieldFigure> getBehaviorFieldFigures() {
-		if (behaviorFieldFigures == null){
-			behaviorFieldFigures = new ArrayList<>();
-        }
-        return behaviorFieldFigures;
-    } 
-*/
+
 
 	public List<BehaviorStateFigure> getBehaviorStateFigures() {
 		if (behaviorStateFigures == null){
