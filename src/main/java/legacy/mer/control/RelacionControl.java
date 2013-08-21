@@ -111,13 +111,11 @@ public class RelacionControl extends Relacion implements Control<Relacion>, Mous
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 
 	}
 }

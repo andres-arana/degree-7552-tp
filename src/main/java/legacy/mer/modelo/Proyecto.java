@@ -97,7 +97,7 @@ public class Proyecto extends ComponenteNombre implements ProyectoProxy {
 	}
 
 	/**
-	 * Devuelve la validación de todo el proyecto.
+	 * Devuelve la validación de tdo el proyecto.
 	 * 
 	 * @return
 	 */
@@ -106,7 +106,7 @@ public class Proyecto extends ComponenteNombre implements ProyectoProxy {
 	}
 
 	/**
-	 * Establece la validación de todo el proyecto.
+	 * Establece la validación de tdo el proyecto.
 	 * 
 	 * @param validacion
 	 */

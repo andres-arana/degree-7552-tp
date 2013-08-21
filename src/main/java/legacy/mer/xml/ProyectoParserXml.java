@@ -97,7 +97,6 @@ public class ProyectoParserXml extends ParserXML {
 
 	@Override
 	public Object parsearXml() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

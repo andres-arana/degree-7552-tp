@@ -78,22 +78,18 @@ public class BehaviorTextFigure extends Figure implements MouseListener,MouseMot
 	
 	@Override
 	public void mouseEntered(MouseEvent me) {
-		// TODO Auto-generated method stub
 	}
 	
 	@Override
 	public void mouseExited(MouseEvent me) {
-		// TODO Auto-generated method stub
 	}
 	
 	@Override
 	public void mouseHover(MouseEvent me) {
-		// TODO Auto-generated method stub
 	}
 	
 	@Override
 	public void mouseMoved(MouseEvent me) {
-		// TODO Auto-generated method stub
 	}
 	
 	@Override
@@ -104,12 +100,10 @@ public class BehaviorTextFigure extends Figure implements MouseListener,MouseMot
 	
 	@Override
 	public void mouseReleased(MouseEvent me) {
-		// TODO Auto-generated method stub
 	}
 	
 	@Override
 	public void mouseDoubleClicked(MouseEvent me) {
-		// TODO Auto-generated method stub
 	}
 	
 	public Representation<BehaviorText> getText() {

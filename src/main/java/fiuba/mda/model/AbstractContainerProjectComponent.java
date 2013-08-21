@@ -81,7 +81,7 @@ public abstract class AbstractContainerProjectComponent extends
 		for (ProjectComponent child : children) {
 			child.removeFromHierarchy();
 		}
-	}
+    }
 	
 	
 }

@@ -62,7 +62,7 @@ public class Button extends JButton implements Transferable, DragSourceListener,
 	public void dragDropEnd(DragSourceDropEvent arg0) {
 		this.setVisible(false);
 		
-		// TODO change constants!! (canvas limits)
+		// change constants!! (canvas limits)
 		this.setBounds(arg0.getX() - 250, arg0.getY() - 60, 100, 30);
 		this.setVisible(true);
 	}

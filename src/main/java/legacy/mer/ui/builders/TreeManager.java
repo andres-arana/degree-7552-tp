@@ -173,7 +173,7 @@ public class TreeManager {
 	}
 
 	/**
-	 * Carga todo el arbol de componentes entero.
+	 * Carga tdo el arbol de componentes entero.
 	 * @param proyecto
 	 */
 	public static void cargar(Proyecto proyecto) {

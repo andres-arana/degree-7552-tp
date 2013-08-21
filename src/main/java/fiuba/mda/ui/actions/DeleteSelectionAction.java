@@ -37,6 +37,7 @@ public class DeleteSelectionAction extends Action {
 				ProjectComponent parent = model.getSelectedComponent()
 						.getParent();
 				parent.removeChild(model.getSelectedComponent());
+
 			}
 		}
 	}

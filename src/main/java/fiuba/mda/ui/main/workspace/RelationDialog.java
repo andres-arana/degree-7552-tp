@@ -125,11 +125,11 @@ public class RelationDialog extends TitleAreaDialog {
     private String isValidInput() {
         String valid = "OK";
         if (StringUtils.isBlank(name)) return "Debe ingresar un nombre";
-        //TODO: Validar que el nombre no este repetido
         if (StringUtils.isBlank(tipo)) return "Debe ingresar un tipo";
         if (StringUtils.isBlank(initialStateName) || StringUtils.isBlank(finalStateName)) return "Debe seleccionar 2 estados obligatoriamente";
         if (finalStateName.equals(initialStateName)) return "Debe seleccionar 2 estados diferentes";
         for (Representation<BehaviorRelation> relation : existingRelations){
+            if (relation.getEntity().getName().equals(name)) return "El nombre ya fue usado por otra relación";
             if (relation.getEntity().hasAll(initialStateName,finalStateName)) return "La Relación ya existe";
         }
 

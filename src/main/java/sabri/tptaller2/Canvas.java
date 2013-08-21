@@ -58,11 +58,11 @@ public class Canvas extends JPanel implements MouseListener{
 				((Text)visualComponent).setId(componentKey);
 			}else{
 				if (ComponentType.FORM.equals(component)){
-					visualComponent = new Text(component); //TODO default for "Formulario" = Texto
+					visualComponent = new Text(component); //default for "Formulario" = Texto
 					visualComponent.setBounds(x, y, 100, 30);
 					((Text)visualComponent).setId(componentKey);
 				}else{
-					visualComponent = new Text(component); //TODO default for "Campo" = Texto.
+					visualComponent = new Text(component); //default for "Campo" = Texto.
 					visualComponent.setBounds(x, y, 100, 30);
 					((Text)visualComponent).setId(componentKey);
 				}

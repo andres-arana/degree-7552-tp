@@ -61,7 +61,7 @@ public class Text extends JLabel implements Transferable, DragSourceListener, Dr
 	public void dragDropEnd(DragSourceDropEvent arg0) {
 		this.setVisible(false);
 		
-		// TODO canvas limits, add variables somewhere (?)
+		// canvas limits, add variables somewhere (?)
 		this.setBounds(arg0.getX() - 250, arg0.getY() - 60, 100, 30);
 		this.setVisible(true);
 	}
