@@ -2,6 +2,7 @@ package fiuba.mda.ui.launchers;
 
 import java.util.List;
 
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
 
 import com.google.inject.Inject;
@@ -20,12 +21,12 @@ public class WizardDialogLauncher extends Wizard {
 	private FourthWizardPage fourthPage;
 	private FifthWizardPage fifthPage;
 	private WizardForm form;
-	
+    private boolean wasCanceled = false;
+
  	/**
 	 * Creates a new {@link WizardDialogLauncher} instance
 	 * 
-	 * @param shell
-	 *            the shell which will contain the dialogs this controller provides
+	 *
 	 */
 	@Inject
 	public WizardDialogLauncher() {
@@ -36,7 +37,7 @@ public class WizardDialogLauncher extends Wizard {
 		thirdPage = new ThirdWizardPage("Tercera página");
 		fourthPage = new FourthWizardPage("Cuarta página");
 		fifthPage = new FifthWizardPage("Quinta página");
-		super.setWindowTitle("Wizard para la creación de un formulario");
+        super.setWindowTitle("Wizard para la creación de un formulario");
 	}
 
 	@Override
@@ -50,7 +51,14 @@ public class WizardDialogLauncher extends Wizard {
 		// Close the wizard dialog
 		return true;
 	}
-	
+    @Override
+
+    public boolean performCancel() {
+        this.wasCanceled = true;
+        // Close the wizard dialog
+        return true;
+    }
+
 	@Override
 	public void addPages() {
 	  addPage(firstPage);
@@ -107,4 +115,8 @@ public class WizardDialogLauncher extends Wizard {
 	public WizardForm getForm(){
 		return this.form;
 	}
+
+    public boolean wasCanceled(){
+        return wasCanceled;
+    }
 }

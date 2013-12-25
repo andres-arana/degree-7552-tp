@@ -15,7 +15,6 @@ import fiuba.mda.ui.launchers.WizardDialogLauncher;
 import fiuba.mda.ui.utilities.ImageLoader;
 
 public class NewFormAction extends Action {
-	private WizardDialogLauncher launcher;
 	private GraficInterfaceDiagram boundDiagram;
 	private int formNumber = 0;
 	private final Shell shell;
@@ -25,12 +24,10 @@ public class NewFormAction extends Action {
 	 * 
 	 * @param imageLoader
 	 *            the image loader used to provide the image of this action
-	 * @param dialog
 	 */
 	@Inject
-	public NewFormAction(final Shell shell, final ImageLoader imageLoader, WizardDialogLauncher launcher) {
+	public NewFormAction(final Shell shell, final ImageLoader imageLoader) {
 		this.shell = shell;
-		this.launcher = launcher;
 		setupPresentation(imageLoader);
 	}
 
@@ -54,17 +51,20 @@ public class NewFormAction extends Action {
 
 	@Override
 	public void run() {
-		WizardDialog dialogo = new WizardDialog(shell, launcher);
-		WizardForm form = launcher.getForm();
-		dialogo.open(); 
-		
-		BehaviorForm behaviorForm = new BehaviorForm(form.getFormName(), form.getExistingPropertiesAdded(), 
+        WizardDialogLauncher launcher = new WizardDialogLauncher();
+        WizardDialog dialogo = new WizardDialog(shell, launcher);
+		dialogo.open();
+
+        if (!launcher.wasCanceled()){
+        WizardForm form = launcher.getForm();
+        BehaviorForm behaviorForm = new BehaviorForm(form.getFormName(), form.getExistingPropertiesAdded(),
 				form.getNewPropertiesAdded(), form.getTextsAdded(), form.getButtonsAdded());
 		
 		Representation<BehaviorForm> representation = new Representation<>(behaviorForm);
 		representation.getPosition().setX(formNumber * 100);
 		boundDiagram.addForm(representation);
 		formNumber++;
-		
+        }
+
 	}
 }

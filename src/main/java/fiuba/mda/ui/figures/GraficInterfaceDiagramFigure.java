@@ -33,6 +33,13 @@ public class GraficInterfaceDiagramFigure extends FreeformLayer {
         }
     };
 
+    private Observer<GraficInterfaceDiagram> onFormChanged = new Observer<GraficInterfaceDiagram>() {
+        @Override
+        public void notify(GraficInterfaceDiagram observable) {
+            rebindChildFigures();
+        }
+    };
+
 	private final GraficInterfaceDiagram component;
 
 
@@ -41,6 +48,7 @@ public class GraficInterfaceDiagramFigure extends FreeformLayer {
     private List<BehaviorButtonFigure> behaviorButtonFigures;
 
     private List<BehaviorFieldFigure> behaviorFieldFigures;
+    private List<BehaviorFormFigure> behaviorFormFigures;
 
 	/**
 	 * Creates a new @{link BehaviorDiagramFigure} instance
@@ -53,11 +61,13 @@ public class GraficInterfaceDiagramFigure extends FreeformLayer {
         component.textsChangedEvent().observe(onTextChanged);
         component.fieldsChangedEvent().observe(onFieldChanged);
         component.buttonsChangedEvent().observe(onButtonChanged);
+        component.formsChangedEvent().observe(onFormChanged);
 		setLayoutManager(new FreeformLayout());
 		rebindChildFigures();
         behaviorTextFigures = new ArrayList<>();
         behaviorButtonFigures = new ArrayList<>();
         behaviorFieldFigures = new ArrayList<>();
+        behaviorFormFigures = new ArrayList<>();
     }
 
 	private void rebindChildFigures() {
@@ -77,8 +87,13 @@ public class GraficInterfaceDiagramFigure extends FreeformLayer {
             add(figure);
             getBehaviorFieldFigures().add(figure);
 		}
+        for (Representation<BehaviorForm> form : component.getForms()) {
+            BehaviorFormFigure figure = new BehaviorFormFigure(form);
+            add(figure);
+            getBehaviorFormFigures().add(figure);
+        }
 	}
-	
+
 	public List<BehaviorTextFigure> getBehaviorTextFigures() {
 		if (behaviorTextFigures == null){
             behaviorTextFigures = new ArrayList<>();
@@ -98,8 +113,15 @@ public class GraficInterfaceDiagramFigure extends FreeformLayer {
 			behaviorFieldFigures = new ArrayList<>();
         }
         return behaviorFieldFigures;
-    } 
-	
+    }
+
+    public List<BehaviorFormFigure> getBehaviorFormFigures() {
+        if (behaviorFormFigures == null){
+            behaviorFormFigures = new ArrayList<>();
+        }
+        return behaviorFormFigures;
+    }
+
 
 
 }

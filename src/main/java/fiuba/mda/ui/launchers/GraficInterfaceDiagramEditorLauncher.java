@@ -29,6 +29,7 @@ public class GraficInterfaceDiagramEditorLauncher extends
     private final Provider<NewTextAction> newTextActionProvider;
     private final Provider<NewButtonAction> newButtonActionProvider;
     private final Provider<NewFieldAction> newFieldActionProvider;
+    private final Provider<NewFormAction> newFormActionProvider;
 
     /**
      * Creates a new @{link BehaviorDiagramLauncher} instance
@@ -40,6 +41,7 @@ public class GraficInterfaceDiagramEditorLauncher extends
      *            the image visitor to get the image for the tab
      * @param newTextActionProvider
      * @param newButtonActionProvider
+     * @param newFormActionProvider
      */
     @Inject
     public GraficInterfaceDiagramEditorLauncher(
@@ -47,12 +49,13 @@ public class GraficInterfaceDiagramEditorLauncher extends
             final ComponentImageVisitor imageVisitor,
             final Provider<NewTextAction> newTextActionProvider,
             final Provider<NewButtonAction> newButtonActionProvider,
-            final Provider<NewFieldAction> newFieldActionProvider) {
+            final Provider<NewFieldAction> newFieldActionProvider, Provider<NewFormAction> newFormActionProvider) {
         this.mainWindow = mainWindow;
         this.imageVisitor = imageVisitor;
         this.newTextActionProvider = newTextActionProvider;
         this.newButtonActionProvider = newButtonActionProvider;
         this.newFieldActionProvider = newFieldActionProvider;
+        this.newFormActionProvider = newFormActionProvider;
     }
 
     @Override
@@ -72,6 +75,7 @@ public class GraficInterfaceDiagramEditorLauncher extends
                 editor.addAction(newTextActionProvider.get().boundTo(component));
                 editor.addAction(newButtonActionProvider.get().boundTo(component));
                 editor.addAction(newFieldActionProvider.get().boundTo(component));
+                editor.addAction(newFormActionProvider.get().boundTo(component));
                 return editor;
             }
         });

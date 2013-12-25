@@ -17,12 +17,16 @@ public class GraficInterfaceDiagram extends AbstractLeafProjectComponent {
             this);
     private final SimpleEvent<GraficInterfaceDiagram> fieldsChangedEvent = new SimpleEvent<>(
             this);
+    private final SimpleEvent<GraficInterfaceDiagram> formsChangedEvent = new SimpleEvent<>(
+            this);
 
 	private final List<Representation<BehaviorText>> texts = new ArrayList<>();
 
     private final List<Representation<BehaviorButton>> buttons = new ArrayList<>();
 
     private final List<Representation<BehaviorField>> fields = new ArrayList<>();
+
+    private final List<Representation<BehaviorForm>> forms = new ArrayList<>();
 
     /**
 	 * Creates a new {@link fiuba.mda.model.GraficInterfaceDiagram} instance
@@ -52,6 +56,10 @@ public class GraficInterfaceDiagram extends AbstractLeafProjectComponent {
         return Collections.unmodifiableList(fields);
     }
 
+    public List<Representation<BehaviorForm>> getForms() {
+        return Collections.unmodifiableList(forms);
+    }
+
     public SimpleEvent<GraficInterfaceDiagram> textsChangedEvent() {
         return textsChangedEvent;
     }
@@ -62,6 +70,11 @@ public class GraficInterfaceDiagram extends AbstractLeafProjectComponent {
 
     public SimpleEvent<GraficInterfaceDiagram> fieldsChangedEvent() {
         return fieldsChangedEvent;
+    }
+
+
+    public SimpleEvent<GraficInterfaceDiagram> formsChangedEvent() {
+        return formsChangedEvent;
     }
 
 
@@ -78,6 +91,11 @@ public class GraficInterfaceDiagram extends AbstractLeafProjectComponent {
     public void addField(Representation<BehaviorField> field) {
         fields.add(field);
         fieldsChangedEvent.raise();
+    }
+
+    public void addForm(Representation<BehaviorForm> form) {
+        forms.add(form);
+        formsChangedEvent.raise();
     }
 
 
@@ -102,6 +120,13 @@ public class GraficInterfaceDiagram extends AbstractLeafProjectComponent {
             String str = entity.getName() + ":Button;";
             s.add(str);
         }
+
+        for (Representation<BehaviorForm> b : forms){
+            BehaviorForm entity = b.getEntity();
+            String str = entity.getFormName() + ":Form;";
+            s.add(str);
+        }
+
 
         return s;
     }

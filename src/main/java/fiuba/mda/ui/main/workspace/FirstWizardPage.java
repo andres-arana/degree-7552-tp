@@ -34,13 +34,20 @@ public class FirstWizardPage extends WizardPage {
 
 	      @Override
 	      public void keyPressed(KeyEvent e) {
+              if (!formName.getText().isEmpty()) {
+                  setPageComplete(true);
+              } else {
+                  setPageComplete(false);
+              }
 	      }
 
 	      @Override
 	      public void keyReleased(KeyEvent e) {
 	        if (!formName.getText().isEmpty()) {
 	          setPageComplete(true);
-	        }
+	        } else {
+                setPageComplete(false);
+            }
 	      }
 
 	    });
