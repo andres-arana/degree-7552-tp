@@ -27,9 +27,11 @@ public class BehaviorFieldFigure extends Figure implements MouseListener,MouseMo
 	
 	private final Label label;
 	private final Representation<BehaviorField> field;
+	private final GraficInterfaceDiagramFigure.Dialogs dialogs;	
 	
-	public BehaviorFieldFigure(final Representation<BehaviorField> field) {
+	public BehaviorFieldFigure(final Representation<BehaviorField> field, final GraficInterfaceDiagramFigure.Dialogs dialogs) {
 		this.field = field;
+		this.dialogs = dialogs;
 		setLayoutManager(new StackLayout());
 		fieldBox = new Label();
 		fieldBox.setOpaque(true);
@@ -116,6 +118,7 @@ public class BehaviorFieldFigure extends Figure implements MouseListener,MouseMo
 	
 	@Override
 	public void mouseDoubleClicked(MouseEvent me) {
+		dialogs.showFieldDialog(field.getEntity());
 	}
 	
 	public Representation<BehaviorField> getField() {

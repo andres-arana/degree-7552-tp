@@ -13,6 +13,7 @@ import fiuba.mda.ui.main.MainWindow;
 import fiuba.mda.ui.main.tree.ComponentImageVisitor;
 import fiuba.mda.ui.main.workspace.ControlBuilder;
 import fiuba.mda.ui.main.workspace.DiagramEditor;
+import fiuba.mda.model.*;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
@@ -30,6 +31,25 @@ public class GraficInterfaceDiagramEditorLauncher extends
     private final Provider<NewButtonAction> newButtonActionProvider;
     private final Provider<NewFieldAction> newFieldActionProvider;
     private final Provider<NewFormAction> newFormActionProvider;
+
+    private class GraficDialogs implements GraficInterfaceDiagramFigure.Dialogs {
+        public void showTextDialog(BehaviorText behaviorText) {
+            // TODO: Show dialog
+            System.out.println("TODO: Implement GraficDialogs.showFormDialog on GraficInterfaceDiagramEditorLauncher.java");
+        }
+        public void showButtonDialog(BehaviorButton bevaviorButton) {
+            // TODO: Show dialog
+            System.out.println("TODO: Implement GraficDialogs.showButtonDialog on GraficInterfaceDiagramEditorLauncher.java");
+        }
+        public void showFieldDialog(BehaviorField behaviorField){
+            // TODO: Show dialog
+            System.out.println("TODO: Implement GraficDialogs.showFieldDialog on GraficInterfaceDiagramEditorLauncher.java");
+        }
+        public void showFormDialog(BehaviorForm behaviorForm) {
+            // TODO: Show dialog
+            System.out.println("TODO: Implement GraficDialogs.showFormDialog on GraficInterfaceDiagramEditorLauncher.java");
+        }
+    }
 
     /**
      * Creates a new @{link BehaviorDiagramLauncher} instance
@@ -69,8 +89,9 @@ public class GraficInterfaceDiagramEditorLauncher extends
             @Override
             public Control buildInto(Composite parent) {
                 DiagramEditor editor = new DiagramEditor(parent, SWT.NONE);
+                GraficInterfaceDiagramFigure.Dialogs dialogs = new GraficDialogs();
 
-                editor.addFigure(new GraficInterfaceDiagramFigure(component));
+                editor.addFigure(new GraficInterfaceDiagramFigure(component, dialogs));
 
                 editor.addAction(newTextActionProvider.get().boundTo(component));
                 editor.addAction(newButtonActionProvider.get().boundTo(component));

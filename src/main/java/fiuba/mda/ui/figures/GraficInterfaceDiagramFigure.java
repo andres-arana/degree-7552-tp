@@ -12,6 +12,19 @@ import java.util.List;
  * Figure which displays a behavior diagram
  */
 public class GraficInterfaceDiagramFigure extends FreeformLayer {
+    public interface Dialogs {
+        /**
+        * Crea los dialogos para editar los behavior
+        */
+        public void showTextDialog(BehaviorText behaviorText);
+        public void showButtonDialog(BehaviorButton bevaviorButton);
+        public void showFieldDialog(BehaviorField behaviorField);
+        public void showFormDialog(BehaviorForm behaviorForm);
+    }
+
+    private Dialogs dialogs;
+
+
 	private Observer<GraficInterfaceDiagram> onTextChanged = new Observer<GraficInterfaceDiagram>() {
 		@Override
 		public void notify(GraficInterfaceDiagram observable) {
@@ -56,8 +69,9 @@ public class GraficInterfaceDiagramFigure extends FreeformLayer {
 	 * @param component
 	 *            the {@link fiuba.mda.model.BehaviorDiagram} instance to display
 	 */
-	public GraficInterfaceDiagramFigure(final GraficInterfaceDiagram component) {
+	public GraficInterfaceDiagramFigure(final GraficInterfaceDiagram component, final Dialogs dialogs) {
 		this.component = component;
+        this.dialogs = dialogs;
         component.textsChangedEvent().observe(onTextChanged);
         component.fieldsChangedEvent().observe(onFieldChanged);
         component.buttonsChangedEvent().observe(onButtonChanged);
@@ -73,22 +87,22 @@ public class GraficInterfaceDiagramFigure extends FreeformLayer {
 	private void rebindChildFigures() {
 		removeAll();
 		for (Representation<BehaviorText> text : component.getTexts()) {
-            BehaviorTextFigure figure = new BehaviorTextFigure(text);
+            BehaviorTextFigure figure = new BehaviorTextFigure(text, this.dialogs);
             add(figure);
             getBehaviorTextFigures().add(figure);
 		}
 		for (Representation<BehaviorButton> button : component.getButtons()) {
-			BehaviorButtonFigure figure = new BehaviorButtonFigure(button);
+			BehaviorButtonFigure figure = new BehaviorButtonFigure(button, this.dialogs);
             add(figure);
             getBehaviorButtonFigures().add(figure);
 		}
 		for (Representation<BehaviorField> field : component.getFields()) {
-			BehaviorFieldFigure figure = new BehaviorFieldFigure(field);
+			BehaviorFieldFigure figure = new BehaviorFieldFigure(field, this.dialogs);
             add(figure);
             getBehaviorFieldFigures().add(figure);
 		}
         for (Representation<BehaviorForm> form : component.getForms()) {
-            BehaviorFormFigure figure = new BehaviorFormFigure(form);
+            BehaviorFormFigure figure = new BehaviorFormFigure(form, this.dialogs);
             add(figure);
             getBehaviorFormFigures().add(figure);
         }

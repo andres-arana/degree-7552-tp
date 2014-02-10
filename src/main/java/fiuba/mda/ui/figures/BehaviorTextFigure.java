@@ -22,9 +22,11 @@ public class BehaviorTextFigure extends Figure implements MouseListener,MouseMot
 	private Point moveStartedLocation;
 	private final Label label;
 	private final Representation<BehaviorText> text;
+	private final GraficInterfaceDiagramFigure.Dialogs dialogs;
 	
-	public BehaviorTextFigure(final Representation<BehaviorText> text) {
+	public BehaviorTextFigure(final Representation<BehaviorText> text, final GraficInterfaceDiagramFigure.Dialogs dialogs) {
 		this.text = text;
+		this.dialogs = dialogs;
 		setLayoutManager(new StackLayout());
 		addMouseListener(this);
 		addMouseMotionListener(this);
@@ -104,6 +106,7 @@ public class BehaviorTextFigure extends Figure implements MouseListener,MouseMot
 	
 	@Override
 	public void mouseDoubleClicked(MouseEvent me) {
+		dialogs.showTextDialog(text.getEntity());
 	}
 	
 	public Representation<BehaviorText> getText() {

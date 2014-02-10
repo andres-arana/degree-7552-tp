@@ -26,9 +26,11 @@ public class BehaviorButtonFigure extends Figure implements MouseListener,MouseM
 	
 	private final Label label;
 	private final Representation<BehaviorButton> button;
+	private final GraficInterfaceDiagramFigure.Dialogs dialogs;	
 	
-	public BehaviorButtonFigure(final Representation<BehaviorButton> button) {
+	public BehaviorButtonFigure(final Representation<BehaviorButton> button, final GraficInterfaceDiagramFigure.Dialogs dialogs) {
 		this.button = button;
+		this.dialogs = dialogs;
 		setLayoutManager(new StackLayout());
 		buttonBox = new Button();
 		addMouseListener(this);
@@ -111,6 +113,7 @@ public class BehaviorButtonFigure extends Figure implements MouseListener,MouseM
 	
 	@Override
 	public void mouseDoubleClicked(MouseEvent me) {
+		dialogs.showButtonDialog(button.getEntity());
 	}
 	
 	public Representation<BehaviorButton> getButton() {

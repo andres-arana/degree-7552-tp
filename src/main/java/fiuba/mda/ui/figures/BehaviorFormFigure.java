@@ -36,9 +36,11 @@ public class BehaviorFormFigure extends Figure implements MouseListener,MouseMot
 	private List<Button> buttons;
 
 	private final Representation<BehaviorForm> form;
+	private final GraficInterfaceDiagramFigure.Dialogs dialogs;	
 	
-	public BehaviorFormFigure(final Representation<BehaviorForm> form) {
+	public BehaviorFormFigure(final Representation<BehaviorForm> form, final GraficInterfaceDiagramFigure.Dialogs dialogs) {
 		this.form = form;
+		this.dialogs = dialogs;
 		setExistingFields();
 		setNewFields();
 		setTexts();
@@ -145,7 +147,7 @@ public class BehaviorFormFigure extends Figure implements MouseListener,MouseMot
 	
 	@Override
 	public void mouseDoubleClicked(MouseEvent me) {
-		// TODO Auto-generated method stub
+		dialogs.showFormDialog(form.getEntity());
 	}
 	
 	public Representation<BehaviorForm> getForm() {
