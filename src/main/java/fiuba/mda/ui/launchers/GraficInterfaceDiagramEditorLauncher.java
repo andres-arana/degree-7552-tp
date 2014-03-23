@@ -40,6 +40,7 @@ public class GraficInterfaceDiagramEditorLauncher extends
     private class GraficDialogs implements GraficInterfaceDiagramFigure.Dialogs {
         private final Shell shell;
 
+        @Inject
         public GraficDialogs(final Shell shell) {
             this.shell = shell;
         }
@@ -73,6 +74,7 @@ public class GraficInterfaceDiagramEditorLauncher extends
      * @param newTextActionProvider
      * @param newButtonActionProvider
      * @param newFormActionProvider
+     * @param graficDialogsProvider
      */
     @Inject
     public GraficInterfaceDiagramEditorLauncher(
