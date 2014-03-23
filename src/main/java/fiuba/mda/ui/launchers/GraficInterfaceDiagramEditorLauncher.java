@@ -39,19 +39,27 @@ public class GraficInterfaceDiagramEditorLauncher extends
 
     private class GraficDialogs implements GraficInterfaceDiagramFigure.Dialogs {
         private final Shell shell;
+        private final SimpleDialogLauncher dialogLauncher;
 
         @Inject
-        public GraficDialogs(final Shell shell) {
+        public GraficDialogs(final Shell shell, final SimpleDialogLauncher dialogLauncher) {
             this.shell = shell;
+            this.dialogLauncher = dialogLauncher;
         }
 
         public void showTextDialog(BehaviorText behaviorText) {
             // TODO: Show dialog
             System.out.println("TODO: Implement GraficDialogs.showFormDialog on GraficInterfaceDiagramEditorLauncher.java");
         }
-        public void showButtonDialog(BehaviorButton bevaviorButton) {
+        public void showButtonDialog(BehaviorButton behaviorButton) {
             // TODO: Show dialog
-            System.out.println("TODO: Implement GraficDialogs.showButtonDialog on GraficInterfaceDiagramEditorLauncher.java");
+            //System.out.println("TODO: Implement GraficDialogs.showButtonDialog on GraficInterfaceDiagramEditorLauncher.java");
+            ButtonDialog dialogo = new ButtonDialog(shell, "Edición de Botón");
+            Optional<String> stringOptional = dialogLauncher.showDialog(dialogo);
+            
+            if (stringOptional.isPresent()) {     
+                behaviorButton.setName(dialogo.getLabelString());
+            };
         }
         public void showFieldDialog(BehaviorField behaviorField){
             // TODO: Show dialog

@@ -19,17 +19,23 @@ public class ButtonDialog extends TitleAreaDialog {
 	
     private String labelString;
     private Text text;
+    private String title;
 
-    @Inject
 	public ButtonDialog(Shell parentShell) {
-		super(parentShell);
+        super(parentShell);
+        this.title = "Creación de Botón";
 	}
+
+    public ButtonDialog(Shell parentShell, String title) {
+        super(parentShell);
+        this.title = title;
+    }
 	
     @Override
     public void create() {
         super.create();
         // Set the title
-        setTitle("Creación de Botón");
+        setTitle(title);
         // Set the message
         setMessage("Ingrese la etiqueta del botón", IMessageProvider.INFORMATION);
     }

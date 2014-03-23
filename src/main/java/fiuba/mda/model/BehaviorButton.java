@@ -1,7 +1,7 @@
 package fiuba.mda.model;
 
 public class BehaviorButton {
-	private final String name;
+	private String name;
 
 	public BehaviorButton(final String name) {
 		this.name = name;
@@ -9,5 +9,9 @@ public class BehaviorButton {
 
 	public String getName() {
 		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }
