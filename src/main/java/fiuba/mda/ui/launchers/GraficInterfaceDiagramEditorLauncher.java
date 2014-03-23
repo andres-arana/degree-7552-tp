@@ -40,11 +40,17 @@ public class GraficInterfaceDiagramEditorLauncher extends
     private class GraficDialogs implements GraficInterfaceDiagramFigure.Dialogs {
         private final Shell shell;
         private final SimpleDialogLauncher dialogLauncher;
+        private GraficInterfaceDiagram diagram;
 
         @Inject
         public GraficDialogs(final Shell shell, final SimpleDialogLauncher dialogLauncher) {
             this.shell = shell;
             this.dialogLauncher = dialogLauncher;
+        }
+
+        public GraficDialogs boundTo(final GraficInterfaceDiagram diagram) {
+            this.diagram = diagram;
+            return this;
         }
 
         public void showTextDialog(BehaviorText behaviorText) {
@@ -59,6 +65,7 @@ public class GraficInterfaceDiagramEditorLauncher extends
             
             if (stringOptional.isPresent()) {     
                 behaviorButton.setName(dialogo.getLabelString());
+                diagram.buttonsChangedEvent().raise();
             };
         }
         public void showFieldDialog(BehaviorField behaviorField){
@@ -113,7 +120,7 @@ public class GraficInterfaceDiagramEditorLauncher extends
             @Override
             public Control buildInto(Composite parent) {
                 DiagramEditor editor = new DiagramEditor(parent, SWT.NONE);
-                GraficInterfaceDiagramFigure.Dialogs dialogs = graficDialogsProvider.get();
+                GraficInterfaceDiagramFigure.Dialogs dialogs = graficDialogsProvider.get().boundTo(component);
 
                 editor.addFigure(new GraficInterfaceDiagramFigure(component, dialogs));
 
