@@ -61,8 +61,10 @@ public class GraficInterfaceDiagramEditorLauncher extends
             // TODO: Show dialog
             //System.out.println("TODO: Implement GraficDialogs.showButtonDialog on GraficInterfaceDiagramEditorLauncher.java");
             ButtonDialog dialogo = new ButtonDialog(shell, "Edición de Botón");
+            dialogo.setLabelString(behaviorButton.getName());
+
             Optional<String> stringOptional = dialogLauncher.showDialog(dialogo);
-            
+
             if (stringOptional.isPresent()) {     
                 behaviorButton.setName(dialogo.getLabelString());
                 diagram.buttonsChangedEvent().raise();

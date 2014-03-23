@@ -17,7 +17,7 @@ import com.google.inject.Inject;
 
 public class ButtonDialog extends TitleAreaDialog {
 	
-    private String labelString;
+    private String labelString = "";
     private Text text;
     private String title;
 
@@ -56,6 +56,7 @@ public class ButtonDialog extends TitleAreaDialog {
         
         text = new Text(parent, SWT.NONE);
         text.setLayoutData(gridData);
+        text.setText(labelString);
 
         return parent;
     }
@@ -88,4 +89,9 @@ public class ButtonDialog extends TitleAreaDialog {
     public String getLabelString() {
         return labelString;
     }
+
+    public void setLabelString(String labelString) {
+        this.labelString = labelString;
+    }
 }
+
