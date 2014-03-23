@@ -19,6 +19,9 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
+import fiuba.mda.ui.main.workspace.ButtonDialog;
+
+import org.eclipse.swt.widgets.Shell;
 /**
  * {@link fiuba.mda.ui.launchers.Launcher} implementation which allows editing a behavior diagram
  */
@@ -32,7 +35,15 @@ public class GraficInterfaceDiagramEditorLauncher extends
     private final Provider<NewFieldAction> newFieldActionProvider;
     private final Provider<NewFormAction> newFormActionProvider;
 
+    private final Provider<GraficDialogs> graficDialogsProvider;
+
     private class GraficDialogs implements GraficInterfaceDiagramFigure.Dialogs {
+        private final Shell shell;
+
+        public GraficDialogs(final Shell shell) {
+            this.shell = shell;
+        }
+
         public void showTextDialog(BehaviorText behaviorText) {
             // TODO: Show dialog
             System.out.println("TODO: Implement GraficDialogs.showFormDialog on GraficInterfaceDiagramEditorLauncher.java");
@@ -69,13 +80,16 @@ public class GraficInterfaceDiagramEditorLauncher extends
             final ComponentImageVisitor imageVisitor,
             final Provider<NewTextAction> newTextActionProvider,
             final Provider<NewButtonAction> newButtonActionProvider,
-            final Provider<NewFieldAction> newFieldActionProvider, Provider<NewFormAction> newFormActionProvider) {
+            final Provider<NewFieldAction> newFieldActionProvider,
+            final Provider<NewFormAction> newFormActionProvider,
+            final Provider<GraficDialogs> graficDialogsProvider) {
         this.mainWindow = mainWindow;
         this.imageVisitor = imageVisitor;
         this.newTextActionProvider = newTextActionProvider;
         this.newButtonActionProvider = newButtonActionProvider;
         this.newFieldActionProvider = newFieldActionProvider;
         this.newFormActionProvider = newFormActionProvider;
+        this.graficDialogsProvider = graficDialogsProvider;
     }
 
     @Override
@@ -89,7 +103,7 @@ public class GraficInterfaceDiagramEditorLauncher extends
             @Override
             public Control buildInto(Composite parent) {
                 DiagramEditor editor = new DiagramEditor(parent, SWT.NONE);
-                GraficInterfaceDiagramFigure.Dialogs dialogs = new GraficDialogs();
+                GraficInterfaceDiagramFigure.Dialogs dialogs = graficDialogsProvider.get();
 
                 editor.addFigure(new GraficInterfaceDiagramFigure(component, dialogs));
 

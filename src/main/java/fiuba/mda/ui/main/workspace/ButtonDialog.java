@@ -12,11 +12,15 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import com.google.common.base.Optional;
+import com.google.inject.Inject;
+
 public class ButtonDialog extends TitleAreaDialog {
 	
     private String labelString;
     private Text text;
 
+    @Inject
 	public ButtonDialog(Shell parentShell) {
 		super(parentShell);
 	}
