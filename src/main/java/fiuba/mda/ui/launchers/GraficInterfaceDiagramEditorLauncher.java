@@ -61,7 +61,7 @@ public class GraficInterfaceDiagramEditorLauncher extends
 
             if (stringOptional.isPresent()) {     
                 behaviorText.setName(dialogo.getTextString());
-                diagram.buttonsChangedEvent().raise();
+                diagram.textsChangedEvent().raise();
             };
         }
         public void showButtonDialog(BehaviorButton behaviorButton) {
