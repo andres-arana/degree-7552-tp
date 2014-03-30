@@ -21,11 +21,13 @@ public class TextDialog extends TitleAreaDialog {
 	public TextDialog(Shell parentShell) {
 		super(parentShell);
         this.title = "Creación de Texto";
+        this.textString = "";
 	}
 
     public TextDialog(Shell parentShell, String title) {
         super(parentShell);
         this.title = title;
+        this.textString = "";
     }
 	
     @Override
@@ -53,6 +55,7 @@ public class TextDialog extends TitleAreaDialog {
 
         text = new Text(parent, SWT.NONE);
         text.setLayoutData(gridData);
+        text.setText(this.textString);
 
         return parent;
     }
