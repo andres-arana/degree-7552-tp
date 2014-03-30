@@ -19,7 +19,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
-import fiuba.mda.ui.main.workspace.ButtonDialog;
+import fiuba.mda.ui.main.workspace.*;
 
 import org.eclipse.swt.widgets.Shell;
 /**
@@ -54,12 +54,17 @@ public class GraficInterfaceDiagramEditorLauncher extends
         }
 
         public void showTextDialog(BehaviorText behaviorText) {
-            // TODO: Show dialog
-            System.out.println("TODO: Implement GraficDialogs.showFormDialog on GraficInterfaceDiagramEditorLauncher.java");
+            TextDialog dialogo = new TextDialog(shell, "Edición de Texto");
+            dialogo.setTextString(behaviorText.getName());
+
+            Optional<String> stringOptional = dialogLauncher.showDialog(dialogo);
+
+            if (stringOptional.isPresent()) {     
+                behaviorText.setName(dialogo.getTextString());
+                diagram.buttonsChangedEvent().raise();
+            };
         }
         public void showButtonDialog(BehaviorButton behaviorButton) {
-            // TODO: Show dialog
-            //System.out.println("TODO: Implement GraficDialogs.showButtonDialog on GraficInterfaceDiagramEditorLauncher.java");
             ButtonDialog dialogo = new ButtonDialog(shell, "Edición de Botón");
             dialogo.setLabelString(behaviorButton.getName());
 

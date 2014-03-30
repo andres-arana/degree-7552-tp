@@ -16,16 +16,23 @@ public class TextDialog extends TitleAreaDialog {
 	
     private Text text;
     private String textString;
+    private String title;
 
 	public TextDialog(Shell parentShell) {
 		super(parentShell);
+        this.title = "Creación de Texto";
 	}
+
+    public TextDialog(Shell parentShell, String title) {
+        super(parentShell);
+        this.title = title;
+    }
 	
     @Override
     public void create() {
         super.create();
         // Title
-        setTitle("Creación de Texto");
+        setTitle(this.title);
         // Set the message
         setMessage("Ingrese el texto", IMessageProvider.INFORMATION);
     }
@@ -77,6 +84,10 @@ public class TextDialog extends TitleAreaDialog {
 
     public String getTextString() {
         return textString;
+    }
+
+    public void setTextString(String value) {
+        this.textString = value;
     }
     
     public Text getText(){
