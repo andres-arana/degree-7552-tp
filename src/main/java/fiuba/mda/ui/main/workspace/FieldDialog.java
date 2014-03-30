@@ -13,21 +13,35 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.ModifyEvent;
+
 public class FieldDialog extends TitleAreaDialog {
     private Combo propertyNameCombo;
     private Text propertyNameText;
     private String propertyName;
     private String fieldName;
+    private String title;
 
     public FieldDialog(Shell parentShell) {
         super(parentShell);
+        this.title = "Creación de Campo";
+        this.fieldName = "";
+        this.propertyName = "";
+    }
+
+    public FieldDialog(Shell parentShell, String title) {
+        super(parentShell);
+        this.title = title;
+        this.fieldName = "";
+        this.propertyName = "";
     }
 
     @Override
     public void create() {
         super.create();
         // Set the title
-        setTitle("Creación de Campo");
+        setTitle(this.title);
         // Set the message
         setMessage("Seleccione la propiedad representada por el campo", IMessageProvider.INFORMATION);
     }
@@ -47,6 +61,7 @@ public class FieldDialog extends TitleAreaDialog {
 
         propertyNameText = new Text(parent, SWT.NONE);
         propertyNameText.setLayoutData(gridData);
+        propertyNameText.setText(this.fieldName);
 
         GridData gridData2 = new GridData();
         gridData2.grabExcessHorizontalSpace = true;
@@ -59,6 +74,26 @@ public class FieldDialog extends TitleAreaDialog {
         propertyNameCombo = new Combo(parent, SWT.READ_ONLY);
         propertyNameCombo.setItems(items);
         propertyNameCombo.setLayoutData(gridData2);
+
+        for (int i = 0; i<items.length; i++) {
+            if (items[i].equals(this.propertyName)) {
+                propertyNameCombo.select(i);
+                break;
+            }
+        };
+
+        propertyNameText.addModifyListener(new ModifyListener() {
+            public void modifyText(ModifyEvent e) {
+                if (!propertyNameText.getText().equals(""))
+                    propertyNameCombo.deselectAll();
+            }
+        });
+
+        propertyNameCombo.addModifyListener(new ModifyListener() {
+            public void modifyText(ModifyEvent e) {
+                propertyNameText.setText("");
+            }
+        });
 
         return parent;
     }
@@ -101,4 +136,12 @@ public class FieldDialog extends TitleAreaDialog {
     public String getFieldName() {
         return fieldName;
     }
+
+    public void setPropertyName(String value) {
+        this.propertyName = value;
+    }
+
+    public void setFieldName(String value) {
+        this.fieldName = value;
+    }    
 }

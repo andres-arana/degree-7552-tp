@@ -76,8 +76,17 @@ public class GraficInterfaceDiagramEditorLauncher extends
             };
         }
         public void showFieldDialog(BehaviorField behaviorField){
-            // TODO: Show dialog
-            System.out.println("TODO: Implement GraficDialogs.showFieldDialog on GraficInterfaceDiagramEditorLauncher.java");
+            FieldDialog dialogo = new FieldDialog(shell, "Edición de Campo");
+            dialogo.setPropertyName(behaviorField.getPropertyName());
+            dialogo.setFieldName(behaviorField.getFieldName());
+
+            Optional<String> stringOptional = dialogLauncher.showDialog(dialogo);
+
+            if (stringOptional.isPresent()) {     
+                behaviorField.setPropertyName(dialogo.getPropertyName());
+                behaviorField.setFieldName(dialogo.getFieldName());
+                diagram.fieldsChangedEvent().raise();
+            };
         }
         public void showFormDialog(BehaviorForm behaviorForm) {
             // TODO: Show dialog

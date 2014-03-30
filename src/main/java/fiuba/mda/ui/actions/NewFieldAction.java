@@ -58,7 +58,7 @@ public class NewFieldAction extends Action {
 		Optional<String> response = dialog.showDialog(dialogo);
 		
 		if (response.isPresent()) {
-			BehaviorField field = new BehaviorField(!dialogo.getFieldName().equals("") ? dialogo.getFieldName():dialogo.getPropertyName());
+			BehaviorField field = new BehaviorField(dialogo.getFieldName(),dialogo.getPropertyName());
 			Representation<BehaviorField> representation = new Representation<>(field);
 			representation.getPosition().setX(fieldNumber * 100);
 			boundDiagram.addField(representation);
