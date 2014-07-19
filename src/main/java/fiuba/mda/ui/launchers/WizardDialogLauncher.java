@@ -75,6 +75,10 @@ public class WizardDialogLauncher extends Wizard {
 	public String getFormName(){
 		return firstPage.getFormName();
 	}
+
+	public void setFormName(String string){
+		firstPage.setFormName(string);
+	}	
 	
     /**
      * Returns the properties that have been added to the form

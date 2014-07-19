@@ -14,6 +14,7 @@ public class FirstWizardPage extends WizardPage {
 	
 	private Text formName;
 	private Composite container;
+	private String formNameStr = "";
 
 	public FirstWizardPage(String pageName) {
 		super(pageName);
@@ -29,7 +30,7 @@ public class FirstWizardPage extends WizardPage {
 	    Label formNameLabel = new Label(container, SWT.NONE);
 	    formNameLabel.setText("Name:");
 	    formName = new Text(container, SWT.BORDER | SWT.SINGLE);
-	    formName.setText("");
+	    formName.setText(formNameStr);
 	    formName.addKeyListener(new KeyListener() {
 
 	      @Override
@@ -57,7 +58,7 @@ public class FirstWizardPage extends WizardPage {
 
 	    // Required to avoid an error in the system
 	    setControl(container);
-	    setPageComplete(false);
+	    setPageComplete(formNameStr != "");
 	}
 
 	/**
@@ -66,6 +67,10 @@ public class FirstWizardPage extends WizardPage {
 	 */
 	public String getFormName() {
 		return formName.getText();
+	}
+
+	public void setFormName(String string) {
+		formNameStr = string;
 	}
 	
 }

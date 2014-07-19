@@ -18,6 +18,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.jface.wizard.WizardDialog;
+
+import fiuba.mda.ui.launchers.WizardDialogLauncher;
 
 import fiuba.mda.ui.main.workspace.*;
 
@@ -89,8 +92,20 @@ public class GraficInterfaceDiagramEditorLauncher extends
             };
         }
         public void showFormDialog(BehaviorForm behaviorForm) {
-            // TODO: Show dialog
-            System.out.println("TODO: Implement GraficDialogs.showFormDialog on GraficInterfaceDiagramEditorLauncher.java");
+            WizardDialogLauncher launcher = new WizardDialogLauncher();
+            WizardDialog dialogo = new WizardDialog(shell, launcher);
+
+            launcher.setFormName(behaviorForm.getFormName());
+            dialogo.open();
+
+            if (!launcher.wasCanceled()){
+                WizardForm form = launcher.getForm();
+                behaviorForm.setFormName(form.getFormName());
+
+                diagram.formsChangedEvent().raise();
+            }
+
+            System.out.println("TODO: Implement edition of all form properties on GraficInterfaceDiagramEditorLauncher.java");
         }
     }
 
