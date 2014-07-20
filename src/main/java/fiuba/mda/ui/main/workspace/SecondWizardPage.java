@@ -127,5 +127,10 @@ public class SecondWizardPage extends WizardPage {
 	public List<String> getExistingPropertiesAdded() {
 		return existingPropertiesAdded;
 	}
+
+	public void setExistingPropertiesAdded(List<String> list) {
+		this.existingPropertiesAdded = list;
+	}
+
 	
 }

@@ -121,4 +121,7 @@ public class FifthWizardPage extends WizardPage{
 		return buttonsAdded;
 	}
 
+	public void setButtonsAdded(List<String> list) {
+		this.buttonsAdded = list;
+	}
 }

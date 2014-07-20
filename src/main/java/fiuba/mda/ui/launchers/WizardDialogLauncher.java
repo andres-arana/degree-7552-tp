@@ -87,6 +87,10 @@ public class WizardDialogLauncher extends Wizard {
 	public List<String> getExistingPropertiesAdded() {
 		return secondPage.getExistingPropertiesAdded();
 	}
+
+	public void setExistingPropertiesAdded(List<String> list) {
+		secondPage.setExistingPropertiesAdded(list);
+	}	
 	
     /**
      * Returns new properties that have been added to the form
@@ -96,12 +100,19 @@ public class WizardDialogLauncher extends Wizard {
 		return thirdPage.getNewPropertiesAdded();
 	}
 	
+	public void setNewPropertiesAdded(List<String> list) {
+		thirdPage.setNewPropertiesAdded(list);
+	}	
     /**
      * Returns the texts that have been added to the form
      * @return a list with the texts added to the form
      */
 	public List<String> getTextsAdded() {
 		return fourthPage.getTextsAdded();
+	}
+
+	public void setTextsAdded(List<String> list) {
+		fourthPage.setTextsAdded(list);
 	}
 	
     /**
@@ -111,6 +122,10 @@ public class WizardDialogLauncher extends Wizard {
 	public List<String> getButtonsAdded() {
 		return fifthPage.getButtonsAdded();
 	}
+
+	public void setButtonsAdded(List<String> list) {
+		fifthPage.setButtonsAdded(list);
+	}	
 
 	/**
 	 * Returns an object that contains all the information gathered in the wizard

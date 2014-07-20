@@ -120,5 +120,9 @@ public class FourthWizardPage extends WizardPage{
 	public List<String> getTextsAdded() {
 		return textsAdded;
 	}
-    
+
+	public void setTextsAdded(List<String> list) {
+		this.textsAdded = list;
+	}
+        
 }

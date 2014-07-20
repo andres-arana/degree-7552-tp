@@ -96,16 +96,23 @@ public class GraficInterfaceDiagramEditorLauncher extends
             WizardDialog dialogo = new WizardDialog(shell, launcher);
 
             launcher.setFormName(behaviorForm.getFormName());
+            launcher.setTextsAdded(behaviorForm.getTexts());
+            launcher.setButtonsAdded(behaviorForm.getButtons());
+            launcher.setExistingPropertiesAdded(behaviorForm.getExistingFields());
+            launcher.setNewPropertiesAdded(behaviorForm.getNewFields());
+
             dialogo.open();
 
             if (!launcher.wasCanceled()){
                 WizardForm form = launcher.getForm();
                 behaviorForm.setFormName(form.getFormName());
+                behaviorForm.setTexts(form.getTextsAdded());
+                behaviorForm.setButtons(form.getButtonsAdded());
+                behaviorForm.setNewFields(form.getNewPropertiesAdded());
+                behaviorForm.setExistingFields(form.getExistingPropertiesAdded());
 
                 diagram.formsChangedEvent().raise();
             }
-
-            System.out.println("TODO: Implement edition of all form properties on GraficInterfaceDiagramEditorLauncher.java");
         }
     }
 

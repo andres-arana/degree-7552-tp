@@ -120,5 +120,9 @@ public class ThirdWizardPage extends WizardPage{
 	public List<String> getNewPropertiesAdded() {
 		return newPropertiesAdded;
 	}
+
+	public void setNewPropertiesAdded(List<String> list) {
+		this.newPropertiesAdded = list;
+	}	
     
 }
