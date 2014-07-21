@@ -17,6 +17,25 @@ import org.eclipse.swt.widgets.Spinner;
 
 public class SecondWizardPage extends WizardPage {
 
+
+	private interface IPropertyChanged {
+		void changed(String string);
+	};
+
+	private class UpdateElementOnList implements IPropertyChanged {
+		private int index;
+		private List<String> list;
+
+		UpdateElementOnList(int index, List<String> list) {
+			this.index = index;
+			this.list = list;
+		}
+
+		public void changed(String string) {
+			list.set(index, string);
+		}
+	}
+
 	private Composite container;
 	
 	private Spinner existingPropertiesQty;
@@ -47,50 +66,45 @@ public class SecondWizardPage extends WizardPage {
 			@Override
 			public void modifyText(ModifyEvent e) {		
 				int currentValue = ((Spinner)e.getSource()).getSelection();
-				
-				// "Up" spinner button
-				if (currentValue > existingPropertiesAddedUI.size()){ 
-					// Add label + properties combobox
-					existingPropertiesAddedUI.add(getLabelAndPropertiesCombo(container));
-				} else{ // "Down" spinner button
-					// Remove the component from the main composite
-					if (existingPropertiesAddedUI.size() > 0){
-						Composite miniCompositeToRemove = existingPropertiesAddedUI.get(existingPropertiesAddedUI.size()-1);
 
-						// Get the combo that will be removed from the UI an delete its selection from existingPropertiesAddedUI list
-						Combo comboToRemove = (Combo)miniCompositeToRemove.getChildren()[1]; // [0] = label, [1] = combo
-						
-						// Remove the selected item as the combo has been removed from the UI
-						existingPropertiesAdded.remove(comboToRemove.getText()); 
-						
-						// Remove combo from the UI
-						existingPropertiesAddedUI.get(existingPropertiesAddedUI.size()-1).dispose();
-						existingPropertiesAddedUI.remove(existingPropertiesAddedUI.size()-1);
+				if (currentValue > existingPropertiesAdded.size()){
+					existingPropertiesAdded.add("");
+				} else {
+					existingPropertiesAdded.remove(existingPropertiesAdded.size()-1);
+				} 
 
-					}
+				for (Composite composite : existingPropertiesAddedUI) {
+					composite.dispose();
 				}
-				
+
+				existingPropertiesAddedUI.clear();
+				for (int i = 0; i < existingPropertiesAdded.size(); i++) {
+	   				String property = existingPropertiesAdded.get(i);
+					existingPropertiesAddedUI.add(getLabelAndPropertiesCombo(container, property, new UpdateElementOnList(i, existingPropertiesAdded)));
+				} 
+
 				container.layout(); // refreshs the container
 			}
 	    	
 	    });
 
-		for (String property : existingPropertiesAdded) {
-			existingPropertiesAddedUI.add(getLabelAndPropertiesCombo(container, property));
-		}
-	   	    
+
+	   	for (int i = 0; i < existingPropertiesAdded.size(); i++) {
+	   		String property = existingPropertiesAdded.get(i);
+			existingPropertiesAddedUI.add(getLabelAndPropertiesCombo(container, property, new UpdateElementOnList(i, existingPropertiesAdded)));
+		}    
 	    // Required to avoid an error in the system
 	    setControl(container);
 	    setPageComplete(true);
 	}
 
 	//TODO: Populate with available properties from existing diagrams!!!!
-    private Combo getPropertiesToRelateCombobox(Composite parent, String selected){
+    private Combo getPropertiesToRelateCombobox(Composite parent, String selected, final IPropertyChanged observer){
         String[] items = {"Propiedad1", "Propiedad2", "Propiedad3"}; //TODO fill with properties from existing diagrams!!
 
         Combo propertyNameCombo = new Combo(parent, SWT.READ_ONLY);
         propertyNameCombo.setItems(items);
-        propertyNameCombo.select(java.util.Arrays.asList(items).indexOf(selected));
+        if (selected != null) propertyNameCombo.select(java.util.Arrays.asList(items).indexOf(selected));
         propertyNameCombo.addSelectionListener(new SelectionListener(){
 
 			@Override
@@ -100,7 +114,7 @@ public class SecondWizardPage extends WizardPage {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				String selectedProperty = ((Combo)e.getSource()).getText();
-				existingPropertiesAdded.add(selectedProperty); // TODO: Validate repeated elements? 
+				observer.changed(selectedProperty);
 			}
         	
         });
@@ -112,11 +126,8 @@ public class SecondWizardPage extends WizardPage {
      * 
      * @return a pair label-combobox to select an existing property to add to the form
      */
-    private Composite getLabelAndPropertiesCombo(Composite parent){
-    	return getLabelAndPropertiesCombo(parent, null);
-    }
 
-    private Composite getLabelAndPropertiesCombo(Composite parent, String selected){
+    private Composite getLabelAndPropertiesCombo(Composite parent, String selected, final IPropertyChanged observer){
     	Composite miniComposite = new Composite(parent, SWT.NONE);
     	GridLayout layout = new GridLayout();
     	miniComposite.setLayout(layout);
@@ -125,7 +136,7 @@ public class SecondWizardPage extends WizardPage {
 		Label addFieldLabel = new Label(miniComposite, SWT.NONE);
 		addFieldLabel.setText("Campo:");
 
-		getPropertiesToRelateCombobox(miniComposite, selected);
+		getPropertiesToRelateCombobox(miniComposite, selected, observer);
 
     	return miniComposite;
     }
