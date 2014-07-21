@@ -41,6 +41,7 @@ public class SecondWizardPage extends WizardPage {
 	    Label fieldsQtyLabel = new Label(container, SWT.NONE);
 	    fieldsQtyLabel.setText("Cantidad de campos a agregar:");
 	    existingPropertiesQty = new Spinner(container, SWT.BORDER);
+	    existingPropertiesQty.setSelection(existingPropertiesAdded.size());
 	    existingPropertiesQty.addModifyListener(new ModifyListener(){
 
 			@Override
@@ -73,6 +74,10 @@ public class SecondWizardPage extends WizardPage {
 			}
 	    	
 	    });
+
+		for (String property : existingPropertiesAdded) {
+			existingPropertiesAddedUI.add(getLabelAndPropertiesCombo(container, property));
+		}
 	   	    
 	    // Required to avoid an error in the system
 	    setControl(container);
@@ -80,11 +85,12 @@ public class SecondWizardPage extends WizardPage {
 	}
 
 	//TODO: Populate with available properties from existing diagrams!!!!
-    private Combo getPropertiesToRelateCombobox(Composite parent){
+    private Combo getPropertiesToRelateCombobox(Composite parent, String selected){
         String[] items = {"Propiedad1", "Propiedad2", "Propiedad3"}; //TODO fill with properties from existing diagrams!!
 
         Combo propertyNameCombo = new Combo(parent, SWT.READ_ONLY);
         propertyNameCombo.setItems(items);
+        propertyNameCombo.select(java.util.Arrays.asList(items).indexOf(selected));
         propertyNameCombo.addSelectionListener(new SelectionListener(){
 
 			@Override
@@ -107,6 +113,10 @@ public class SecondWizardPage extends WizardPage {
      * @return a pair label-combobox to select an existing property to add to the form
      */
     private Composite getLabelAndPropertiesCombo(Composite parent){
+    	return getLabelAndPropertiesCombo(parent, null);
+    }
+
+    private Composite getLabelAndPropertiesCombo(Composite parent, String selected){
     	Composite miniComposite = new Composite(parent, SWT.NONE);
     	GridLayout layout = new GridLayout();
     	miniComposite.setLayout(layout);
@@ -115,7 +125,7 @@ public class SecondWizardPage extends WizardPage {
 		Label addFieldLabel = new Label(miniComposite, SWT.NONE);
 		addFieldLabel.setText("Campo:");
 
-		getPropertiesToRelateCombobox(miniComposite);
+		getPropertiesToRelateCombobox(miniComposite, selected);
 
     	return miniComposite;
     }
