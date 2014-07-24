@@ -16,6 +16,23 @@ import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 
 public class FourthWizardPage extends WizardPage{
+	private interface IPropertyChanged {
+		void changed(String string);
+	};
+
+	private class UpdateElementOnList implements IPropertyChanged {
+		private int index;
+		private List<String> list;
+
+		UpdateElementOnList(int index, List<String> list) {
+			this.index = index;
+			this.list = list;
+		}
+
+		public void changed(String string) {
+			list.set(index, string);
+		}
+	}
 
 	private Composite container;
 	
@@ -41,40 +58,39 @@ public class FourthWizardPage extends WizardPage{
 	    Label fieldsQtyLabel = new Label(container, SWT.NONE);
 	    fieldsQtyLabel.setText("Cantidad de textos a agregar:");
 	    textsQty = new Spinner(container, SWT.BORDER);
+	    textsQty.setSelection(textsAdded.size());
 	    textsQty.addModifyListener(new ModifyListener(){
 
 			@Override
 			public void modifyText(ModifyEvent e) {		
 				int currentValue = ((Spinner)e.getSource()).getSelection();
-				
-				// "Up" spinner button
-				if (currentValue > textsAddedUI.size()){ 
-					// Add label + property field
-					Composite miniComposite = getLabelAndTextfield(container); // [0] = label, [1] = textfield
-					textsAddedUI.add(miniComposite);
-									
-				} else{ // "Down" spinner button
-					// Remove the component from the main composite
-					if (textsAddedUI.size() > 0){
-						Composite miniCompositeToRemove = textsAddedUI.get(textsAddedUI.size()-1);
 
-						// Get the textfield that will be removed from the UI an delete its selection from existingPropertiesAddedUI list
-						Text textFieldToRemove = (Text)miniCompositeToRemove.getChildren()[1]; // [0] = label, [1] = textfield
+				if (currentValue > textsAdded.size()){
+					textsAdded.add("");
+				} else {
+					textsAdded.remove(textsAdded.size()-1);
+				} 
 
-						// Remove the previously added text as the textfield has been removed from the UI
-						textsAdded.remove(textFieldToRemove.getText()); 
-
-						// Remove textfield from the UI
-						textsAddedUI.get(textsAddedUI.size()-1).dispose();
-						textsAddedUI.remove(textsAddedUI.size()-1);
-
-					}
+				for (Composite composite : textsAddedUI) {
+					composite.dispose();
 				}
-				
+
+				textsAddedUI.clear();
+				for (int i = 0; i < textsAdded.size(); i++) {
+	   				String property = textsAdded.get(i);
+					textsAddedUI.add(getLabelAndTextfield(container, property, new UpdateElementOnList(i, textsAdded)));
+				} 
+
 				container.layout(); // refreshs the container
 			}
 	    	
 	    });
+
+	   	    
+	   	for (int i = 0; i < textsAdded.size(); i++) {
+	   		String property = textsAdded.get(i);
+			textsAddedUI.add(getLabelAndTextfield(container, property, new UpdateElementOnList(i, textsAdded)));
+		}
 	   	    
 	    // Required to avoid an error in the system
 	    setControl(container);
@@ -86,7 +102,7 @@ public class FourthWizardPage extends WizardPage{
      * 
      * @return a pair label-textfield to complete with a text to add to the form
      */
-    private Composite getLabelAndTextfield(Composite parent){
+    private Composite getLabelAndTextfield(Composite parent, String property, final IPropertyChanged propertyChanged){
     	Composite miniComposite = new Composite(parent, SWT.NONE);
     	GridLayout layout = new GridLayout();
     	miniComposite.setLayout(layout);
@@ -96,6 +112,7 @@ public class FourthWizardPage extends WizardPage{
 		addFieldLabel.setText("Texto:");
 
 		Text textField = new Text(miniComposite, SWT.SINGLE | SWT.BORDER);
+		textField.setText(property);
 		textField.addFocusListener(new FocusListener(){
 
 			@Override
@@ -105,7 +122,7 @@ public class FourthWizardPage extends WizardPage{
 			@Override
 			public void focusLost(FocusEvent e) {
 				String newProperty = ((Text)e.getSource()).getText();
-				textsAdded.add(newProperty);
+				propertyChanged.changed(newProperty);
 			}
 			
 		});
