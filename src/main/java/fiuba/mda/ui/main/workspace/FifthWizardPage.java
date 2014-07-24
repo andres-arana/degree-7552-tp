@@ -16,18 +16,35 @@ import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 
 public class FifthWizardPage extends WizardPage{
+	private interface IPropertyChanged {
+		void changed(String string);
+	};
+
+	private class UpdateElementOnList implements IPropertyChanged {
+		private int index;
+		private List<String> list;
+
+		UpdateElementOnList(int index, List<String> list) {
+			this.index = index;
+			this.list = list;
+		}
+
+		public void changed(String string) {
+			list.set(index, string);
+		}
+	}
 
 	private Composite container;
 	
 	private Spinner buttonsQty;
 	
-	private List<Composite> buttonssAddedUI; // list that contains every pair Label+Text UI added to the form
+	private List<Composite> buttonsAddedUI; // list that contains every pair Label+Text UI added to the form
 	private List<String> buttonsAdded;
 	
 	public FifthWizardPage(String pageName) {
 		super(pageName);
 		this.setTitle("Botones");
-		buttonssAddedUI = new ArrayList<Composite>();
+		buttonsAddedUI = new ArrayList<Composite>();
 		buttonsAdded = new ArrayList<String>();
 	}
 
@@ -41,41 +58,39 @@ public class FifthWizardPage extends WizardPage{
 	    Label fieldsQtyLabel = new Label(container, SWT.NONE);
 	    fieldsQtyLabel.setText("Cantidad de botones a agregar:");
 	    buttonsQty = new Spinner(container, SWT.BORDER);
+	   	buttonsQty.setSelection(buttonsAdded.size());
 	    buttonsQty.addModifyListener(new ModifyListener(){
 
 			@Override
 			public void modifyText(ModifyEvent e) {		
 				int currentValue = ((Spinner)e.getSource()).getSelection();
-				
-				// "Up" spinner button
-				if (currentValue > buttonssAddedUI.size()){ 
-					// Add label + property field
-					Composite miniComposite = getLabelAndTextfield(container); // [0] = label, [1] = textfield
-					buttonssAddedUI.add(miniComposite);
-									
-				} else{ // "Down" spinner button
-					// Remove the component from the main composite
-					if (buttonssAddedUI.size() > 0){
-						Composite miniCompositeToRemove = buttonssAddedUI.get(buttonssAddedUI.size()-1);
 
-						// Get the textfield that will be removed from the UI an delete its selection from existingPropertiesAddedUI list
-						Text textFieldToRemove = (Text)miniCompositeToRemove.getChildren()[1]; // [0] = label, [1] = textfield
+				if (currentValue > buttonsAdded.size()){
+					buttonsAdded.add("");
+				} else {
+					buttonsAdded.remove(buttonsAdded.size()-1);
+				} 
 
-						// Remove the previously added text as the textfield has been removed from the UI
-						buttonsAdded.remove(textFieldToRemove.getText()); 
-
-						// Remove textfield from the UI
-						buttonssAddedUI.get(buttonssAddedUI.size()-1).dispose();
-						buttonssAddedUI.remove(buttonssAddedUI.size()-1);
-
-					}
+				for (Composite composite : buttonsAddedUI) {
+					composite.dispose();
 				}
-				
+
+				buttonsAddedUI.clear();
+				for (int i = 0; i < buttonsAdded.size(); i++) {
+	   				String property = buttonsAdded.get(i);
+					buttonsAddedUI.add(getLabelAndTextfield(container, property, new UpdateElementOnList(i, buttonsAdded)));
+				} 
+
 				container.layout(); // refreshs the container
 			}
 	    	
 	    });
-	   	    
+   
+	   	for (int i = 0; i < buttonsAdded.size(); i++) {
+	   		String property = buttonsAdded.get(i);
+			buttonsAddedUI.add(getLabelAndTextfield(container, property, new UpdateElementOnList(i, buttonsAdded)));
+		}
+
 	    // Required to avoid an error in the system
 	    setControl(container);
 	    setPageComplete(true);
@@ -86,7 +101,7 @@ public class FifthWizardPage extends WizardPage{
      * 
      * @return a pair label-textfield to complete with a text to add a button to the form
      */
-    private Composite getLabelAndTextfield(Composite parent){
+    private Composite getLabelAndTextfield(Composite parent, String property, final IPropertyChanged propertyChanged){
     	Composite miniComposite = new Composite(parent, SWT.NONE);
     	GridLayout layout = new GridLayout();
     	miniComposite.setLayout(layout);
@@ -96,6 +111,7 @@ public class FifthWizardPage extends WizardPage{
 		addFieldLabel.setText("Texto del botón:");
 
 		Text textField = new Text(miniComposite, SWT.SINGLE | SWT.BORDER);
+		textField.setText(property);
 		textField.addFocusListener(new FocusListener(){
 
 			@Override
@@ -105,7 +121,7 @@ public class FifthWizardPage extends WizardPage{
 			@Override
 			public void focusLost(FocusEvent e) {
 				String newProperty = ((Text)e.getSource()).getText();
-				buttonsAdded.add(newProperty);
+				propertyChanged.changed(newProperty);
 			}
 			
 		});
