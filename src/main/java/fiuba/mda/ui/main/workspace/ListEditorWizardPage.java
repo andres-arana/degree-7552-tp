@@ -15,7 +15,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 
-public class FifthWizardPage extends WizardPage{
+public class ListEditorWizardPage extends WizardPage{
+
 	private interface IPropertyChanged {
 		void changed(String string);
 	};
@@ -36,16 +37,21 @@ public class FifthWizardPage extends WizardPage{
 
 	private Composite container;
 	
-	private Spinner buttonsQty;
+	private Spinner elementsQty;
 	
-	private List<Composite> buttonsAddedUI; // list that contains every pair Label+Text UI added to the form
-	private List<String> buttonsAdded;
+	private List<Composite> elementsAddedUI; // list that contains every pair Label+Text UI added to the form
+	private List<String> elementsAdded;
+
+	private String qtyTitle;
+	private String labelTitle;
 	
-	public FifthWizardPage(String pageName) {
+	public ListEditorWizardPage(String pageName, String title, String qtyTitle, String labelTitle) {
 		super(pageName);
-		this.setTitle("Botones");
-		buttonsAddedUI = new ArrayList<Composite>();
-		buttonsAdded = new ArrayList<String>();
+		this.setTitle(title);
+		elementsAddedUI = new ArrayList<Composite>();
+		elementsAdded = new ArrayList<String>();
+		this.qtyTitle = qtyTitle;
+		this.labelTitle = labelTitle;
 	}
 
 	@Override
@@ -56,29 +62,29 @@ public class FifthWizardPage extends WizardPage{
 	    container.setLayout(layout);
 	    layout.numColumns = 2;
 	    Label fieldsQtyLabel = new Label(container, SWT.NONE);
-	    fieldsQtyLabel.setText("Cantidad de botones a agregar:");
-	    buttonsQty = new Spinner(container, SWT.BORDER);
-	   	buttonsQty.setSelection(buttonsAdded.size());
-	    buttonsQty.addModifyListener(new ModifyListener(){
+	    fieldsQtyLabel.setText(this.qtyTitle);
+	    elementsQty = new Spinner(container, SWT.BORDER);
+	   	elementsQty.setSelection(elementsAdded.size());
+	    elementsQty.addModifyListener(new ModifyListener(){
 
 			@Override
 			public void modifyText(ModifyEvent e) {		
 				int currentValue = ((Spinner)e.getSource()).getSelection();
 
-				if (currentValue > buttonsAdded.size()){
-					buttonsAdded.add("");
+				if (currentValue > elementsAdded.size()){
+					elementsAdded.add("");
 				} else {
-					buttonsAdded.remove(buttonsAdded.size()-1);
+					elementsAdded.remove(elementsAdded.size()-1);
 				} 
 
-				for (Composite composite : buttonsAddedUI) {
+				for (Composite composite : elementsAddedUI) {
 					composite.dispose();
 				}
 
-				buttonsAddedUI.clear();
-				for (int i = 0; i < buttonsAdded.size(); i++) {
-	   				String property = buttonsAdded.get(i);
-					buttonsAddedUI.add(getLabelAndTextfield(container, property, new UpdateElementOnList(i, buttonsAdded)));
+				elementsAddedUI.clear();
+				for (int i = 0; i < elementsAdded.size(); i++) {
+	   				String property = elementsAdded.get(i);
+					elementsAddedUI.add(getLabelAndTextfield(container, property, new UpdateElementOnList(i, elementsAdded)));
 				} 
 
 				container.layout(); // refreshs the container
@@ -86,9 +92,9 @@ public class FifthWizardPage extends WizardPage{
 	    	
 	    });
    
-	   	for (int i = 0; i < buttonsAdded.size(); i++) {
-	   		String property = buttonsAdded.get(i);
-			buttonsAddedUI.add(getLabelAndTextfield(container, property, new UpdateElementOnList(i, buttonsAdded)));
+	   	for (int i = 0; i < elementsAdded.size(); i++) {
+	   		String property = elementsAdded.get(i);
+			elementsAddedUI.add(getLabelAndTextfield(container, property, new UpdateElementOnList(i, elementsAdded)));
 		}
 
 	    // Required to avoid an error in the system
@@ -99,7 +105,7 @@ public class FifthWizardPage extends WizardPage{
     
     /**
      * 
-     * @return a pair label-textfield to complete with a text to add a button to the form
+     * @return a pair label-textfield to complete with a text to add a element to the form
      */
     private Composite getLabelAndTextfield(Composite parent, String property, final IPropertyChanged propertyChanged){
     	Composite miniComposite = new Composite(parent, SWT.NONE);
@@ -108,7 +114,7 @@ public class FifthWizardPage extends WizardPage{
     	layout.numColumns = 2;
     	
 		Label addFieldLabel = new Label(miniComposite, SWT.NONE);
-		addFieldLabel.setText("Texto del botón:");
+		addFieldLabel.setText(this.labelTitle);
 
 		Text textField = new Text(miniComposite, SWT.SINGLE | SWT.BORDER);
 		textField.setText(property);
@@ -130,14 +136,14 @@ public class FifthWizardPage extends WizardPage{
     }
 
     /**
-     * Returns the labels of the buttons that have been added to the form
-     * @return a list with the labels of the buttons added to the form
+     * Returns the labels of the elements that have been added to the form
+     * @return a list with the labels of the elements added to the form
      */
-	public List<String> getButtonsAdded() {
-		return buttonsAdded;
+	public List<String> getElementsAdded() {
+		return elementsAdded;
 	}
 
-	public void setButtonsAdded(List<String> list) {
-		this.buttonsAdded = list;
+	public void setElementsAdded(List<String> list) {
+		this.elementsAdded = list;
 	}
 }

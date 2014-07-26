@@ -8,18 +8,16 @@ import org.eclipse.jface.wizard.Wizard;
 import com.google.inject.Inject;
 
 import fiuba.mda.model.WizardForm;
-import fiuba.mda.ui.main.workspace.FifthWizardPage;
+import fiuba.mda.ui.main.workspace.ListEditorWizardPage;
 import fiuba.mda.ui.main.workspace.FirstWizardPage;
-import fiuba.mda.ui.main.workspace.FourthWizardPage;
 import fiuba.mda.ui.main.workspace.SecondWizardPage;
-import fiuba.mda.ui.main.workspace.ThirdWizardPage;
 
 public class WizardDialogLauncher extends Wizard {
 	private FirstWizardPage firstPage;
 	private SecondWizardPage secondPage;
-	private ThirdWizardPage thirdPage;
-	private FourthWizardPage fourthPage;
-	private FifthWizardPage fifthPage;
+	private ListEditorWizardPage thirdPage;
+	private ListEditorWizardPage fourthPage;
+	private ListEditorWizardPage fifthPage;
 	private WizardForm form;
     private boolean wasCanceled = false;
 
@@ -34,9 +32,9 @@ public class WizardDialogLauncher extends Wizard {
 		form = new WizardForm();
 		firstPage = new FirstWizardPage("Primera página");
 		secondPage = new SecondWizardPage("Segunda página");
-		thirdPage = new ThirdWizardPage("Tercera página");
-		fourthPage = new FourthWizardPage("Cuarta página");
-		fifthPage = new FifthWizardPage("Quinta página");
+		thirdPage = new ListEditorWizardPage("Tercera página", "Campos", "Cantidad de campos a agregar:", "Campo:");
+		fourthPage = new ListEditorWizardPage("Cuarta página", "Textos", "Cantidad de textos a agregar:", "Texto:");
+		fifthPage = new ListEditorWizardPage("Quinta página", "Botones", "Cantidad de botones a agregar:", "Texto del botón:");
         super.setWindowTitle("Wizard para la creación de un formulario");
 	}
 
@@ -97,22 +95,22 @@ public class WizardDialogLauncher extends Wizard {
      * @return a list with the new properties added to the form
      */
 	public List<String> getNewPropertiesAdded() {
-		return thirdPage.getNewPropertiesAdded();
+		return thirdPage.getElementsAdded();
 	}
 	
 	public void setNewPropertiesAdded(List<String> list) {
-		thirdPage.setNewPropertiesAdded(list);
+		thirdPage.setElementsAdded(list);
 	}	
     /**
      * Returns the texts that have been added to the form
      * @return a list with the texts added to the form
      */
 	public List<String> getTextsAdded() {
-		return fourthPage.getTextsAdded();
+		return fourthPage.getElementsAdded();
 	}
 
 	public void setTextsAdded(List<String> list) {
-		fourthPage.setTextsAdded(list);
+		fourthPage.setElementsAdded(list);
 	}
 	
     /**
@@ -120,11 +118,11 @@ public class WizardDialogLauncher extends Wizard {
      * @return a list with the buttons added to the form
      */
 	public List<String> getButtonsAdded() {
-		return fifthPage.getButtonsAdded();
+		return fifthPage.getElementsAdded();
 	}
 
 	public void setButtonsAdded(List<String> list) {
-		fifthPage.setButtonsAdded(list);
+		fifthPage.setElementsAdded(list);
 	}	
 
 	/**
