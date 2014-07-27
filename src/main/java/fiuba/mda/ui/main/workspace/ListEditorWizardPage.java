@@ -16,10 +16,13 @@ import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 
 public class ListEditorWizardPage extends WizardPage{
+	public interface IElementEditor {
+		Composite getElementEditor(Composite parent, String defaultValue, final IPropertyChanged propertyChanged);
+	}
 
-	private interface IPropertyChanged {
+	public interface IPropertyChanged {
 		void changed(String string);
-	};
+	}
 
 	private class UpdateElementOnList implements IPropertyChanged {
 		private int index;
@@ -43,15 +46,16 @@ public class ListEditorWizardPage extends WizardPage{
 	private List<String> elementsAdded;
 
 	private String qtyTitle;
-	private String labelTitle;
+
+	private IElementEditor elementEditor;
 	
-	public ListEditorWizardPage(String pageName, String title, String qtyTitle, String labelTitle) {
+	public ListEditorWizardPage(String pageName, String title, String qtyTitle, IElementEditor elementEditor ) {
 		super(pageName);
 		this.setTitle(title);
 		elementsAddedUI = new ArrayList<Composite>();
 		elementsAdded = new ArrayList<String>();
 		this.qtyTitle = qtyTitle;
-		this.labelTitle = labelTitle;
+		this.elementEditor = elementEditor;
 	}
 
 	@Override
@@ -84,7 +88,7 @@ public class ListEditorWizardPage extends WizardPage{
 				elementsAddedUI.clear();
 				for (int i = 0; i < elementsAdded.size(); i++) {
 	   				String property = elementsAdded.get(i);
-					elementsAddedUI.add(getLabelAndTextfield(container, property, new UpdateElementOnList(i, elementsAdded)));
+					elementsAddedUI.add(elementEditor.getElementEditor(container, property, new UpdateElementOnList(i, elementsAdded)));
 				} 
 
 				container.layout(); // refreshs the container
@@ -94,7 +98,7 @@ public class ListEditorWizardPage extends WizardPage{
    
 	   	for (int i = 0; i < elementsAdded.size(); i++) {
 	   		String property = elementsAdded.get(i);
-			elementsAddedUI.add(getLabelAndTextfield(container, property, new UpdateElementOnList(i, elementsAdded)));
+			elementsAddedUI.add(elementEditor.getElementEditor(container, property, new UpdateElementOnList(i, elementsAdded)));
 		}
 
 	    // Required to avoid an error in the system
@@ -102,38 +106,6 @@ public class ListEditorWizardPage extends WizardPage{
 	    setPageComplete(true);
 	}
 
-    
-    /**
-     * 
-     * @return a pair label-textfield to complete with a text to add a element to the form
-     */
-    private Composite getLabelAndTextfield(Composite parent, String property, final IPropertyChanged propertyChanged){
-    	Composite miniComposite = new Composite(parent, SWT.NONE);
-    	GridLayout layout = new GridLayout();
-    	miniComposite.setLayout(layout);
-    	layout.numColumns = 2;
-    	
-		Label addFieldLabel = new Label(miniComposite, SWT.NONE);
-		addFieldLabel.setText(this.labelTitle);
-
-		Text textField = new Text(miniComposite, SWT.SINGLE | SWT.BORDER);
-		textField.setText(property);
-		textField.addFocusListener(new FocusListener(){
-
-			@Override
-			public void focusGained(FocusEvent e) {
-			}
-
-			@Override
-			public void focusLost(FocusEvent e) {
-				String newProperty = ((Text)e.getSource()).getText();
-				propertyChanged.changed(newProperty);
-			}
-			
-		});
-
-    	return miniComposite;
-    }
 
     /**
      * Returns the labels of the elements that have been added to the form

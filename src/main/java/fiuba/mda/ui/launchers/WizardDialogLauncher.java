@@ -12,6 +12,14 @@ import fiuba.mda.ui.main.workspace.ListEditorWizardPage;
 import fiuba.mda.ui.main.workspace.FirstWizardPage;
 import fiuba.mda.ui.main.workspace.SecondWizardPage;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.layout.GridLayout;
+
 public class WizardDialogLauncher extends Wizard {
 	private FirstWizardPage firstPage;
 	private SecondWizardPage secondPage;
@@ -21,6 +29,41 @@ public class WizardDialogLauncher extends Wizard {
 	private WizardForm form;
     private boolean wasCanceled = false;
 
+    private class TextElementEditor implements ListEditorWizardPage.IElementEditor {
+    	private String labelTitle;
+
+    	public TextElementEditor(String labelTitle) {
+    		this.labelTitle = labelTitle;
+    	}
+
+	    public Composite getElementEditor(Composite parent, String property, final ListEditorWizardPage.IPropertyChanged propertyChanged){
+	    	Composite miniComposite = new Composite(parent, SWT.NONE);
+	    	GridLayout layout = new GridLayout();
+	    	miniComposite.setLayout(layout);
+	    	layout.numColumns = 2;
+	    	
+			Label addFieldLabel = new Label(miniComposite, SWT.NONE);
+			addFieldLabel.setText(this.labelTitle);
+
+			Text textField = new Text(miniComposite, SWT.SINGLE | SWT.BORDER);
+			textField.setText(property);
+			textField.addFocusListener(new FocusListener(){
+
+				@Override
+				public void focusGained(FocusEvent e) {
+				}
+
+				@Override
+				public void focusLost(FocusEvent e) {
+					String newProperty = ((Text)e.getSource()).getText();
+					propertyChanged.changed(newProperty);
+				}
+				
+			});
+
+	    	return miniComposite;
+	    }
+    };
  	/**
 	 * Creates a new {@link WizardDialogLauncher} instance
 	 * 
@@ -29,12 +72,13 @@ public class WizardDialogLauncher extends Wizard {
 	@Inject
 	public WizardDialogLauncher() {
 		super();
+
 		form = new WizardForm();
 		firstPage = new FirstWizardPage("Primera página");
 		secondPage = new SecondWizardPage("Segunda página");
-		thirdPage = new ListEditorWizardPage("Tercera página", "Campos", "Cantidad de campos a agregar:", "Campo:");
-		fourthPage = new ListEditorWizardPage("Cuarta página", "Textos", "Cantidad de textos a agregar:", "Texto:");
-		fifthPage = new ListEditorWizardPage("Quinta página", "Botones", "Cantidad de botones a agregar:", "Texto del botón:");
+		thirdPage = new ListEditorWizardPage("Tercera página", "Campos", "Cantidad de campos a agregar:", new TextElementEditor("Campo:"));
+		fourthPage = new ListEditorWizardPage("Cuarta página", "Textos", "Cantidad de textos a agregar:", new TextElementEditor("Texto:"));
+		fifthPage = new ListEditorWizardPage("Quinta página", "Botones", "Cantidad de botones a agregar:", new TextElementEditor("Texto del botón:"));
         super.setWindowTitle("Wizard para la creación de un formulario");
 	}
 
