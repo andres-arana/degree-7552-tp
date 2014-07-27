@@ -10,19 +10,21 @@ import com.google.inject.Inject;
 import fiuba.mda.model.WizardForm;
 import fiuba.mda.ui.main.workspace.ListEditorWizardPage;
 import fiuba.mda.ui.main.workspace.FirstWizardPage;
-import fiuba.mda.ui.main.workspace.SecondWizardPage;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.layout.GridLayout;
 
 public class WizardDialogLauncher extends Wizard {
 	private FirstWizardPage firstPage;
-	private SecondWizardPage secondPage;
+	private ListEditorWizardPage secondPage;
 	private ListEditorWizardPage thirdPage;
 	private ListEditorWizardPage fourthPage;
 	private ListEditorWizardPage fifthPage;
@@ -63,7 +65,60 @@ public class WizardDialogLauncher extends Wizard {
 
 	    	return miniComposite;
 	    }
-    };
+    }
+
+    private class ComboElementEditor implements ListEditorWizardPage.IElementEditor {
+    	private String labelTitle;
+
+    	public ComboElementEditor(String labelTitle) {
+    		this.labelTitle = labelTitle;
+    	}
+
+		//TODO: Populate with available properties from existing diagrams!!!!
+	    private Combo getPropertiesToRelateCombobox(Composite parent, String selected, final ListEditorWizardPage.IPropertyChanged observer){
+	        String[] items = {"Propiedad1", "Propiedad2", "Propiedad3"}; //TODO fill with properties from existing diagrams!!
+
+	        Combo propertyNameCombo = new Combo(parent, SWT.READ_ONLY);
+	        propertyNameCombo.setItems(items);
+	        if (selected != null) propertyNameCombo.select(java.util.Arrays.asList(items).indexOf(selected));
+	        propertyNameCombo.addSelectionListener(new SelectionListener(){
+
+				@Override
+				public void widgetDefaultSelected(SelectionEvent e) {
+				}
+
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					String selectedProperty = ((Combo)e.getSource()).getText();
+					observer.changed(selectedProperty);
+				}
+	        	
+	        });
+	        
+	        return propertyNameCombo;
+	    }
+	    
+	    /**
+	     * 
+	     * @return a pair label-combobox to select an existing property to add to the form
+	     */
+
+	    public Composite getElementEditor(Composite parent, String selected, final ListEditorWizardPage.IPropertyChanged observer){
+	    	Composite miniComposite = new Composite(parent, SWT.NONE);
+	    	GridLayout layout = new GridLayout();
+	    	miniComposite.setLayout(layout);
+	    	layout.numColumns = 2;
+	    	
+			Label addFieldLabel = new Label(miniComposite, SWT.NONE);
+			addFieldLabel.setText("Campo:");
+
+			getPropertiesToRelateCombobox(miniComposite, selected, observer);
+
+	    	return miniComposite;
+	    }
+
+    }
+
  	/**
 	 * Creates a new {@link WizardDialogLauncher} instance
 	 * 
@@ -75,7 +130,7 @@ public class WizardDialogLauncher extends Wizard {
 
 		form = new WizardForm();
 		firstPage = new FirstWizardPage("Primera página");
-		secondPage = new SecondWizardPage("Segunda página");
+		secondPage = new ListEditorWizardPage("Segunda página", "Campos Existentes", "Cantidad de campos a agregar:", new ComboElementEditor("Campo:"));
 		thirdPage = new ListEditorWizardPage("Tercera página", "Campos", "Cantidad de campos a agregar:", new TextElementEditor("Campo:"));
 		fourthPage = new ListEditorWizardPage("Cuarta página", "Textos", "Cantidad de textos a agregar:", new TextElementEditor("Texto:"));
 		fifthPage = new ListEditorWizardPage("Quinta página", "Botones", "Cantidad de botones a agregar:", new TextElementEditor("Texto del botón:"));
@@ -127,11 +182,11 @@ public class WizardDialogLauncher extends Wizard {
      * @return a list with existing properties added to the form
      */
 	public List<String> getExistingPropertiesAdded() {
-		return secondPage.getExistingPropertiesAdded();
+		return secondPage.getElementsAdded();
 	}
 
 	public void setExistingPropertiesAdded(List<String> list) {
-		secondPage.setExistingPropertiesAdded(list);
+		secondPage.setElementsAdded(list);
 	}	
 	
     /**
