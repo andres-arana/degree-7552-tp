@@ -13,8 +13,9 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
 
 import fiuba.mda.model.BehaviorState;
-import fiuba.mda.model.Representation;
-import fiuba.mda.model.Representation.Position;
+import fiuba.mda.model.IPositionable.Position;
+import fiuba.mda.model.IPositionable;
+
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
 
@@ -30,13 +31,13 @@ public class SelectableElementFigure extends Figure implements MouseListener,
     private int width;
     private Position position;
 	private Point moveStartedLocation;
-	private Representation<BehaviorState> state; // TODO abstract the state representation
+	private IPositionable state;
 
 	private Rectangle buildPositionalBound(final Position position) {
         return new Rectangle(position.getX(), position.getY(), -1,-1);
 	}
 
-	public SelectableElementFigure(final Representation<BehaviorState> s) {
+	public SelectableElementFigure(final IPositionable s) {
         StackLayout manager = new StackLayout();
         setLayoutManager(manager);
 

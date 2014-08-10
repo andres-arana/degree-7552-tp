@@ -17,7 +17,7 @@ import org.eclipse.swt.SWT;
 
 import fiuba.mda.model.BehaviorButton;
 import fiuba.mda.model.Representation;
-import fiuba.mda.model.Representation.Position;
+import fiuba.mda.model.IPositionable.Position;
 
 public class BehaviorButtonFigure extends Figure implements MouseListener,MouseMotionListener{
 	private Point moveStartedLocation;

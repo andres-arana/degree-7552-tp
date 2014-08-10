@@ -14,7 +14,8 @@ import org.eclipse.swt.SWT;
 
 import fiuba.mda.model.BehaviorState;
 import fiuba.mda.model.Representation;
-import fiuba.mda.model.Representation.Position;
+import fiuba.mda.model.IPositionable.Position;
+
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
 

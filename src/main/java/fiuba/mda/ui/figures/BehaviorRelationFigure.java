@@ -5,7 +5,7 @@ import fiuba.mda.injection.InjectorConfiguration;
 import fiuba.mda.model.BehaviorRelation;
 import fiuba.mda.model.BehaviorState;
 import fiuba.mda.model.Representation;
-import fiuba.mda.model.Representation.Position;
+import fiuba.mda.model.IPositionable.Position;
 import fiuba.mda.ui.actions.EditBehaviorDiagramRelationAction;
 import fiuba.mda.ui.actions.NewBehaviorDiagramRelationAction;
 import org.eclipse.draw2d.*;

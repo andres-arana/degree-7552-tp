@@ -18,7 +18,7 @@ import org.eclipse.swt.SWT;
 
 import fiuba.mda.model.BehaviorField;
 import fiuba.mda.model.Representation;
-import fiuba.mda.model.Representation.Position;
+import fiuba.mda.model.IPositionable.Position;
 
 public class BehaviorFieldFigure extends Figure implements MouseListener,MouseMotionListener{
 	private Point moveStartedLocation;

@@ -25,7 +25,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 
 import fiuba.mda.model.BehaviorForm;
 import fiuba.mda.model.Representation;
-import fiuba.mda.model.Representation.Position;
+import fiuba.mda.model.IPositionable.Position;
 
 public class BehaviorFormFigure extends Figure implements MouseListener,MouseMotionListener{
 	private Point moveStartedLocation;
