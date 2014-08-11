@@ -27,18 +27,24 @@ import java.util.List;
  */
 public class SelectableElementFigure extends Figure implements MouseListener,
 		MouseMotionListener {
+
+	public interface ISelectEvent {
+		void raise(SelectableElementFigure selectable);
+	}
+
     private int height;
     private int width;
     private Position position;
 	private Point moveStartedLocation;
 	private IPositionable state;
 	private boolean selected = false;
+	private ISelectEvent selectEvent;
 
 	private Rectangle buildPositionalBound(final Position position) {
         return new Rectangle(position.getX(), position.getY(), -1, -1);
 	}
 
-	public SelectableElementFigure(final IPositionable s, final IFigure inner, int w, int h) {
+	public SelectableElementFigure(final IPositionable s, final IFigure inner, ISelectEvent selectEvent, int w, int h) {
         StackLayout manager = new StackLayout();
         setLayoutManager(manager);
 
@@ -47,6 +53,7 @@ public class SelectableElementFigure extends Figure implements MouseListener,
 
         width = w;
         height = h;
+        this.selectEvent = selectEvent; 
 
         add(inner);
         setBorder(new SelectionFigureBorder(ColorConstants.red));
@@ -66,6 +73,9 @@ public class SelectableElementFigure extends Figure implements MouseListener,
         }
 	}
 
+	public void setSelected(boolean s) {
+		selected = s;
+	}
 
 
     @Override
@@ -113,7 +123,7 @@ public class SelectableElementFigure extends Figure implements MouseListener,
 
 	@Override
 	public void mousePressed(MouseEvent me) {
-		selected = true;
+		selectEvent.raise(this);
 
 		moveStartedLocation = me.getLocation();
 		me.consume();

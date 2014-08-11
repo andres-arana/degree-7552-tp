@@ -62,9 +62,15 @@ public class BehaviorDiagramFigure extends FreeformLayer {
 
 	private void rebindChildFigures() {
 		removeAll();
+
+		SelectionManager selectionManager = new SelectionManager();
+
 		for (Representation<BehaviorState> state : component.getStates()) {
             BehaviorStateFigure figure = new BehaviorStateFigure(state);
-            SelectableElementFigure selectable = new SelectableElementFigure(state, figure, figure.getWidth(), figure.getHeidth());
+
+            SelectableElementFigure selectable = new SelectableElementFigure(state, figure, new SelectEventListener(selectionManager), figure.getWidth(), figure.getHeidth());
+
+            selectionManager.add(selectable);
 
             add(selectable);
             getBehaviorStateFigures().add(figure);
@@ -83,6 +89,39 @@ public class BehaviorDiagramFigure extends FreeformLayer {
 			behaviorStateFigures = new ArrayList<>();
 		}
 		return behaviorStateFigures;
-	} 
+	}
+
+	private class SelectEventListener implements SelectableElementFigure.ISelectEvent {
+		private SelectionManager selectionManager;
+
+		public SelectEventListener(SelectionManager sm) {
+			selectionManager = sm;
+		}
+
+		@Override
+		public void raise(SelectableElementFigure sef) {
+			selectionManager.selected(sef);
+		}
+	}
+
+	private class SelectionManager {
+		private List<SelectableElementFigure> selectables;
+		public SelectionManager() {
+			selectables = new ArrayList<>();
+		}
+		public void add(SelectableElementFigure selectable) {
+			selectables.add(selectable);
+
+		}
+		public void selected(SelectableElementFigure selectedSelectable) {
+			for (SelectableElementFigure selectable : selectables) {
+				if (selectable != selectedSelectable) {
+					selectable.setSelected(false);
+				} else {
+					selectable.setSelected(true);
+				}
+			}
+		}
+	}
 
 }
