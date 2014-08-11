@@ -64,11 +64,7 @@ public class BehaviorDiagramFigure extends FreeformLayer {
 		removeAll();
 		for (Representation<BehaviorState> state : component.getStates()) {
             BehaviorStateFigure figure = new BehaviorStateFigure(state);
-            SelectableElementFigure selectable = new SelectableElementFigure(state);
-            selectable.add(figure);
-
-            selectable.setWidth(figure.getWidth());
-            selectable.setHeight(figure.getHeidth());
+            SelectableElementFigure selectable = new SelectableElementFigure(state, figure, figure.getWidth(), figure.getHeidth());
 
             add(selectable);
             getBehaviorStateFigures().add(figure);

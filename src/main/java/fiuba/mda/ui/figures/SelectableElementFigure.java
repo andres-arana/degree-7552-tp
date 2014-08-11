@@ -27,32 +27,31 @@ import java.util.List;
  */
 public class SelectableElementFigure extends Figure implements MouseListener,
 		MouseMotionListener {
-    private int heidth;
+    private int height;
     private int width;
     private Position position;
 	private Point moveStartedLocation;
 	private IPositionable state;
+	private boolean selected = false;
 
 	private Rectangle buildPositionalBound(final Position position) {
-        return new Rectangle(position.getX(), position.getY(), -1,-1);
+        return new Rectangle(position.getX(), position.getY(), -1, -1);
 	}
 
-	public SelectableElementFigure(final IPositionable s) {
+	public SelectableElementFigure(final IPositionable s, final IFigure inner, int w, int h) {
         StackLayout manager = new StackLayout();
         setLayoutManager(manager);
 
         addMouseListener(this);
         addMouseMotionListener(this);
 
+        width = w;
+        height = h;
+
+        add(inner);
+        setBorder(new SelectionFigureBorder(ColorConstants.red));
+
         this.state = s;
-	}
-
-	public void setHeight(int h) {
-		heidth = h;
-	}
-
-	public void setWidth(int w) {
-		width = w;
 	}
 
     @Override
@@ -62,7 +61,7 @@ public class SelectableElementFigure extends Figure implements MouseListener,
 			Position position = state.getPosition();
 			Rectangle constraint = buildPositionalBound(position);
             constraint.setWidth(width);
-            constraint.setHeight(heidth);
+            constraint.setHeight(height);
             p.getLayoutManager().setConstraint(this, constraint);
         }
 	}
@@ -114,6 +113,8 @@ public class SelectableElementFigure extends Figure implements MouseListener,
 
 	@Override
 	public void mousePressed(MouseEvent me) {
+		selected = true;
+
 		moveStartedLocation = me.getLocation();
 		me.consume();
 	}
@@ -127,6 +128,37 @@ public class SelectableElementFigure extends Figure implements MouseListener,
 
 	}
 
+
+	public class SelectionFigureBorder extends AbstractBorder {
+        private Color color;
+        public SelectionFigureBorder(Color color) {
+            this.color = color;
+        }
+
+        public Insets getInsets(IFigure figure) {
+            return new Insets(1,1,1,1);
+        }
+        public void paint(IFigure figure, Graphics graphics, Insets insets) {
+            if (selected) {
+	        	int thickness = 5;
+
+	            graphics.setForegroundColor(color);
+	            graphics.setBackgroundColor(color);
+	            Rectangle paintRectangle = getPaintRectangle(figure, insets);
+
+	            int x = paintRectangle.getTopLeft().x();
+	            int y = paintRectangle.getTopLeft().y();
+	            graphics.fillRectangle(new Rectangle(x, y, width, thickness));
+	            graphics.fillRectangle(new Rectangle(x, y, thickness, height));
+	            x = paintRectangle.getBottomLeft().x();
+	            y = paintRectangle.getBottomLeft().y();
+	            graphics.fillRectangle(new Rectangle(x, y-thickness, width, thickness));
+	            x = paintRectangle.getTopRight().x();
+	            y = paintRectangle.getTopRight().y();
+	            graphics.fillRectangle(new Rectangle(x-thickness, y, thickness, height));
+	        }
+        }
+    }
 
 }
 
