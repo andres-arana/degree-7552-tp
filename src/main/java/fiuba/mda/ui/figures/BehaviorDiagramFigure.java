@@ -3,6 +3,7 @@ package fiuba.mda.ui.figures;
 import fiuba.mda.model.BehaviorRelation;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayout;
+import org.eclipse.draw2d.geometry.Dimension;
 
 import fiuba.mda.model.BehaviorButton;
 import fiuba.mda.model.BehaviorDiagram;
@@ -68,7 +69,7 @@ public class BehaviorDiagramFigure extends FreeformLayer {
 		for (Representation<BehaviorState> state : component.getStates()) {
             BehaviorStateFigure figure = new BehaviorStateFigure(state);
 
-            SelectableElementFigure selectable = new SelectableElementFigure(state, figure, new SelectEventListener(selectionManager), figure.getWidth(), figure.getHeidth());
+            SelectableElementFigure selectable = new SelectableElementFigure(state, figure, selectionManager, figure.getWidth(), figure.getHeidth());
 
             selectionManager.add(selectable);
 
@@ -91,25 +92,8 @@ public class BehaviorDiagramFigure extends FreeformLayer {
 		return behaviorStateFigures;
 	}
 
-	private class SelectEventListener implements SelectableElementFigure.ISelectEvent {
-		private SelectionManager selectionManager;
 
-		public SelectEventListener(SelectionManager sm) {
-			selectionManager = sm;
-		}
-
-		@Override
-		public void select(SelectableElementFigure sef) {
-			selectionManager.selected(sef);
-		}
-
-		@Override
-		public void multiSelect(SelectableElementFigure sef) {
-			selectionManager.multiSelect(sef);
-		}		
-	}
-
-	private class SelectionManager {
+	private class SelectionManager implements SelectableElementFigure.ISelectEvent {
 		private List<SelectableElementFigure> selectables;
 		public SelectionManager() {
 			selectables = new ArrayList<>();
@@ -118,7 +102,9 @@ public class BehaviorDiagramFigure extends FreeformLayer {
 			selectables.add(selectable);
 
 		}
-		public void selected(SelectableElementFigure selectedSelectable) {
+		
+		@Override
+		public void select(SelectableElementFigure selectedSelectable) {
 			for (SelectableElementFigure selectable : selectables) {
 				if (selectable != selectedSelectable) {
 					selectable.setSelected(false);
@@ -128,9 +114,17 @@ public class BehaviorDiagramFigure extends FreeformLayer {
 			}
 		}
 
+		@Override
 		public void multiSelect(SelectableElementFigure selectedSelectable) {
 			selectedSelectable.setSelected(true);
-		}		
+		}
+
+		@Override
+		public void drag(SelectableElementFigure selectedSelectable, Dimension offset) {
+			for (SelectableElementFigure selectable : selectables) {
+				selectable.drag(offset);
+			}
+		}				
 	}
 
 }

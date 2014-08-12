@@ -31,6 +31,8 @@ public class SelectableElementFigure extends Figure implements MouseListener,
 	public interface ISelectEvent {
 		void select(SelectableElementFigure selectable);
 		void multiSelect(SelectableElementFigure selectable);
+
+		void drag(SelectableElementFigure selectable, Dimension offset);
 	}
 
     private int height;
@@ -81,6 +83,21 @@ public class SelectableElementFigure extends Figure implements MouseListener,
 		updateMgr.addDirtyRegion(this.getParent(), bounds);
 	}
 
+	public void drag(Dimension offset) {
+		if (selected) {
+			state.getPosition().translate(offset.width, offset.height);
+
+			UpdateManager updateMgr = this.getUpdateManager();
+			LayoutManager layoutMgr = this.getParent().getLayoutManager();
+			Rectangle bounds = this.getBounds();
+			updateMgr.addDirtyRegion(this.getParent(), bounds);
+			bounds = bounds.getCopy().translate(offset.width, offset.height);
+			layoutMgr.setConstraint(this, bounds);
+			this.translate(offset.width, offset.height);
+			updateMgr.addDirtyRegion(this.getParent(), bounds);
+		}
+	}
+
 
     @Override
 	public void mouseDragged(MouseEvent me) {
@@ -96,16 +113,7 @@ public class SelectableElementFigure extends Figure implements MouseListener,
 			return;
 
 		moveStartedLocation = moveEndedLocation;
-		state.getPosition().translate(offset.width, offset.height);
-
-		UpdateManager updateMgr = this.getUpdateManager();
-		LayoutManager layoutMgr = this.getParent().getLayoutManager();
-		Rectangle bounds = this.getBounds();
-		updateMgr.addDirtyRegion(this.getParent(), bounds);
-		bounds = bounds.getCopy().translate(offset.width, offset.height);
-		layoutMgr.setConstraint(this, bounds);
-		this.translate(offset.width, offset.height);
-		updateMgr.addDirtyRegion(this.getParent(), bounds);
+		selectEvent.drag(this, offset);
 		me.consume();
 	}
 
@@ -128,7 +136,6 @@ public class SelectableElementFigure extends Figure implements MouseListener,
 	@Override
 	public void mousePressed(MouseEvent me) {
 
-		System.out.println(me.button);
 		if (me.button == 1) {
 			selectEvent.select(this); 
 		} else if (me.button == 3) {
