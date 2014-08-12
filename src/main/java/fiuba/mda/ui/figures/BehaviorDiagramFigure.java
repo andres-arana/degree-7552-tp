@@ -99,9 +99,14 @@ public class BehaviorDiagramFigure extends FreeformLayer {
 		}
 
 		@Override
-		public void raise(SelectableElementFigure sef) {
+		public void select(SelectableElementFigure sef) {
 			selectionManager.selected(sef);
 		}
+
+		@Override
+		public void multiSelect(SelectableElementFigure sef) {
+			selectionManager.multiSelect(sef);
+		}		
 	}
 
 	private class SelectionManager {
@@ -122,6 +127,10 @@ public class BehaviorDiagramFigure extends FreeformLayer {
 				}
 			}
 		}
+
+		public void multiSelect(SelectableElementFigure selectedSelectable) {
+			selectedSelectable.setSelected(true);
+		}		
 	}
 
 }

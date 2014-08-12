@@ -29,7 +29,8 @@ public class SelectableElementFigure extends Figure implements MouseListener,
 		MouseMotionListener {
 
 	public interface ISelectEvent {
-		void raise(SelectableElementFigure selectable);
+		void select(SelectableElementFigure selectable);
+		void multiSelect(SelectableElementFigure selectable);
 	}
 
     private int height;
@@ -75,6 +76,9 @@ public class SelectableElementFigure extends Figure implements MouseListener,
 
 	public void setSelected(boolean s) {
 		selected = s;
+		UpdateManager updateMgr = this.getUpdateManager();
+		Rectangle bounds = this.getBounds();
+		updateMgr.addDirtyRegion(this.getParent(), bounds);
 	}
 
 
@@ -123,7 +127,13 @@ public class SelectableElementFigure extends Figure implements MouseListener,
 
 	@Override
 	public void mousePressed(MouseEvent me) {
-		selectEvent.raise(this);
+
+		System.out.println(me.button);
+		if (me.button == 1) {
+			selectEvent.select(this); 
+		} else if (me.button == 3) {
+			selectEvent.multiSelect(this);
+		}
 
 		moveStartedLocation = me.getLocation();
 		me.consume();
