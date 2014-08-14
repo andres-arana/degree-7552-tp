@@ -67,7 +67,7 @@ public class BehaviorDiagramFigure extends FreeformLayer {
 
 		for (Representation<BehaviorState> state : component.getStates()) {
             BehaviorStateFigure figure = new BehaviorStateFigure(state);
-            add(selectionManager.wrap(state, figure, figure.getWidth(), figure.getHeidth()));
+            add(selectionManager.wrap(state, figure));
             getBehaviorStateFigures().add(figure);
 		}
         for (Representation<BehaviorRelation> relation : component.getRelations()) {

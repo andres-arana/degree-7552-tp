@@ -17,12 +17,11 @@ public class SelectionManager implements SelectableElementFigure.ISelectEvent {
 
 	}
 
-	public IFigure wrap(final IPositionable state, final IFigure figure, int w, int h) {
-      SelectableElementFigure selectable = new SelectableElementFigure(state, figure, this, w, h);
+	public IFigure wrap(final IPositionable state, final IFigure figure) {
+      SelectableElementFigure selectable = new SelectableElementFigure(state, figure, this);
       this.add(selectable);
 
       return selectable;
-
 	}
 	
 	@Override

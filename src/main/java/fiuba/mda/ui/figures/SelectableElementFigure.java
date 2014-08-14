@@ -42,25 +42,26 @@ public class SelectableElementFigure extends Figure implements MouseListener,
 	private IPositionable state;
 	private boolean selected = false;
 	private ISelectEvent selectEvent;
+	private IFigure innerFigure;
 
 	private Rectangle buildPositionalBound(final Position position) {
         return new Rectangle(position.getX(), position.getY(), -1, -1);
 	}
 
-	public SelectableElementFigure(final IPositionable s, final IFigure inner, ISelectEvent selectEvent, int w, int h) {
+	public SelectableElementFigure(final IPositionable s, final IFigure inner, ISelectEvent selectEvent) {
         StackLayout manager = new StackLayout();
         setLayoutManager(manager);
 
         addMouseListener(this);
         addMouseMotionListener(this);
 
-        width = w;
-        height = h;
         this.selectEvent = selectEvent; 
 
         add(inner);
+
         setBorder(new SelectionFigureBorder(ColorConstants.red));
 
+        this.innerFigure = inner;
         this.state = s;
 	}
 
@@ -70,8 +71,8 @@ public class SelectableElementFigure extends Figure implements MouseListener,
 		if (p != null) {
 			Position position = state.getPosition();
 			Rectangle constraint = buildPositionalBound(position);
-            constraint.setWidth(width);
-            constraint.setHeight(height);
+            constraint.setWidth(this.innerFigure.getPreferredSize().width);
+            constraint.setHeight(this.innerFigure.getPreferredSize().height);
             p.getLayoutManager().setConstraint(this, constraint);
         }
 	}
@@ -175,14 +176,14 @@ public class SelectableElementFigure extends Figure implements MouseListener,
 
 	            int x = paintRectangle.getTopLeft().x();
 	            int y = paintRectangle.getTopLeft().y();
-	            graphics.fillRectangle(new Rectangle(x, y, width, thickness));
-	            graphics.fillRectangle(new Rectangle(x, y, thickness, height));
+	            graphics.fillRectangle(new Rectangle(x, y, innerFigure.getPreferredSize().width, thickness));
+	            graphics.fillRectangle(new Rectangle(x, y, thickness, innerFigure.getPreferredSize().height));
 	            x = paintRectangle.getBottomLeft().x();
 	            y = paintRectangle.getBottomLeft().y();
-	            graphics.fillRectangle(new Rectangle(x, y-thickness, width, thickness));
+	            graphics.fillRectangle(new Rectangle(x, y-thickness, innerFigure.getPreferredSize().width, thickness));
 	            x = paintRectangle.getTopRight().x();
 	            y = paintRectangle.getTopRight().y();
-	            graphics.fillRectangle(new Rectangle(x-thickness, y, thickness, height));
+	            graphics.fillRectangle(new Rectangle(x-thickness, y, thickness, innerFigure.getPreferredSize().height));
 	        }
         }
     }
