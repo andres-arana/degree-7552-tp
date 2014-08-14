@@ -1,6 +1,8 @@
 package fiuba.mda.ui.figures;
 
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.IFigure;
+import fiuba.mda.model.IPositionable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +14,14 @@ public class SelectionManager implements SelectableElementFigure.ISelectEvent {
 	}
 	public void add(SelectableElementFigure selectable) {
 		selectables.add(selectable);
+
+	}
+
+	public IFigure wrap(final IPositionable state, final IFigure figure, int w, int h) {
+      SelectableElementFigure selectable = new SelectableElementFigure(state, figure, this, w, h);
+      this.add(selectable);
+
+      return selectable;
 
 	}
 	
