@@ -164,7 +164,7 @@ public class SelectableElementFigure extends Figure implements MouseListener,
         }
 
         public Insets getInsets(IFigure figure) {
-            return new Insets(1,1,1,1);
+            return new Insets(0,0,0,0);
         }
         public void paint(IFigure figure, Graphics graphics, Insets insets) {
             if (selected) {

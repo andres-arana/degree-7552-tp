@@ -27,7 +27,7 @@ import fiuba.mda.model.BehaviorForm;
 import fiuba.mda.model.Representation;
 import fiuba.mda.model.IPositionable.Position;
 
-public class BehaviorFormFigure extends Figure implements MouseListener,MouseMotionListener{
+public class BehaviorFormFigure extends Figure {
 	private Point moveStartedLocation;
 	
 	private List<Label> existingFields;
@@ -47,9 +47,6 @@ public class BehaviorFormFigure extends Figure implements MouseListener,MouseMot
 		setButtons();
 		
 		setLayoutManager(new StackLayout());
-				
-		addMouseListener(this);
-		addMouseMotionListener(this);
 		
 		Panel formPanel = new Panel();
 		formPanel.setBorder(new FrameBorder(form.getEntity().getFormName()));		
@@ -84,70 +81,6 @@ public class BehaviorFormFigure extends Figure implements MouseListener,MouseMot
 	
 	private Rectangle buildPositionalBound(final Position position) {
 		return new Rectangle(position.getX(), position.getY(), -1, -1);
-	}
-	
-	@Override
-	public void mouseDragged(MouseEvent me) {
-		if (moveStartedLocation == null) {
-			return;
-		}
-			
-		Point moveEndedLocation = me.getLocation();
-		if (moveEndedLocation == null) {
-			return;
-		}
-		Dimension offset = moveEndedLocation.getDifference(moveStartedLocation);
-		if (offset.width == 0 && offset.height == 0)
-			return;
-		
-		moveStartedLocation = moveEndedLocation;
-		form.getPosition().translate(offset.width, offset.height);
-		
-		UpdateManager updateMgr = this.getUpdateManager();
-		LayoutManager layoutMgr = this.getParent().getLayoutManager();
-		Rectangle bounds = this.getBounds();
-		updateMgr.addDirtyRegion(this.getParent(), bounds);
-		bounds = bounds.getCopy().translate(offset.width, offset.height);
-		layoutMgr.setConstraint(this, bounds);
-		this.translate(offset.width, offset.height);
-		updateMgr.addDirtyRegion(this.getParent(), bounds);
-		me.consume();
-	}
-	
-	@Override
-	public void mouseEntered(MouseEvent me) {
-		// TODO Auto-generated method stub
-	}
-	
-	@Override
-	public void mouseExited(MouseEvent me) {
-		// TODO Auto-generated method stub
-	}
-	
-	@Override
-	public void mouseHover(MouseEvent me) {
-		// TODO Auto-generated method stub
-	}
-	
-	@Override
-	public void mouseMoved(MouseEvent me) {
-		// TODO Auto-generated method stub
-	}
-	
-	@Override
-	public void mousePressed(MouseEvent me) {
-		moveStartedLocation = me.getLocation();
-		me.consume();
-	}
-	
-	@Override
-	public void mouseReleased(MouseEvent me) {
-		// TODO Auto-generated method stub
-	}
-	
-	@Override
-	public void mouseDoubleClicked(MouseEvent me) {
-		dialogs.showFormDialog(form.getEntity());
 	}
 	
 	public Representation<BehaviorForm> getForm() {

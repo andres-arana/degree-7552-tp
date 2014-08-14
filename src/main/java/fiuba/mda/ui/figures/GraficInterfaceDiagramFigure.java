@@ -86,24 +86,28 @@ public class GraficInterfaceDiagramFigure extends FreeformLayer {
 
 	private void rebindChildFigures() {
 		removeAll();
+
+        SelectionManager selectionManager = new SelectionManager();
+
+
 		for (Representation<BehaviorText> text : component.getTexts()) {
             BehaviorTextFigure figure = new BehaviorTextFigure(text, this.dialogs);
-            add(figure);
+            add(selectionManager.wrap(text, figure));
             getBehaviorTextFigures().add(figure);
 		}
 		for (Representation<BehaviorButton> button : component.getButtons()) {
 			BehaviorButtonFigure figure = new BehaviorButtonFigure(button, this.dialogs);
-            add(figure);
+            add(selectionManager.wrap(button, figure));
             getBehaviorButtonFigures().add(figure);
 		}
 		for (Representation<BehaviorField> field : component.getFields()) {
 			BehaviorFieldFigure figure = new BehaviorFieldFigure(field, this.dialogs);
-            add(figure);
+            add(selectionManager.wrap(field, figure));
             getBehaviorFieldFigures().add(figure);
 		}
         for (Representation<BehaviorForm> form : component.getForms()) {
             BehaviorFormFigure figure = new BehaviorFormFigure(form, this.dialogs);
-            add(figure);
+            add(selectionManager.wrap(form, figure));
             getBehaviorFormFigures().add(figure);
         }
 	}
