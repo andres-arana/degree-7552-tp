@@ -4,10 +4,8 @@ import com.google.common.base.Optional;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import fiuba.mda.model.BehaviorDiagram;
 import fiuba.mda.model.GraficInterfaceDiagram;
 import fiuba.mda.ui.actions.*;
-import fiuba.mda.ui.figures.BehaviorDiagramFigure;
 import fiuba.mda.ui.figures.GraficInterfaceDiagramFigure;
 import fiuba.mda.ui.main.MainWindow;
 import fiuba.mda.ui.main.tree.ComponentImageVisitor;
@@ -37,6 +35,7 @@ public class GraficInterfaceDiagramEditorLauncher extends
     private final Provider<NewButtonAction> newButtonActionProvider;
     private final Provider<NewFieldAction> newFieldActionProvider;
     private final Provider<NewFormAction> newFormActionProvider;
+    private final Provider<ExportToImage> newImageProvider;
 
     private final Provider<GraficDialogs> graficDialogsProvider;
 
@@ -137,7 +136,8 @@ public class GraficInterfaceDiagramEditorLauncher extends
             final Provider<NewButtonAction> newButtonActionProvider,
             final Provider<NewFieldAction> newFieldActionProvider,
             final Provider<NewFormAction> newFormActionProvider,
-            final Provider<GraficDialogs> graficDialogsProvider) {
+            final Provider<GraficDialogs> graficDialogsProvider,
+            final Provider<ExportToImage> newImageProvider) {
         this.mainWindow = mainWindow;
         this.imageVisitor = imageVisitor;
         this.newTextActionProvider = newTextActionProvider;
@@ -145,6 +145,7 @@ public class GraficInterfaceDiagramEditorLauncher extends
         this.newFieldActionProvider = newFieldActionProvider;
         this.newFormActionProvider = newFormActionProvider;
         this.graficDialogsProvider = graficDialogsProvider;
+        this.newImageProvider = newImageProvider;
     }
 
     @Override
@@ -166,6 +167,7 @@ public class GraficInterfaceDiagramEditorLauncher extends
                 editor.addAction(newButtonActionProvider.get().boundTo(component));
                 editor.addAction(newFieldActionProvider.get().boundTo(component));
                 editor.addAction(newFormActionProvider.get().boundTo(component));
+                editor.addAction(newImageProvider.get().boundTo(component));
                 return editor;
             }
         });
