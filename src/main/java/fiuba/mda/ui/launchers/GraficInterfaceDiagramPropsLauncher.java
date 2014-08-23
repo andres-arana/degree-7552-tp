@@ -37,6 +37,6 @@ public class GraficInterfaceDiagramPropsLauncher extends BaseLauncher<GraficInte
 	}
 
 	private String dialogTitle(final GraficInterfaceDiagram component) {
-		return "Interfáz Gráfica " + component.getQualifiedName();
+		return "Interfaz Gráfica " + component.getQualifiedName();
 	}
 }

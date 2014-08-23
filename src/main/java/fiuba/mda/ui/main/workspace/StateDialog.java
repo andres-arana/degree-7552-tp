@@ -102,7 +102,7 @@ public class StateDialog extends TitleAreaDialog {
         gridData3.horizontalAlignment = GridData.FILL;
 
         Label label3 = new Label(parent, SWT.NONE);
-        label3.setText("Interfáz Gráfica");
+        label3.setText("Interfaz Gráfica");
 
         String[] strings3 = new String[nombresInterfacesGraficas.size()];
         int i = 0;

@@ -66,8 +66,8 @@ public class NewGraficInterfaceDiagramAction extends Action {
 	}
 
 	private void setupPresentation(final ImageLoader imageLoader) {
-		setText("Nuevo Diagrama de Interfáz Gráfica");
-		setToolTipText("Crear un nuevo diagrama de Interfáz Gráfica en el proyecto");
+		setText("Nuevo Diagrama de Interfaz Gráfica");
+		setToolTipText("Crear un nuevo diagrama de Interfaz Gráfica en el proyecto");
 		setEnabled(false);
 		setImageDescriptor(imageLoader.descriptorOf("image_add"));
 	}
@@ -95,7 +95,7 @@ public class NewGraficInterfaceDiagramAction extends Action {
 	}
 
 	private String dialogTitle() {
-		return "Diagrama de Interfáz Gráfica en "
+		return "Diagrama de Interfaz Gráfica en "
 				+ model.getActivePackage().getQualifiedName();
 	}
 }
