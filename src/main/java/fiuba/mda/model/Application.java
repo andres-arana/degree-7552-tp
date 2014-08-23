@@ -35,6 +35,8 @@ public class Application {
 
 	private ProjectComponent selection;
 
+	private String currentProjectPath;
+
 	/**
 	 * Checks if you have a current open project
 	 * 
@@ -130,15 +132,29 @@ public class Application {
 	 * @param project
 	 *            the project to set as the current open
 	 */
-	public void openProject(final Project project) {
+	public void openProject(final Project project, final String path) {
 		if (currentProject != null) {
 			currentProject.hierarchyChangedEvent()
 					.unobserve(onHierarchyChanged);
 		}
 		currentProject = project;
+		currentProjectPath = path;
 		currentProject.hierarchyChangedEvent().observe(onHierarchyChanged);
 		this.projectOpenEvent.raise();
 	}
+
+
+	public void openProject(final Project project) {
+		openProject(project, null);
+	}
+
+	public String currentProjectPath() {
+		return currentProjectPath;
+	}	
+
+	public void setCurrentProjectPath(String path) {
+		currentProjectPath = path;
+	}	
 
 	/**
 	 * An event raised when a new project has been open

@@ -15,6 +15,7 @@ import fiuba.mda.ui.actions.LoadProjectAction;
 import fiuba.mda.ui.actions.NewPackageAction;
 import fiuba.mda.ui.actions.NewProjectAction;
 import fiuba.mda.ui.actions.SaveProjectAction;
+import fiuba.mda.ui.actions.SaveProjectAsAction;
 
 /**
  * Groups toolbar actions and provides the actions to a client
@@ -39,13 +40,15 @@ public class ToolBarActionProvider {
 			final NewPackageAction newPackage,
 			final NewBehaviourDiagramAction newBehaviorDiagram,
 			final NewGraficInterfaceDiagramAction newGraficInterfaceDiagramAction,
-			final SaveProjectAction saveProjectAction) {
+			final SaveProjectAction saveProjectAction,
+			final SaveProjectAsAction saveProjectAsAction) {
 		actions.add(newProject);
 		actions.add(loadProjectAction);
 		actions.add(newPackage);
 		actions.add(newBehaviorDiagram);
         actions.add(newGraficInterfaceDiagramAction);
         actions.add(saveProjectAction);
+        actions.add(saveProjectAsAction);
 	}
 
 	/**

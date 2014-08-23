@@ -15,18 +15,26 @@ import fiuba.mda.ui.launchers.SimpleDialogLauncher;
 import fiuba.mda.ui.utilities.ImageLoader;
 import fiuba.mda.utilities.SimpleEvent.Observer;
 
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.FileDialog;
 
+import org.eclipse.swt.SWT;
 /**
  * {@link Action} implementation which represents the command of creating a new
  * package in the project tree
  */
 @Singleton
-public class LoadProjectAction extends Action {
+public class SaveProjectAsAction extends Action {
+	private Observer<Application> onProjectOpen = new Observer<Application>() {
+		@Override
+		public void notify(Application observable) {
+			setEnabled(model.hasCurrentProject());
+		}
+	};
+
 	private final Application model;
 
 	private final SimpleDialogLauncher dialog;
@@ -37,7 +45,7 @@ public class LoadProjectAction extends Action {
 
 
 	/**
-	 * Creates a new {@link LoadProjectAction} instance
+	 * Creates a new {@link SaveProjectAction} instance
 	 * 
 	 * @param model
 	 *            the model on which this action will create a new package
@@ -47,41 +55,48 @@ public class LoadProjectAction extends Action {
 	 *            the image loader used to provide the image of this action
 	 */
 	@Inject
-	public LoadProjectAction(final Application model,
+	public SaveProjectAsAction(final Application model,
 			final SimpleDialogLauncher dialog, final ImageLoader imageLoader, final Shell shell) {
 		this.model = model;
 		this.dialog = dialog;
 		this.shell = shell;
 
 		setupPresentation(imageLoader);
+		setupEventObservation(model);
+	}
+
+	private void setupEventObservation(final Application model) {
+		model.projectOpenEvent().observe(this.onProjectOpen);
 	}
 
 	private void setupPresentation(final ImageLoader imageLoader) {
-		setText("Cargar proyecto");
-		setToolTipText("Cargar proyecto desde un archivo en disco previamente guardado");
-		setEnabled(true);
-		setImageDescriptor(imageLoader.descriptorOf("folder_page"));
+		setText("Guardar proyecto como...");
+		setToolTipText("Guardar proyecto a un archivo en disco distinto del actual");
+		setEnabled(false);
+		setImageDescriptor(imageLoader.descriptorOf("bullet_disk"));
 	}
 
 	@Override
 	public void run() {
-		FileDialog fileDialog = new FileDialog(this.shell);
+		FileDialog fileDialog = new FileDialog(this.shell, SWT.SAVE);
+		Project project;
+		String path;
+
 		fileDialog.setFilterExtensions(extensionProyecto);
-		String path = fileDialog.open();
+		path = fileDialog.open();		
+		project = model.getCurrentProject();
 
 		try {
-		    FileInputStream fileIn = new FileInputStream(path);
-		    ObjectInputStream in = new ObjectInputStream(fileIn);
-		    Project existingProject = (Project) in.readObject();
-		    existingProject.init();
-		    in.close();
-		    fileIn.close();
+			FileOutputStream fileOut = new FileOutputStream(path);
+	        ObjectOutputStream out = new ObjectOutputStream(fileOut);
+	        out.writeObject(project);
+	        out.close();
+	        fileOut.close();
 
-			model.openProject(existingProject, path);
+	        model.setCurrentProjectPath(path);
 	        shell.setText("MDA IDE - " + path);
 	    } catch (Exception e) {
-	    	System.out.println("Error cargando proyect: " + e.toString());
-	    	e.printStackTrace();
+	    	System.out.println("Error exportando proyect: " + e.toString());
 	    }
 	}
 

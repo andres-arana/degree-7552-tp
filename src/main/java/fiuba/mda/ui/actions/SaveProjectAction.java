@@ -78,12 +78,17 @@ public class SaveProjectAction extends Action {
 
 	@Override
 	public void run() {
-		FileDialog fileDialog = new FileDialog(this.shell, SWT.SAVE);
+		String path = model.currentProjectPath();
 		Project project;
-		String path;
 
-		fileDialog.setFilterExtensions(extensionProyecto);
-		path = fileDialog.open();		
+		if (path == null) {
+
+			FileDialog fileDialog = new FileDialog(this.shell, SWT.SAVE);
+
+			fileDialog.setFilterExtensions(extensionProyecto);
+			path = fileDialog.open();		
+		}
+
 		project = model.getCurrentProject();
 
 		try {
@@ -92,6 +97,8 @@ public class SaveProjectAction extends Action {
 	        out.writeObject(project);
 	        out.close();
 	        fileOut.close();
+
+	        shell.setText("MDA IDE - " + path);
 	    } catch (Exception e) {
 	    	System.out.println("Error exportando proyect: " + e.toString());
 	    }
