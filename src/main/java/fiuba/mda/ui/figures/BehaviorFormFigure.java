@@ -27,7 +27,7 @@ import fiuba.mda.model.BehaviorForm;
 import fiuba.mda.model.Representation;
 import fiuba.mda.model.IPositionable.Position;
 
-public class BehaviorFormFigure extends Figure {
+public class BehaviorFormFigure extends Figure implements MouseListener {
 	private Point moveStartedLocation;
 	
 	private List<Label> existingFields;
@@ -87,6 +87,21 @@ public class BehaviorFormFigure extends Figure {
 		return form;
 	}	
 	
+
+	@Override
+	public void mousePressed(MouseEvent me) {
+	}
+	
+	@Override
+	public void mouseReleased(MouseEvent me) {
+	}
+	
+	@Override
+	public void mouseDoubleClicked(MouseEvent me) {
+		dialogs.showFormDialog(form.getEntity());
+	}
+	
+
 	private void setExistingFields(){
 		this.existingFields = new ArrayList<Label>();
 		for (String field : this.form.getEntity().getExistingFields()) {

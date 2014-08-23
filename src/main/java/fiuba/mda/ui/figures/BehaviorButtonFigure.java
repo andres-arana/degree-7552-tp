@@ -19,7 +19,7 @@ import fiuba.mda.model.BehaviorButton;
 import fiuba.mda.model.Representation;
 import fiuba.mda.model.IPositionable.Position;
 
-public class BehaviorButtonFigure extends Figure {
+public class BehaviorButtonFigure extends Figure implements MouseListener {
 	private Point moveStartedLocation;
 	
 	private Button buttonBox;
@@ -33,6 +33,8 @@ public class BehaviorButtonFigure extends Figure {
 		this.dialogs = dialogs;
 		setLayoutManager(new StackLayout());
 		buttonBox = new Button();
+		//addMouseListener(this);
+
 		add(buttonBox);
 		label = new Label(button.getEntity().getName());
 		label.setTextAlignment(SWT.CENTER);
@@ -53,6 +55,20 @@ public class BehaviorButtonFigure extends Figure {
 //			buttonBox.setPreferredSize(label.getText().length() * 2 + 120, 30);
 		}
 	}
+
+	@Override
+	public void mousePressed(MouseEvent me) {
+	}
+	
+	@Override
+	public void mouseReleased(MouseEvent me) {
+	}
+	
+	@Override
+	public void mouseDoubleClicked(MouseEvent me) {
+		dialogs.showButtonDialog(button.getEntity());
+	}
+
 	
 	private Rectangle buildPositionalBound(final Position position) {
 		return new Rectangle(position.getX(), position.getY(), -1, -1);

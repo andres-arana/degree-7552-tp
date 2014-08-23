@@ -2,6 +2,7 @@ package fiuba.mda.ui.figures;
 
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.MouseListener;
 import fiuba.mda.model.IPositionable;
 
 import java.util.ArrayList;
@@ -16,9 +17,14 @@ public class SelectionManager implements SelectableElementFigure.ISelectEvent {
 		selectables.add(selectable);
 
 	}
-
+	
 	public IFigure wrap(final IPositionable state, final IFigure figure) {
+		return wrap(state, figure, null);
+	}
+
+	public IFigure wrap(final IPositionable state, final IFigure figure, final MouseListener mouseListener) {
       SelectableElementFigure selectable = new SelectableElementFigure(state, figure, this);
+      if (mouseListener != null) selectable.setMouseListenerReceptor(mouseListener);
       this.add(selectable);
 
       return selectable;

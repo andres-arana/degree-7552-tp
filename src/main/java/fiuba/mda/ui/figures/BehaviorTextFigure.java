@@ -18,7 +18,7 @@ import fiuba.mda.model.BehaviorText;
 import fiuba.mda.model.Representation;
 import fiuba.mda.model.IPositionable.Position;
 
-public class BehaviorTextFigure extends Figure {
+public class BehaviorTextFigure extends Figure implements MouseListener {
 	private Point moveStartedLocation;
 	private final Label label;
 	private final Representation<BehaviorText> text;
@@ -43,6 +43,19 @@ public class BehaviorTextFigure extends Figure {
 			p.getLayoutManager().setConstraint(this, constraint);
 		}
 	}
+
+	@Override
+	public void mousePressed(MouseEvent me) {
+	}
+	
+	@Override
+	public void mouseReleased(MouseEvent me) {
+	}
+	
+	@Override
+	public void mouseDoubleClicked(MouseEvent me) {
+		dialogs.showTextDialog(text.getEntity());
+	}	
 	
 	private Rectangle buildPositionalBound(final Position position) {
 		return new Rectangle(position.getX(), position.getY(), -1, -1);

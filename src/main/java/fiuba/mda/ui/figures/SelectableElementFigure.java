@@ -43,6 +43,7 @@ public class SelectableElementFigure extends Figure implements MouseListener,
 	private boolean selected = false;
 	private ISelectEvent selectEvent;
 	private IFigure innerFigure;
+	private MouseListener receptor;
 
 	private Rectangle buildPositionalBound(final Position position) {
         return new Rectangle(position.getX(), position.getY(), -1, -1);
@@ -63,6 +64,10 @@ public class SelectableElementFigure extends Figure implements MouseListener,
 
         this.innerFigure = inner;
         this.state = s;
+	}
+
+	public void setMouseListenerReceptor(MouseListener receptor) {
+		this.receptor = receptor;
 	}
 
     @Override
@@ -153,7 +158,9 @@ public class SelectableElementFigure extends Figure implements MouseListener,
 
 	@Override
 	public void mouseDoubleClicked(MouseEvent me) {
-
+		if (receptor != null) {
+			receptor.mouseDoubleClicked(me);
+		}
 	}
 
 

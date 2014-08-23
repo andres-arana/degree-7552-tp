@@ -20,7 +20,7 @@ import fiuba.mda.model.BehaviorField;
 import fiuba.mda.model.Representation;
 import fiuba.mda.model.IPositionable.Position;
 
-public class BehaviorFieldFigure extends Figure {
+public class BehaviorFieldFigure extends Figure implements MouseListener {
 	private Point moveStartedLocation;
 	
 	private Label fieldBox;
@@ -54,6 +54,19 @@ public class BehaviorFieldFigure extends Figure {
 			p.getLayoutManager().setConstraint(this, constraint);
 			fieldBox.setText("    " + label.getText() + "    ");
 		}
+	}
+
+	@Override
+	public void mousePressed(MouseEvent me) {
+	}
+	
+	@Override
+	public void mouseReleased(MouseEvent me) {
+	}
+	
+	@Override
+	public void mouseDoubleClicked(MouseEvent me) {
+		dialogs.showFieldDialog(field.getEntity());
 	}
 	
 	private Rectangle buildPositionalBound(final Position position) {
