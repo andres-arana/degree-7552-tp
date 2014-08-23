@@ -84,6 +84,7 @@ public class GraficInterfaceDiagramFigure extends FreeformLayer {
         behaviorFieldFigures = new ArrayList<>();
         behaviorFormFigures = new ArrayList<>();
 		rebindChildFigures();
+		component.setDiagramFigure(this);
     }
 
 	private void rebindChildFigures() {

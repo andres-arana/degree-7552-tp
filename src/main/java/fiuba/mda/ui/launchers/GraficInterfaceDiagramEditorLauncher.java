@@ -35,7 +35,7 @@ public class GraficInterfaceDiagramEditorLauncher extends
     private final Provider<NewButtonAction> newButtonActionProvider;
     private final Provider<NewFieldAction> newFieldActionProvider;
     private final Provider<NewFormAction> newFormActionProvider;
-    private final Provider<ExportToImage> newImageProvider;
+    private final Provider<ExportToImageAction> newImageProvider;
 
     private final Provider<GraficDialogs> graficDialogsProvider;
 
@@ -62,7 +62,7 @@ public class GraficInterfaceDiagramEditorLauncher extends
             final Provider<NewFieldAction> newFieldActionProvider,
             final Provider<NewFormAction> newFormActionProvider,
             final Provider<GraficDialogs> graficDialogsProvider,
-            final Provider<ExportToImage> newImageProvider) {
+            final Provider<ExportToImageAction> newImageProvider) {
         this.mainWindow = mainWindow;
         this.imageVisitor = imageVisitor;
         this.newTextActionProvider = newTextActionProvider;

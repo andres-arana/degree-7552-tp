@@ -1,5 +1,6 @@
 package fiuba.mda.model;
 
+import fiuba.mda.ui.figures.GraficInterfaceDiagramFigure;
 import fiuba.mda.utilities.SimpleEvent;
 
 import java.util.ArrayList;
@@ -23,6 +24,8 @@ public class GraficInterfaceDiagram extends AbstractLeafProjectComponent {
     private List<Representation<BehaviorField>> fields = new ArrayList<>();
 
     private List<Representation<BehaviorForm>> forms = new ArrayList<>();
+    
+    private GraficInterfaceDiagramFigure diagram;
 
     /**
 	 * Creates a new {@link fiuba.mda.model.GraficInterfaceDiagram} instance
@@ -136,7 +139,15 @@ public class GraficInterfaceDiagram extends AbstractLeafProjectComponent {
             s.add(str);
         }
 
-
         return s;
     }
+    
+    public void setDiagramFigure(GraficInterfaceDiagramFigure diagram){
+    	this.diagram = diagram;
+    }
+    
+    public GraficInterfaceDiagramFigure getDiagramFigure(){
+    	return this.diagram;
+    }
+    
 }
