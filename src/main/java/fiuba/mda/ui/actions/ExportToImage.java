@@ -7,12 +7,10 @@ import com.google.inject.Inject;
 
 import fiuba.mda.model.BehaviorDiagram;
 import fiuba.mda.model.GraficInterfaceDiagram;
-import fiuba.mda.model.Representation;
 import fiuba.mda.ui.utilities.ImageLoader;
 
 public class ExportToImage extends Action {
 	private GraficInterfaceDiagram boundDiagram;
-	private int formNumber = 0;
 	private final Shell shell;
 
 	/**
