@@ -10,7 +10,7 @@ import fiuba.mda.utilities.SimpleEvent;
  * Interface which represents an object in the project tree, such as an entity,
  * a relation, a package or a diagram
  */
-public interface ProjectComponent {
+public interface ProjectComponent extends java.io.Serializable  {
 	/**
 	 * Checks to see if a candidate new name is in conflict with other named
 	 * components in a given parent

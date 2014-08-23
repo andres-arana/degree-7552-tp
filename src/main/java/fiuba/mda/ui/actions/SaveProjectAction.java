@@ -7,11 +7,16 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import fiuba.mda.model.Application;
+import fiuba.mda.model.Project;
 import fiuba.mda.model.ModelPackage;
+
 import fiuba.mda.ui.actions.validators.NameValidatorFactory;
 import fiuba.mda.ui.launchers.SimpleDialogLauncher;
 import fiuba.mda.ui.utilities.ImageLoader;
 import fiuba.mda.utilities.SimpleEvent.Observer;
+
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 
 /**
  * {@link Action} implementation which represents the command of creating a new
@@ -64,7 +69,17 @@ public class SaveProjectAction extends Action {
 
 	@Override
 	public void run() {
-		System.out.println("TODO: implementar guardar proyecto");
+		Project project = model.getCurrentProject();
+
+		try {
+			FileOutputStream fileOut = new FileOutputStream("project.proj");
+	        ObjectOutputStream out = new ObjectOutputStream(fileOut);
+	        out.writeObject(project);
+	        out.close();
+	        fileOut.close();
+	    } catch (Exception e) {
+	    	System.out.println("Error exportando proyect: " + e.toString());
+	    }
 	}
 
 }

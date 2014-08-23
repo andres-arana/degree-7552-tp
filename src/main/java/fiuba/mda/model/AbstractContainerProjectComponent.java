@@ -17,7 +17,7 @@ public abstract class AbstractContainerProjectComponent extends
 
 	private final List<ProjectComponent> children = new ArrayList<>();
 
-	private Observer<ProjectComponent> onChildrenHierarchyChanged = new Observer<ProjectComponent>() {
+	private transient Observer<ProjectComponent> onChildrenHierarchyChanged = new Observer<ProjectComponent>() {
 		@Override
 		public void notify(ProjectComponent observable) {
 			hierarchyChangedEvent.raise();

@@ -7,11 +7,16 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import fiuba.mda.model.Application;
+import fiuba.mda.model.Project;
 import fiuba.mda.model.ModelPackage;
+
 import fiuba.mda.ui.actions.validators.NameValidatorFactory;
 import fiuba.mda.ui.launchers.SimpleDialogLauncher;
 import fiuba.mda.ui.utilities.ImageLoader;
 import fiuba.mda.utilities.SimpleEvent.Observer;
+
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 
 /**
  * {@link Action} implementation which represents the command of creating a new
@@ -52,7 +57,19 @@ public class LoadProjectAction extends Action {
 
 	@Override
 	public void run() {
-		System.out.println("TODO: implementar cargar proyecto");
+		try {
+		    FileInputStream fileIn = new FileInputStream("project.proj");
+		    ObjectInputStream in = new ObjectInputStream(fileIn);
+		    Project existingProject = (Project) in.readObject();
+		    existingProject.init();
+		    in.close();
+		    fileIn.close();
+
+			model.openProject(existingProject);
+	    } catch (Exception e) {
+	    	System.out.println("Error cargando proyect: " + e.toString());
+	    	e.printStackTrace();
+	    }
 	}
 
 }

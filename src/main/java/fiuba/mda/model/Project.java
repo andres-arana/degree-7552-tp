@@ -6,20 +6,14 @@ import fiuba.mda.utilities.SimpleEvent.Observer;
 /**
  * Represents a single software project being modeled
  */
-public class Project {
-	private final SimpleEvent<Project> hierarchyChangedEvent = new SimpleEvent<>(
-			this);
+public class Project implements java.io.Serializable {
+	private transient SimpleEvent<Project> hierarchyChangedEvent;
 
-	private Observer<ProjectComponent> onHierarchyChanged = new Observer<ProjectComponent>() {
-		@Override
-		public void notify(ProjectComponent observable) {
-			hierarchyChangedEvent.raise();
-		}
-	};
+	private transient Observer<ProjectComponent> onHierarchyChanged;
 
 	private String name;
 
-	private final ModelPackage rootPackage;
+	private ModelPackage rootPackage;
 
 	/**
 	 * Creates a new {@link Project} instance with a default root package
@@ -28,6 +22,22 @@ public class Project {
 	 *            the name of the project
 	 */
 	public Project(final String name) {
+		this.name = name;
+		init();
+	}
+
+	public void init() {
+		System.out.println("Project.init()");
+		onHierarchyChanged = new Observer<ProjectComponent>() {
+			@Override
+			public void notify(ProjectComponent observable) {
+				hierarchyChangedEvent.raise();
+			}
+		};
+
+		hierarchyChangedEvent = new SimpleEvent<>(
+			this);
+
 		this.name = name;
 		rootPackage = new ModelPackage(name);
 		rootPackage.hierarchyChangedEvent().observe(onHierarchyChanged);
