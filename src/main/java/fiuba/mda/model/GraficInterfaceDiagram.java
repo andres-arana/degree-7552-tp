@@ -11,22 +11,18 @@ import java.util.List;
  * interaction flow on the modeled software
  */
 public class GraficInterfaceDiagram extends AbstractLeafProjectComponent {
-	private final transient SimpleEvent<GraficInterfaceDiagram> textsChangedEvent = new SimpleEvent<>(
-			this);
-    private final transient SimpleEvent<GraficInterfaceDiagram> buttonsChangedEvent = new SimpleEvent<>(
-            this);
-    private final transient SimpleEvent<GraficInterfaceDiagram> fieldsChangedEvent = new SimpleEvent<>(
-            this);
-    private final transient SimpleEvent<GraficInterfaceDiagram> formsChangedEvent = new SimpleEvent<>(
-            this);
+	private transient SimpleEvent<GraficInterfaceDiagram> textsChangedEvent;
+    private transient SimpleEvent<GraficInterfaceDiagram> buttonsChangedEvent;
+    private transient SimpleEvent<GraficInterfaceDiagram> fieldsChangedEvent;
+    private transient SimpleEvent<GraficInterfaceDiagram> formsChangedEvent;
 
-	private final List<Representation<BehaviorText>> texts = new ArrayList<>();
+	private List<Representation<BehaviorText>> texts = new ArrayList<>();
 
-    private final List<Representation<BehaviorButton>> buttons = new ArrayList<>();
+    private List<Representation<BehaviorButton>> buttons = new ArrayList<>();
 
-    private final List<Representation<BehaviorField>> fields = new ArrayList<>();
+    private List<Representation<BehaviorField>> fields = new ArrayList<>();
 
-    private final List<Representation<BehaviorForm>> forms = new ArrayList<>();
+    private List<Representation<BehaviorForm>> forms = new ArrayList<>();
 
     /**
 	 * Creates a new {@link fiuba.mda.model.GraficInterfaceDiagram} instance
@@ -42,6 +38,19 @@ public class GraficInterfaceDiagram extends AbstractLeafProjectComponent {
 	public void accept(ProjectComponentVisitor visitor) {
 		visitor.visit(this);
 	}
+
+    @Override
+    public void init() {
+        super.init();
+        textsChangedEvent = new SimpleEvent<>(
+                this);
+        buttonsChangedEvent = new SimpleEvent<>(
+                this);
+        fieldsChangedEvent = new SimpleEvent<>(
+                this);
+        formsChangedEvent = new SimpleEvent<>(
+                this);        
+    }
 
 
     public List<Representation<BehaviorText>> getTexts() {

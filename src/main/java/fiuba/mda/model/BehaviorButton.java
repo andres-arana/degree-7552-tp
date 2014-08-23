@@ -1,6 +1,6 @@
 package fiuba.mda.model;
 
-public class BehaviorButton {
+public class BehaviorButton implements java.io.Serializable {
 	private String name;
 
 	public BehaviorButton(final String name) {

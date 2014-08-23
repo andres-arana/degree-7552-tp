@@ -1,6 +1,6 @@
 package fiuba.mda.model;
 
-public class BehaviorText {
+public class BehaviorText implements java.io.Serializable {
 	private String name;
 
 	public BehaviorText(String name) {

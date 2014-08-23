@@ -2,7 +2,7 @@ package fiuba.mda.model;
 
 
 public interface IPositionable {
-	public static class Position {
+	public static class Position implements java.io.Serializable {
 		int x = 0;
 		int y = 0;
 		public int getX() {
@@ -22,6 +22,6 @@ public interface IPositionable {
 			this.y += v;
 		}
 	}
-		
+
 	Position getPosition();
 }

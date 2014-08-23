@@ -2,7 +2,7 @@ package fiuba.mda.model;
 
 import java.util.List;
 
-public class BehaviorForm {
+public class BehaviorForm implements java.io.Serializable {
 
 	private String formName;
 	private List<String> texts;

@@ -22,6 +22,8 @@ import org.eclipse.swt.graphics.Device;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.swt.graphics.Font;
+
 /**
  * Figure which displays a state in a behavior diagram
  */
@@ -51,6 +53,8 @@ public class SelectableElementFigure extends Figure implements MouseListener,
 
 	public SelectableElementFigure(final IPositionable s, final IFigure inner, ISelectEvent selectEvent) {
         StackLayout manager = new StackLayout();
+        inner.setFont(new Font(null, "Helvetica", 10, SWT.NONE));
+
         setLayoutManager(manager);
 
         addMouseListener(this);

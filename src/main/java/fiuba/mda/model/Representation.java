@@ -6,7 +6,7 @@ package fiuba.mda.model;
  *
  * @param <T> The type of the entity being represented 
  */
-public class Representation<T> implements IPositionable {
+public class Representation<T> implements IPositionable, java.io.Serializable {
 
 	private final IPositionable.Position position;
 	private final T entity;

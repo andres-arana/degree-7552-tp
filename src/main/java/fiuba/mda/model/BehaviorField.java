@@ -1,6 +1,6 @@
 package fiuba.mda.model;
 
-public class BehaviorField {
+public class BehaviorField implements java.io.Serializable {
 	private String fieldName;
 	private String propertyName;
 
