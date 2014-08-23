@@ -13,6 +13,7 @@ import com.google.inject.Singleton;
 import fiuba.mda.ui.actions.NewBehaviourDiagramAction;
 import fiuba.mda.ui.actions.NewPackageAction;
 import fiuba.mda.ui.actions.NewProjectAction;
+import fiuba.mda.ui.actions.SaveProjectAction;
 
 /**
  * Groups toolbar actions and provides the actions to a client
@@ -34,11 +35,14 @@ public class ToolBarActionProvider {
 	@Inject
 	public ToolBarActionProvider(final NewProjectAction newProject,
 			final NewPackageAction newPackage,
-			final NewBehaviourDiagramAction newBehaviorDiagram,final NewGraficInterfaceDiagramAction newGraficInterfaceDiagramAction) {
+			final NewBehaviourDiagramAction newBehaviorDiagram,
+			final NewGraficInterfaceDiagramAction newGraficInterfaceDiagramAction,
+			final SaveProjectAction saveProjectAction) {
 		actions.add(newProject);
 		actions.add(newPackage);
 		actions.add(newBehaviorDiagram);
         actions.add(newGraficInterfaceDiagramAction);
+        actions.add(saveProjectAction);
 	}
 
 	/**
