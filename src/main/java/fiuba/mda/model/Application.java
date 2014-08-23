@@ -136,8 +136,6 @@ public class Application {
 					.unobserve(onHierarchyChanged);
 		}
 		currentProject = project;
-		System.out.println(this);
-		System.out.println(currentProject.hierarchyChangedEvent());
 		currentProject.hierarchyChangedEvent().observe(onHierarchyChanged);
 		this.projectOpenEvent.raise();
 	}

@@ -11,13 +11,13 @@ import java.util.List;
  * interaction flow on the modeled software
  */
 public class GraficInterfaceDiagram extends AbstractLeafProjectComponent {
-	private final SimpleEvent<GraficInterfaceDiagram> textsChangedEvent = new SimpleEvent<>(
+	private final transient SimpleEvent<GraficInterfaceDiagram> textsChangedEvent = new SimpleEvent<>(
 			this);
-    private final SimpleEvent<GraficInterfaceDiagram> buttonsChangedEvent = new SimpleEvent<>(
+    private final transient SimpleEvent<GraficInterfaceDiagram> buttonsChangedEvent = new SimpleEvent<>(
             this);
-    private final SimpleEvent<GraficInterfaceDiagram> fieldsChangedEvent = new SimpleEvent<>(
+    private final transient SimpleEvent<GraficInterfaceDiagram> fieldsChangedEvent = new SimpleEvent<>(
             this);
-    private final SimpleEvent<GraficInterfaceDiagram> formsChangedEvent = new SimpleEvent<>(
+    private final transient SimpleEvent<GraficInterfaceDiagram> formsChangedEvent = new SimpleEvent<>(
             this);
 
 	private final List<Representation<BehaviorText>> texts = new ArrayList<>();

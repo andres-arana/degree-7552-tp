@@ -175,4 +175,7 @@ public interface ProjectComponent extends java.io.Serializable  {
 	 *            the visitor to accept
 	 */
 	void accept(ProjectComponentVisitor visitor);
+
+
+	void init();
 }

@@ -27,7 +27,6 @@ public class Project implements java.io.Serializable {
 	}
 
 	public void init() {
-		System.out.println("Project.init()");
 		onHierarchyChanged = new Observer<ProjectComponent>() {
 			@Override
 			public void notify(ProjectComponent observable) {
@@ -39,7 +38,11 @@ public class Project implements java.io.Serializable {
 			this);
 
 		this.name = name;
-		rootPackage = new ModelPackage(name);
+
+		if (rootPackage == null) rootPackage = new ModelPackage(name);
+
+		rootPackage.init();
+
 		rootPackage.hierarchyChangedEvent().observe(onHierarchyChanged);
 	}
 

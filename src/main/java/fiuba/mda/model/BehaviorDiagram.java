@@ -11,9 +11,9 @@ import fiuba.mda.utilities.SimpleEvent;
  * interaction flow on the modeled software
  */
 public class BehaviorDiagram extends AbstractLeafProjectComponent {
-	private final SimpleEvent<BehaviorDiagram> statesChangedEvent = new SimpleEvent<>(
+	private transient SimpleEvent<BehaviorDiagram> statesChangedEvent = new SimpleEvent<>(
 			this);
-    private final SimpleEvent<BehaviorDiagram> relationChangedEvent = new SimpleEvent<>(
+    private transient SimpleEvent<BehaviorDiagram> relationChangedEvent = new SimpleEvent<>(
             this);
 
 	private final List<Representation<BehaviorState>> states = new ArrayList<>();

@@ -15,14 +15,9 @@ import fiuba.mda.utilities.SimpleEvent.Observer;
 public abstract class AbstractContainerProjectComponent extends
 		AbstractProjectComponent {
 
-	private final List<ProjectComponent> children = new ArrayList<>();
+	private List<ProjectComponent> children;
 
-	private transient Observer<ProjectComponent> onChildrenHierarchyChanged = new Observer<ProjectComponent>() {
-		@Override
-		public void notify(ProjectComponent observable) {
-			hierarchyChangedEvent.raise();
-		}
-	};
+	private transient Observer<ProjectComponent> onChildrenHierarchyChanged;
 
 	/**
 	 * Creates a new @{link AbstractContainerProjectComponent} instance
@@ -32,6 +27,26 @@ public abstract class AbstractContainerProjectComponent extends
 	 */
 	public AbstractContainerProjectComponent(final String name) {
 		super(name);
+	}
+
+	@Override
+	public void init() {
+		super.init();
+		onChildrenHierarchyChanged = new Observer<ProjectComponent>() {
+			@Override
+			public void notify(ProjectComponent observable) {
+				hierarchyChangedEvent.raise();
+			}
+		};
+
+		if (children==null) {
+			children = new ArrayList<>();
+		} else {
+			for (ProjectComponent component : children) {
+				component.init();
+				component.hierarchyChangedEvent().observe(onChildrenHierarchyChanged);
+			}
+		}
 	}
 
 	@Override
@@ -65,6 +80,7 @@ public abstract class AbstractContainerProjectComponent extends
 		component.setParent(this);
 		component.hierarchyChangedEvent().observe(onChildrenHierarchyChanged);
 		children.add(component);
+
 		hierarchyChangedEvent.raise();
 	}
 

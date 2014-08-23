@@ -9,11 +9,9 @@ import fiuba.mda.utilities.SimpleEvent;
  * containing default behavior for all methods
  */
 public abstract class AbstractProjectComponent implements ProjectComponent {
-	protected final transient SimpleEvent<ProjectComponent> hierarchyChangedEvent = new SimpleEvent<ProjectComponent>(
-			this);
+	protected transient SimpleEvent<ProjectComponent> hierarchyChangedEvent;
 
-	private final transient SimpleEvent<ProjectComponent> removedEvent = new SimpleEvent<ProjectComponent>(
-			this);
+	private transient SimpleEvent<ProjectComponent> removedEvent;
 
 	private String name;
 
@@ -27,6 +25,15 @@ public abstract class AbstractProjectComponent implements ProjectComponent {
 	 */
 	public AbstractProjectComponent(final String name) {
 		this.name = name;
+		this.init();
+	}
+
+	@Override
+	public void init() {
+		hierarchyChangedEvent = new SimpleEvent<ProjectComponent>(
+			this);
+		removedEvent = new SimpleEvent<ProjectComponent>(
+			this);
 	}
 
 	@Override
