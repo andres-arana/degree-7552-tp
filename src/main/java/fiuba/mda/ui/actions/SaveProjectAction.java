@@ -88,7 +88,8 @@ public class SaveProjectAction extends Action {
 			fileDialog.setFilterExtensions(extensionProyecto);
 			path = fileDialog.open();		
 		}
-
+		if (path == null) return;
+		
 		project = model.getCurrentProject();
 
 		try {

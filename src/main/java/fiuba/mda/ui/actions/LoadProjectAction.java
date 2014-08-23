@@ -69,6 +69,8 @@ public class LoadProjectAction extends Action {
 		fileDialog.setFilterExtensions(extensionProyecto);
 		String path = fileDialog.open();
 
+		if (path == null) return;
+
 		try {
 		    FileInputStream fileIn = new FileInputStream(path);
 		    ObjectInputStream in = new ObjectInputStream(fileIn);
