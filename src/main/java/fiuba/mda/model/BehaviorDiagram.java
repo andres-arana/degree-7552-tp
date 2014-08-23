@@ -11,16 +11,14 @@ import fiuba.mda.utilities.SimpleEvent;
  * interaction flow on the modeled software
  */
 public class BehaviorDiagram extends AbstractLeafProjectComponent {
-	private transient SimpleEvent<BehaviorDiagram> statesChangedEvent = new SimpleEvent<>(
-			this);
-    private transient SimpleEvent<BehaviorDiagram> relationChangedEvent = new SimpleEvent<>(
-            this);
+	private transient SimpleEvent<BehaviorDiagram> statesChangedEvent;
+    private transient SimpleEvent<BehaviorDiagram> relationChangedEvent;
 
-	private final List<Representation<BehaviorState>> states = new ArrayList<>();
+	private List<Representation<BehaviorState>> states;
 
-    private Representation<BehaviorState> initialState = null;
+    private Representation<BehaviorState> initialState;
 
-    private final List<Representation<BehaviorRelation>> relations = new ArrayList<>();
+    private List<Representation<BehaviorRelation>> relations;
     
     /*private final List<Representation<BehaviorText>> texts = new ArrayList<>();
 
@@ -37,6 +35,21 @@ public class BehaviorDiagram extends AbstractLeafProjectComponent {
 	public BehaviorDiagram(final String name) {
 		super(name);
 	}
+
+    @Override
+    public void init() {
+        super.init();
+        statesChangedEvent = new SimpleEvent<>(
+            this);
+        relationChangedEvent = new SimpleEvent<>(
+            this);
+
+        if (states == null) {
+            states = new ArrayList<>();
+            initialState = null;
+            relations = new ArrayList<>();
+        }
+    }
 
 	@Override
 	public void accept(ProjectComponentVisitor visitor) {

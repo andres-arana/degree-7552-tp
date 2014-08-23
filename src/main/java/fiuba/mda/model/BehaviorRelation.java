@@ -3,7 +3,7 @@ package fiuba.mda.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BehaviorRelation {
+public class BehaviorRelation implements java.io.Serializable {
 
     public final static String TIPO_FUNCIONAL = "FUNCIONAL";
     public final static String TIPO_CONTROL = "CONTROL";

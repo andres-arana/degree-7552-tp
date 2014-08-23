@@ -1,6 +1,6 @@
 package fiuba.mda.model;
 
-public class BehaviorState {
+public class BehaviorState implements java.io.Serializable {
     public static final String FORM_SALIDA = "SALIDA";
     public static final String FORM_ENTRADA = "ENTRADA";
     public static final String FORM_COMPUESTO = "COMPUESTO";
