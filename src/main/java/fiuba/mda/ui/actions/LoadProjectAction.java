@@ -18,6 +18,9 @@ import fiuba.mda.utilities.SimpleEvent.Observer;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.FileDialog;
+
 /**
  * {@link Action} implementation which represents the command of creating a new
  * package in the project tree
@@ -27,6 +30,10 @@ public class LoadProjectAction extends Action {
 	private final Application model;
 
 	private final SimpleDialogLauncher dialog;
+
+	private final Shell shell;
+
+	private static final String[] extensionProyecto = new String[] { "*.proj" };	
 
 
 	/**
@@ -41,9 +48,10 @@ public class LoadProjectAction extends Action {
 	 */
 	@Inject
 	public LoadProjectAction(final Application model,
-			final SimpleDialogLauncher dialog, final ImageLoader imageLoader) {
+			final SimpleDialogLauncher dialog, final ImageLoader imageLoader, final Shell shell) {
 		this.model = model;
 		this.dialog = dialog;
+		this.shell = shell;
 
 		setupPresentation(imageLoader);
 	}
@@ -57,8 +65,12 @@ public class LoadProjectAction extends Action {
 
 	@Override
 	public void run() {
+		FileDialog fileDialog = new FileDialog(this.shell);
+		fileDialog.setFilterExtensions(extensionProyecto);
+		String path = fileDialog.open();
+
 		try {
-		    FileInputStream fileIn = new FileInputStream("project.proj");
+		    FileInputStream fileIn = new FileInputStream(path);
 		    ObjectInputStream in = new ObjectInputStream(fileIn);
 		    Project existingProject = (Project) in.readObject();
 		    existingProject.init();

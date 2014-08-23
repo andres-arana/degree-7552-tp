@@ -18,6 +18,10 @@ import fiuba.mda.utilities.SimpleEvent.Observer;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.FileDialog;
+
+import org.eclipse.swt.SWT;
 /**
  * {@link Action} implementation which represents the command of creating a new
  * package in the project tree
@@ -35,6 +39,10 @@ public class SaveProjectAction extends Action {
 
 	private final SimpleDialogLauncher dialog;
 
+	private final Shell shell;
+
+	private static final String[] extensionProyecto = new String[] { "*.proj" };	
+
 
 	/**
 	 * Creates a new {@link SaveProjectAction} instance
@@ -48,9 +56,10 @@ public class SaveProjectAction extends Action {
 	 */
 	@Inject
 	public SaveProjectAction(final Application model,
-			final SimpleDialogLauncher dialog, final ImageLoader imageLoader) {
+			final SimpleDialogLauncher dialog, final ImageLoader imageLoader, final Shell shell) {
 		this.model = model;
 		this.dialog = dialog;
+		this.shell = shell;
 
 		setupPresentation(imageLoader);
 		setupEventObservation(model);
@@ -69,10 +78,16 @@ public class SaveProjectAction extends Action {
 
 	@Override
 	public void run() {
-		Project project = model.getCurrentProject();
+		FileDialog fileDialog = new FileDialog(this.shell, SWT.SAVE);
+		Project project;
+		String path;
+
+		fileDialog.setFilterExtensions(extensionProyecto);
+		path = fileDialog.open();		
+		project = model.getCurrentProject();
 
 		try {
-			FileOutputStream fileOut = new FileOutputStream("project.proj");
+			FileOutputStream fileOut = new FileOutputStream(path);
 	        ObjectOutputStream out = new ObjectOutputStream(fileOut);
 	        out.writeObject(project);
 	        out.close();
