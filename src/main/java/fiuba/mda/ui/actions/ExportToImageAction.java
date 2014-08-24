@@ -20,8 +20,6 @@ import fiuba.mda.ui.utilities.ImageLoader;
 
 public class ExportToImageAction extends Action {
 	private ExportableToImage boundDiagram;
-//	private GraficInterfaceDiagram graphicInterfaceDiagram;
-//	private BehaviorDiagram behaviorDiagram;
 	private final Shell shell;
 
 	/**

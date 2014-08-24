@@ -4,11 +4,8 @@ import fiuba.mda.model.BehaviorRelation;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayout;
 
-import fiuba.mda.model.BehaviorButton;
 import fiuba.mda.model.BehaviorDiagram;
-import fiuba.mda.model.BehaviorField;
 import fiuba.mda.model.BehaviorState;
-import fiuba.mda.model.BehaviorText;
 import fiuba.mda.model.Representation;
 import fiuba.mda.utilities.SimpleEvent.Observer;
 
