@@ -23,7 +23,7 @@ public class BehaviorDiagram extends AbstractLeafProjectComponent implements Exp
 
     private List<Representation<BehaviorRelation>> relations;
     
-    private FreeformLayer diagram;
+    private transient FreeformLayer diagram;
     
     /*private final List<Representation<BehaviorText>> texts = new ArrayList<>();
 

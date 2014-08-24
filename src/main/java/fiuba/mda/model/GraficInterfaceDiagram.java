@@ -27,7 +27,7 @@ public class GraficInterfaceDiagram extends AbstractLeafProjectComponent impleme
 
     private List<Representation<BehaviorForm>> forms = new ArrayList<>();
     
-    private FreeformLayer diagram;
+    private transient FreeformLayer diagram;
 
     /**
 	 * Creates a new {@link fiuba.mda.model.GraficInterfaceDiagram} instance
