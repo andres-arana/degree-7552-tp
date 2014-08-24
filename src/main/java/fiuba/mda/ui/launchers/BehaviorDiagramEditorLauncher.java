@@ -23,6 +23,10 @@ import fiuba.mda.ui.main.tree.ComponentImageVisitor;
 import fiuba.mda.ui.main.workspace.ControlBuilder;
 import fiuba.mda.ui.main.workspace.DiagramEditor;
 
+import org.eclipse.draw2d.FreeformLayer;
+
+import fiuba.mda.ui.actions.ExportableToImage;
+
 /**
  * {@link Launcher} implementation which allows editing a behavior diagram
  */
@@ -73,14 +77,24 @@ public class BehaviorDiagramEditorLauncher extends
 			public Control buildInto(Composite parent) {
 				DiagramEditor editor = new DiagramEditor(parent, SWT.NONE);
 
-				editor.addFigure(new BehaviorDiagramFigure(component));
+				final BehaviorDiagramFigure figure = new BehaviorDiagramFigure(component);
+				editor.addFigure(figure);
 
 				editor.addAction(newStateActionProvider.get()
 						.boundTo(component));
 
 				editor.addAction(newRelationActionProvider.get().boundTo(
 						component));
-				editor.addAction(newImageProvider.get().boundTo(component));				
+                editor.addAction(newImageProvider.get().boundTo(new ExportableToImage() {
+                    public void setDiagramFigure(FreeformLayer diagram){
+                        component.setDiagramFigure(diagram);
+                    }
+                    
+                    public FreeformLayer getDiagramFigure(){
+                    	figure.removeSelections();
+                        return component.getDiagramFigure();
+                    }
+                }));							
 				return editor;
 			}
 		});

@@ -34,6 +34,7 @@ public class BehaviorDiagramFigure extends FreeformLayer {
 
     private List<BehaviorStateFigure> behaviorStateFigures;
     
+    private SelectionManager selectionManager;
   /*  private List<BehaviorTextFigure> behaviorTextFigures;
     
     private List<BehaviorButtonFigure> behaviorButtonFigures;
@@ -59,7 +60,7 @@ public class BehaviorDiagramFigure extends FreeformLayer {
 	private void rebindChildFigures() {
 		removeAll();
 
-		SelectionManager selectionManager = new SelectionManager();
+		selectionManager = new SelectionManager();
 
 		for (Representation<BehaviorState> state : component.getStates()) {
             BehaviorStateFigure figure = new BehaviorStateFigure(state);
@@ -81,4 +82,9 @@ public class BehaviorDiagramFigure extends FreeformLayer {
 		}
 		return behaviorStateFigures;
 	}
+
+
+    public void removeSelections() {
+        selectionManager.removeSelections();
+    }    
 }

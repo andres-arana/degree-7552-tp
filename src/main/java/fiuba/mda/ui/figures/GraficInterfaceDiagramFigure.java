@@ -63,6 +63,8 @@ public class GraficInterfaceDiagramFigure extends FreeformLayer {
     private List<BehaviorFieldFigure> behaviorFieldFigures;
     private List<BehaviorFormFigure> behaviorFormFigures;
 
+    private SelectionManager selectionManager;
+
 	/**
 	 * Creates a new @{link BehaviorDiagramFigure} instance
 	 *
@@ -88,7 +90,7 @@ public class GraficInterfaceDiagramFigure extends FreeformLayer {
 	private void rebindChildFigures() {
 		removeAll();
 
-        SelectionManager selectionManager = new SelectionManager();
+        selectionManager = new SelectionManager();
 
 
 		for (Representation<BehaviorText> text : component.getTexts()) {
@@ -141,6 +143,9 @@ public class GraficInterfaceDiagramFigure extends FreeformLayer {
         return behaviorFormFigures;
     }
 
+    public void removeSelections() {
+        selectionManager.removeSelections();
+    }    
 
 
 }

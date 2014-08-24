@@ -51,5 +51,11 @@ public class SelectionManager implements SelectableElementFigure.ISelectEvent {
 		for (SelectableElementFigure selectable : selectables) {
 			selectable.drag(offset);
 		}
-	}				
+	}
+
+	public void removeSelections() {
+		for (SelectableElementFigure selectable : selectables) {
+			selectable.setSelected(false);
+		}
+	}
 }

@@ -23,6 +23,9 @@ import fiuba.mda.ui.launchers.WizardDialogLauncher;
 import fiuba.mda.ui.main.workspace.*;
 
 import org.eclipse.swt.widgets.Shell;
+
+import org.eclipse.draw2d.FreeformLayer;
+
 /**
  * {@link fiuba.mda.ui.launchers.Launcher} implementation which allows editing a behavior diagram
  */
@@ -86,13 +89,23 @@ public class GraficInterfaceDiagramEditorLauncher extends
                 DiagramEditor editor = new DiagramEditor(parent, SWT.NONE);
                 GraficInterfaceDiagramFigure.Dialogs dialogs = graficDialogsProvider.get().boundTo(component);
 
-                editor.addFigure(new GraficInterfaceDiagramFigure(component, dialogs));
+                final GraficInterfaceDiagramFigure figure = new GraficInterfaceDiagramFigure(component, dialogs);
+                editor.addFigure(figure);
 
                 editor.addAction(newTextActionProvider.get().boundTo(component));
                 editor.addAction(newButtonActionProvider.get().boundTo(component));
                 editor.addAction(newFieldActionProvider.get().boundTo(component));
                 editor.addAction(newFormActionProvider.get().boundTo(component));
-                editor.addAction(newImageProvider.get().boundTo(component));
+                editor.addAction(newImageProvider.get().boundTo(new ExportableToImage() {
+                    public void setDiagramFigure(FreeformLayer diagram){
+                        component.setDiagramFigure(diagram);
+                    }
+                    
+                    public FreeformLayer getDiagramFigure(){
+                        figure.removeSelections();
+                        return component.getDiagramFigure();
+                    }
+                }));
                 return editor;
             }
         });
