@@ -1,17 +1,19 @@
 package fiuba.mda.model;
 
-import fiuba.mda.ui.figures.GraficInterfaceDiagramFigure;
+import fiuba.mda.ui.actions.ExportableToImage;
 import fiuba.mda.utilities.SimpleEvent;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.draw2d.FreeformLayer;
+
 /**
  * Represents a behavior diagram which presents details of a particular user
  * interaction flow on the modeled software
  */
-public class GraficInterfaceDiagram extends AbstractLeafProjectComponent {
+public class GraficInterfaceDiagram extends AbstractLeafProjectComponent implements ExportableToImage{
 	private transient SimpleEvent<GraficInterfaceDiagram> textsChangedEvent;
     private transient SimpleEvent<GraficInterfaceDiagram> buttonsChangedEvent;
     private transient SimpleEvent<GraficInterfaceDiagram> fieldsChangedEvent;
@@ -25,7 +27,7 @@ public class GraficInterfaceDiagram extends AbstractLeafProjectComponent {
 
     private List<Representation<BehaviorForm>> forms = new ArrayList<>();
     
-    private GraficInterfaceDiagramFigure diagram;
+    private FreeformLayer diagram;
 
     /**
 	 * Creates a new {@link fiuba.mda.model.GraficInterfaceDiagram} instance
@@ -142,11 +144,11 @@ public class GraficInterfaceDiagram extends AbstractLeafProjectComponent {
         return s;
     }
     
-    public void setDiagramFigure(GraficInterfaceDiagramFigure diagram){
+    public void setDiagramFigure(FreeformLayer diagram){
     	this.diagram = diagram;
     }
     
-    public GraficInterfaceDiagramFigure getDiagramFigure(){
+    public FreeformLayer getDiagramFigure(){
     	return this.diagram;
     }
     

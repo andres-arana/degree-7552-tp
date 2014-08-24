@@ -11,6 +11,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import fiuba.mda.model.BehaviorDiagram;
+import fiuba.mda.ui.actions.ExportToImageAction;
 import fiuba.mda.ui.actions.NewBehaviorDiagramRelationAction;
 import fiuba.mda.ui.actions.NewBehaviorDiagramStateAction;
 import fiuba.mda.ui.actions.NewButtonAction;
@@ -32,6 +33,7 @@ public class BehaviorDiagramEditorLauncher extends
 	private final ComponentImageVisitor imageVisitor;
 	private final Provider<NewBehaviorDiagramStateAction> newStateActionProvider;
 	private final Provider<NewBehaviorDiagramRelationAction> newRelationActionProvider;
+	private final Provider<ExportToImageAction> newImageProvider;
 
 	/**
 	 * Creates a new @{link BehaviorDiagramLauncher} instance
@@ -50,11 +52,13 @@ public class BehaviorDiagramEditorLauncher extends
 			final MainWindow mainWindow,
 			final ComponentImageVisitor imageVisitor,
 			final Provider<NewBehaviorDiagramStateAction> newStateActionProvider,
-			final Provider<NewBehaviorDiagramRelationAction> newRelationActionProvider) {
+			final Provider<NewBehaviorDiagramRelationAction> newRelationActionProvider,
+			final Provider<ExportToImageAction> newImageProvider) {
 		this.mainWindow = mainWindow;
 		this.imageVisitor = imageVisitor;
 		this.newStateActionProvider = newStateActionProvider;
 		this.newRelationActionProvider = newRelationActionProvider;
+		this.newImageProvider = newImageProvider;
 	}
 
 	@Override
@@ -76,6 +80,7 @@ public class BehaviorDiagramEditorLauncher extends
 
 				editor.addAction(newRelationActionProvider.get().boundTo(
 						component));
+				editor.addAction(newImageProvider.get().boundTo(component));				
 				return editor;
 			}
 		});

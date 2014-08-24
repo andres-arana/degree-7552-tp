@@ -56,9 +56,8 @@ public class BehaviorDiagramFigure extends FreeformLayer {
 		setLayoutManager(new FreeformLayout());
 		rebindChildFigures();
         behaviorStateFigures = new ArrayList<>();
-    /*    behaviorTextFigures = new ArrayList<>();
-        behaviorButtonFigures = new ArrayList<>();
-    */}
+        component.setDiagramFigure(this);
+    }
 
 	private void rebindChildFigures() {
 		removeAll();

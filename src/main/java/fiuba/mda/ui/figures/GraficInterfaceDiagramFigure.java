@@ -70,8 +70,6 @@ public class GraficInterfaceDiagramFigure extends FreeformLayer {
 	 *            the {@link fiuba.mda.model.BehaviorDiagram} instance to display
 	 */
 	public GraficInterfaceDiagramFigure(final GraficInterfaceDiagram component, final Dialogs dialogs) {
-        System.out.println("GraficInterfaceDiagramFigure()");
-
 		this.component = component;
         this.dialogs = dialogs;
         component.textsChangedEvent().observe(onTextChanged);

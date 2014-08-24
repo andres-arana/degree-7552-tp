@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.draw2d.FreeformLayer;
+
+import fiuba.mda.ui.actions.ExportableToImage;
 import fiuba.mda.utilities.SimpleEvent;
 
 /**
  * Represents a behavior diagram which presents details of a particular user
  * interaction flow on the modeled software
  */
-public class BehaviorDiagram extends AbstractLeafProjectComponent {
+public class BehaviorDiagram extends AbstractLeafProjectComponent implements ExportableToImage{
 	private transient SimpleEvent<BehaviorDiagram> statesChangedEvent;
     private transient SimpleEvent<BehaviorDiagram> relationChangedEvent;
 
@@ -19,6 +22,8 @@ public class BehaviorDiagram extends AbstractLeafProjectComponent {
     private Representation<BehaviorState> initialState;
 
     private List<Representation<BehaviorRelation>> relations;
+    
+    private FreeformLayer diagram;
     
     /*private final List<Representation<BehaviorText>> texts = new ArrayList<>();
 
@@ -146,5 +151,12 @@ public class BehaviorDiagram extends AbstractLeafProjectComponent {
         return true;
     }
 
+    public void setDiagramFigure(FreeformLayer diagram){
+    	this.diagram = diagram;
+    }
+    
+    public FreeformLayer getDiagramFigure(){
+    	return this.diagram;
+    }  
 
 }

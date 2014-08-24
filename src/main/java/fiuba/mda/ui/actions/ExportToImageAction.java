@@ -19,7 +19,9 @@ import fiuba.mda.model.GraficInterfaceDiagram;
 import fiuba.mda.ui.utilities.ImageLoader;
 
 public class ExportToImageAction extends Action {
-	private GraficInterfaceDiagram boundDiagram;
+	private ExportableToImage boundDiagram;
+//	private GraficInterfaceDiagram graphicInterfaceDiagram;
+//	private BehaviorDiagram behaviorDiagram;
 	private final Shell shell;
 
 	/**
@@ -36,7 +38,7 @@ public class ExportToImageAction extends Action {
 	
 	private void setupPresentation(final ImageLoader imageLoader) {
 		setText("Exportar a imagen");
-		setToolTipText("Exportar el diagrama actual a imagen");
+		setToolTipText("Exportar a imagen el diagrama actual");
 		setImageDescriptor(imageLoader.descriptorOf("camera"));
 	}
 
@@ -47,14 +49,14 @@ public class ExportToImageAction extends Action {
 	 *            the diagram to bind this action to
 	 * @return this for method chaining
 	 */
-	public ExportToImageAction boundTo(final GraficInterfaceDiagram diagram) {
+	public ExportToImageAction boundTo(final ExportableToImage diagram) {
         boundDiagram = diagram;
         return this;
     }
 
 	@Override
 	public void run() {
-		exportImage(5, "diagramaInterfaces.png", this.boundDiagram.getDiagramFigure());
+		exportImage(5, "diagrama.png", this.boundDiagram.getDiagramFigure());
     }
 
 	public static void exportImage(int format, String filename, IFigure rootFigure) {
