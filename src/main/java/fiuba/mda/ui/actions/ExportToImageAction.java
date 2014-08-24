@@ -12,6 +12,8 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.SWT;
 
 import com.google.inject.Inject;
 
@@ -21,6 +23,10 @@ import fiuba.mda.ui.utilities.ImageLoader;
 public class ExportToImageAction extends Action {
 	private ExportableToImage boundDiagram;
 	private final Shell shell;
+
+	private static final String[] extensionImagenes = new String[] { "*.png", "*.jpg" };	
+
+
 
 	/**
 	 * Creates a new {@link ExportToImageAction} instance
@@ -54,7 +60,14 @@ public class ExportToImageAction extends Action {
 
 	@Override
 	public void run() {
-		exportImage(5, "diagrama.png", this.boundDiagram.getDiagramFigure());
+		String path;
+		FileDialog fileDialog = new FileDialog(this.shell, SWT.SAVE);
+
+		fileDialog.setFilterExtensions(extensionImagenes);
+		path = fileDialog.open();	
+
+		if (path == null) return;
+		exportImage(5, path, this.boundDiagram.getDiagramFigure());
     }
 
 	public static void exportImage(int format, String filename, IFigure rootFigure) {
