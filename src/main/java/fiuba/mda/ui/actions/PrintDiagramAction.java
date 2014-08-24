@@ -55,9 +55,8 @@ public class PrintDiagramAction extends Action {
 	@Override
 	public void run() {
 	    try {
-	      // Prompt the user for an image file
-	      FileDialog fileChooser = new FileDialog(shell, SWT.OPEN);
-	      String fileName = fileChooser.open();
+	      String fileName = "/tmp/diagram.png";
+	      ExportToImageAction.exportImage(5, fileName, this.boundDiagram.getDiagramFigure());
 
 	      if (fileName == null) { return; }
 
