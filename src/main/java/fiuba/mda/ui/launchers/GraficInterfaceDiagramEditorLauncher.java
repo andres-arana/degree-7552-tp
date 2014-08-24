@@ -4,6 +4,7 @@ import com.google.common.base.Optional;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+
 import fiuba.mda.model.GraficInterfaceDiagram;
 import fiuba.mda.ui.actions.*;
 import fiuba.mda.ui.figures.GraficInterfaceDiagramFigure;
@@ -12,6 +13,7 @@ import fiuba.mda.ui.main.tree.ComponentImageVisitor;
 import fiuba.mda.ui.main.workspace.ControlBuilder;
 import fiuba.mda.ui.main.workspace.DiagramEditor;
 import fiuba.mda.model.*;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
@@ -19,11 +21,9 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.jface.wizard.WizardDialog;
 
 import fiuba.mda.ui.launchers.WizardDialogLauncher;
-
 import fiuba.mda.ui.main.workspace.*;
 
 import org.eclipse.swt.widgets.Shell;
-
 import org.eclipse.draw2d.FreeformLayer;
 
 /**
@@ -39,6 +39,7 @@ public class GraficInterfaceDiagramEditorLauncher extends
     private final Provider<NewFieldAction> newFieldActionProvider;
     private final Provider<NewFormAction> newFormActionProvider;
     private final Provider<ExportToImageAction> newImageProvider;
+	private final Provider<PrintDiagramAction> newPrintProvider;    
 
     private final Provider<GraficDialogs> graficDialogsProvider;
 
@@ -65,7 +66,8 @@ public class GraficInterfaceDiagramEditorLauncher extends
             final Provider<NewFieldAction> newFieldActionProvider,
             final Provider<NewFormAction> newFormActionProvider,
             final Provider<GraficDialogs> graficDialogsProvider,
-            final Provider<ExportToImageAction> newImageProvider) {
+            final Provider<ExportToImageAction> newImageProvider,
+            final Provider<PrintDiagramAction> newPrintProvider) {
         this.mainWindow = mainWindow;
         this.imageVisitor = imageVisitor;
         this.newTextActionProvider = newTextActionProvider;
@@ -74,6 +76,7 @@ public class GraficInterfaceDiagramEditorLauncher extends
         this.newFormActionProvider = newFormActionProvider;
         this.graficDialogsProvider = graficDialogsProvider;
         this.newImageProvider = newImageProvider;
+        this.newPrintProvider = newPrintProvider;
     }
 
     @Override
@@ -106,6 +109,8 @@ public class GraficInterfaceDiagramEditorLauncher extends
                         return component.getDiagramFigure();
                     }
                 }));
+                
+				editor.addAction(newPrintProvider.get().boundTo(component));
                 return editor;
             }
         });
