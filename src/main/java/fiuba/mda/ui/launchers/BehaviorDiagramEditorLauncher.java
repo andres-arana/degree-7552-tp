@@ -82,11 +82,7 @@ public class BehaviorDiagramEditorLauncher extends
 				DiagramEditor editor = new DiagramEditor(parent, SWT.NONE);
 
 				final BehaviorDiagramFigure figure = new BehaviorDiagramFigure(component);
-				editor.addFigure(figure);
-
-				editor.addAction(newStateActionProvider.get().boundTo(component));
-				editor.addAction(newRelationActionProvider.get().boundTo(component));
-                editor.addAction(newImageProvider.get().boundTo(new ExportableToImage() {
+				final ExportableToImage clearSelectionWrapper = new ExportableToImage() {
                     public void setDiagramFigure(FreeformLayer diagram){
                         component.setDiagramFigure(diagram);
                     }
@@ -95,8 +91,14 @@ public class BehaviorDiagramEditorLauncher extends
                     	figure.removeSelections();
                         return component.getDiagramFigure();
                     }
-                }));
-				editor.addAction(newPrintProvider.get().boundTo(component));
+                };
+
+				editor.addFigure(figure);
+
+				editor.addAction(newStateActionProvider.get().boundTo(component));
+				editor.addAction(newRelationActionProvider.get().boundTo(component));
+                editor.addAction(newImageProvider.get().boundTo(clearSelectionWrapper));
+				editor.addAction(newPrintProvider.get().boundTo(clearSelectionWrapper));
                 
 				return editor;
 			}

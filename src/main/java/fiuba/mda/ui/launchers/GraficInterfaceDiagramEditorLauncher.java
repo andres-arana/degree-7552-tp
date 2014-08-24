@@ -93,13 +93,7 @@ public class GraficInterfaceDiagramEditorLauncher extends
                 GraficInterfaceDiagramFigure.Dialogs dialogs = graficDialogsProvider.get().boundTo(component);
 
                 final GraficInterfaceDiagramFigure figure = new GraficInterfaceDiagramFigure(component, dialogs);
-                editor.addFigure(figure);
-
-                editor.addAction(newTextActionProvider.get().boundTo(component));
-                editor.addAction(newButtonActionProvider.get().boundTo(component));
-                editor.addAction(newFieldActionProvider.get().boundTo(component));
-                editor.addAction(newFormActionProvider.get().boundTo(component));
-                editor.addAction(newImageProvider.get().boundTo(new ExportableToImage() {
+                final ExportableToImage clearSelectionWrapper = new ExportableToImage() {
                     public void setDiagramFigure(FreeformLayer diagram){
                         component.setDiagramFigure(diagram);
                     }
@@ -108,9 +102,16 @@ public class GraficInterfaceDiagramEditorLauncher extends
                         figure.removeSelections();
                         return component.getDiagramFigure();
                     }
-                }));
-                
-				editor.addAction(newPrintProvider.get().boundTo(component));
+                };
+
+                editor.addFigure(figure);
+
+                editor.addAction(newTextActionProvider.get().boundTo(component));
+                editor.addAction(newButtonActionProvider.get().boundTo(component));
+                editor.addAction(newFieldActionProvider.get().boundTo(component));
+                editor.addAction(newFormActionProvider.get().boundTo(component));
+                editor.addAction(newImageProvider.get().boundTo(clearSelectionWrapper));
+				editor.addAction(newPrintProvider.get().boundTo(clearSelectionWrapper));
                 return editor;
             }
         });
