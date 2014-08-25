@@ -18,12 +18,12 @@ public class SelectionManager implements SelectableElementFigure.ISelectEvent {
 
 	}
 	
-	public IFigure wrap(final IPositionable state, final IFigure figure) {
-		return wrap(state, figure, null);
+	public IFigure wrap(final IPositionable state, final IFigure figure, final SelectableElementFigure.Removable removable) {
+		return wrap(state, figure, null, removable);
 	}
 
-	public IFigure wrap(final IPositionable state, final IFigure figure, final MouseListener mouseListener) {
-      SelectableElementFigure selectable = new SelectableElementFigure(state, figure, this);
+	public IFigure wrap(final IPositionable state, final IFigure figure, final MouseListener mouseListener, final SelectableElementFigure.Removable removable) {
+      SelectableElementFigure selectable = new SelectableElementFigure(state, figure, this, removable);
       if (mouseListener != null) selectable.setMouseListenerReceptor(mouseListener);
       this.add(selectable);
 
@@ -51,6 +51,20 @@ public class SelectionManager implements SelectableElementFigure.ISelectEvent {
 		for (SelectableElementFigure selectable : selectables) {
 			selectable.drag(offset);
 		}
+	}
+
+	public void removeSelectedObjects() {
+		List<SelectableElementFigure> newSelectables = new ArrayList<SelectableElementFigure>();
+
+		for (SelectableElementFigure selectable : selectables) {
+			if (selectable.isSelected()) {
+				selectable.getRemovable().remove();
+			} else {
+				newSelectables.add(selectable);
+			}
+		}
+
+		this.selectables = newSelectables;
 	}
 
 	public void removeSelections() {

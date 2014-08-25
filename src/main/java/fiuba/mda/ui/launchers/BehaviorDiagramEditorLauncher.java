@@ -18,6 +18,7 @@ import fiuba.mda.ui.actions.NewButtonAction;
 import fiuba.mda.ui.actions.NewFieldAction;
 import fiuba.mda.ui.actions.NewTextAction;
 import fiuba.mda.ui.actions.PrintDiagramAction;
+import fiuba.mda.ui.actions.DeleteSelectedBehaviorDiagramAction;
 import fiuba.mda.ui.figures.BehaviorDiagramFigure;
 import fiuba.mda.ui.main.MainWindow;
 import fiuba.mda.ui.main.tree.ComponentImageVisitor;
@@ -40,6 +41,7 @@ public class BehaviorDiagramEditorLauncher extends
 	private final Provider<NewBehaviorDiagramRelationAction> newRelationActionProvider;
 	private final Provider<ExportToImageAction> newImageProvider;
 	private final Provider<PrintDiagramAction> newPrintProvider;
+	private final Provider<DeleteSelectedBehaviorDiagramAction> deleteProvider;
 
 	/**
 	 * Creates a new @{link BehaviorDiagramLauncher} instance
@@ -60,13 +62,15 @@ public class BehaviorDiagramEditorLauncher extends
 			final Provider<NewBehaviorDiagramStateAction> newStateActionProvider,
 			final Provider<NewBehaviorDiagramRelationAction> newRelationActionProvider,
 			final Provider<ExportToImageAction> newImageProvider,
-			final Provider<PrintDiagramAction> newPrintProvider) {
+			final Provider<PrintDiagramAction> newPrintProvider,
+			final Provider<DeleteSelectedBehaviorDiagramAction> deleteProvider) {
 		this.mainWindow = mainWindow;
 		this.imageVisitor = imageVisitor;
 		this.newStateActionProvider = newStateActionProvider;
 		this.newRelationActionProvider = newRelationActionProvider;
 		this.newImageProvider = newImageProvider;
 		this.newPrintProvider = newPrintProvider;
+		this.deleteProvider = deleteProvider;
 	}
 
 	@Override
@@ -97,6 +101,7 @@ public class BehaviorDiagramEditorLauncher extends
 
 				editor.addAction(newStateActionProvider.get().boundTo(component));
 				editor.addAction(newRelationActionProvider.get().boundTo(component));
+				editor.addAction(deleteProvider.get().boundTo(component, figure));
                 editor.addAction(newImageProvider.get().boundTo(clearSelectionWrapper));
 				editor.addAction(newPrintProvider.get().boundTo(clearSelectionWrapper));
                 

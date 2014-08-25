@@ -93,6 +93,26 @@ public class BehaviorDiagram extends AbstractLeafProjectComponent implements Exp
         relationChangedEvent.raise();
     }
 
+    public void removeState(Representation<BehaviorState> state) {
+        states.remove(state);
+        statesChangedEvent.raise();
+
+        ArrayList<Representation<BehaviorRelation>> relationsCopy = new ArrayList<Representation<BehaviorRelation>>(relations);
+        // eliminar las relations que estan colgadas
+        for (Representation<BehaviorRelation> relation : relationsCopy) {
+            if (relation.getEntity().getInitialState() == state.getEntity() ||
+                relation.getEntity().getFinalState() == state.getEntity()) {
+                removeRelation(relation);
+            }
+        }
+
+    }
+
+    public void removeRelation(Representation<BehaviorRelation> relation) {
+        relations.remove(relation);
+        relationChangedEvent.raise();
+    }
+
     private void updateBilateralRelationIfExists(Representation<BehaviorRelation> relation) {
         Representation<BehaviorRelation> existingRelation = findRelationByStates(relation.getEntity().getFinalState(),relation.getEntity().getInitialState());
         if (existingRelation != null){
@@ -110,21 +130,6 @@ public class BehaviorDiagram extends AbstractLeafProjectComponent implements Exp
         return null;
     }
 
-  /*  public void addText(Representation<BehaviorText> text) {
-        texts.add(text);
-        relationChangedEvent.raise();
-    }
-    
-    public void addButton(Representation<BehaviorButton> button) {
-        buttons.add(button);
-        relationChangedEvent.raise();
-    }
-
-    public void addField(Representation<BehaviorField> field) {
-        fields.add(field);
-        relationChangedEvent.raise();
-    }
-  */
 	/**
 	 * An event raised when some states have been added or removed
 	 * 

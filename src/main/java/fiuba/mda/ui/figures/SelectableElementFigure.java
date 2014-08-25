@@ -30,6 +30,10 @@ import org.eclipse.swt.graphics.Font;
 public class SelectableElementFigure extends Figure implements MouseListener,
 		MouseMotionListener {
 
+	public interface Removable {
+		public void remove();
+	}
+
 	public interface ISelectEvent {
 		void select(SelectableElementFigure selectable);
 		void multiSelect(SelectableElementFigure selectable);
@@ -46,12 +50,13 @@ public class SelectableElementFigure extends Figure implements MouseListener,
 	private ISelectEvent selectEvent;
 	private IFigure innerFigure;
 	private MouseListener receptor;
+	private Removable removable;
 
 	private Rectangle buildPositionalBound(final Position position) {
         return new Rectangle(position.getX(), position.getY(), -1, -1);
 	}
 
-	public SelectableElementFigure(final IPositionable s, final IFigure inner, ISelectEvent selectEvent) {
+	public SelectableElementFigure(final IPositionable s, final IFigure inner, ISelectEvent selectEvent, Removable removable) {
         StackLayout manager = new StackLayout();
         inner.setFont(new Font(null, "Helvetica", 10, SWT.NONE));
 
@@ -61,6 +66,7 @@ public class SelectableElementFigure extends Figure implements MouseListener,
         addMouseMotionListener(this);
 
         this.selectEvent = selectEvent; 
+        this.removable = removable;
 
         add(inner);
 
@@ -68,6 +74,10 @@ public class SelectableElementFigure extends Figure implements MouseListener,
 
         this.innerFigure = inner;
         this.state = s;
+	}
+
+	public Removable getRemovable(){
+		return this.removable;
 	}
 
 	public void setMouseListenerReceptor(MouseListener receptor) {
@@ -84,6 +94,10 @@ public class SelectableElementFigure extends Figure implements MouseListener,
             constraint.setHeight(this.innerFigure.getPreferredSize().height);
             p.getLayoutManager().setConstraint(this, constraint);
         }
+	}
+
+	public boolean isSelected() {
+		return selected;
 	}
 
 	public void setSelected(boolean s) {

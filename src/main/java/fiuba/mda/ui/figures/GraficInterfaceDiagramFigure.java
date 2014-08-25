@@ -93,24 +93,40 @@ public class GraficInterfaceDiagramFigure extends FreeformLayer {
         selectionManager = new SelectionManager();
 
 
-		for (Representation<BehaviorText> text : component.getTexts()) {
+		for (final Representation<BehaviorText> text : component.getTexts()) {
             BehaviorTextFigure figure = new BehaviorTextFigure(text, this.dialogs);
-            add(selectionManager.wrap(text, figure, figure));
+            add(selectionManager.wrap(text, figure, figure, new SelectableElementFigure.Removable() {
+                public void remove() {
+                    component.removeText(text);
+                }
+            }));
             getBehaviorTextFigures().add(figure);
 		}
-		for (Representation<BehaviorButton> button : component.getButtons()) {
+		for (final Representation<BehaviorButton> button : component.getButtons()) {
 			BehaviorButtonFigure figure = new BehaviorButtonFigure(button, this.dialogs);
-            add(selectionManager.wrap(button, figure, figure));
+            add(selectionManager.wrap(button, figure, figure, new SelectableElementFigure.Removable() {
+                public void remove() {
+                    component.removeButton(button);
+                }
+            }));
             getBehaviorButtonFigures().add(figure);
 		}
-		for (Representation<BehaviorField> field : component.getFields()) {
+		for (final Representation<BehaviorField> field : component.getFields()) {
 			BehaviorFieldFigure figure = new BehaviorFieldFigure(field, this.dialogs);
-            add(selectionManager.wrap(field, figure, figure));
+            add(selectionManager.wrap(field, figure, figure, new SelectableElementFigure.Removable() {
+                public void remove() {
+                    component.removeField(field);
+                }
+            }));
             getBehaviorFieldFigures().add(figure);
 		}
-        for (Representation<BehaviorForm> form : component.getForms()) {
+        for (final Representation<BehaviorForm> form : component.getForms()) {
             BehaviorFormFigure figure = new BehaviorFormFigure(form, this.dialogs);
-            add(selectionManager.wrap(form, figure, figure));
+            add(selectionManager.wrap(form, figure, figure, new SelectableElementFigure.Removable() {
+                public void remove() {
+                    component.removeForm(form);
+                }
+            }));
             getBehaviorFormFigures().add(figure);
         }
 	}
@@ -143,9 +159,11 @@ public class GraficInterfaceDiagramFigure extends FreeformLayer {
         return behaviorFormFigures;
     }
 
+    public void removeSelectedObjects() {
+        selectionManager.removeSelectedObjects();
+    }
+
     public void removeSelections() {
         selectionManager.removeSelections();
     }    
-
-
 }

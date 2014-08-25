@@ -38,6 +38,8 @@ public class GraficInterfaceDiagramEditorLauncher extends
     private final Provider<NewButtonAction> newButtonActionProvider;
     private final Provider<NewFieldAction> newFieldActionProvider;
     private final Provider<NewFormAction> newFormActionProvider;
+    private final Provider<DeleteSelectedGraphicDiagramAction> graphicDeleteProvider;
+
     private final Provider<ExportToImageAction> newImageProvider;
 	private final Provider<PrintDiagramAction> newPrintProvider;    
 
@@ -65,6 +67,7 @@ public class GraficInterfaceDiagramEditorLauncher extends
             final Provider<NewButtonAction> newButtonActionProvider,
             final Provider<NewFieldAction> newFieldActionProvider,
             final Provider<NewFormAction> newFormActionProvider,
+            final Provider<DeleteSelectedGraphicDiagramAction> graphicDeleteProvider,
             final Provider<GraficDialogs> graficDialogsProvider,
             final Provider<ExportToImageAction> newImageProvider,
             final Provider<PrintDiagramAction> newPrintProvider) {
@@ -77,6 +80,7 @@ public class GraficInterfaceDiagramEditorLauncher extends
         this.graficDialogsProvider = graficDialogsProvider;
         this.newImageProvider = newImageProvider;
         this.newPrintProvider = newPrintProvider;
+        this.graphicDeleteProvider = graphicDeleteProvider;
     }
 
     @Override
@@ -110,6 +114,7 @@ public class GraficInterfaceDiagramEditorLauncher extends
                 editor.addAction(newButtonActionProvider.get().boundTo(component));
                 editor.addAction(newFieldActionProvider.get().boundTo(component));
                 editor.addAction(newFormActionProvider.get().boundTo(component));
+                editor.addAction(graphicDeleteProvider.get().boundTo(component, figure));
                 editor.addAction(newImageProvider.get().boundTo(clearSelectionWrapper));
 				editor.addAction(newPrintProvider.get().boundTo(clearSelectionWrapper));
                 return editor;

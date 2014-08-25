@@ -112,6 +112,26 @@ public class GraficInterfaceDiagram extends AbstractLeafProjectComponent impleme
         formsChangedEvent.raise();
     }
 
+    public void removeText(Representation<BehaviorText> text) {
+        texts.remove(text);
+        textsChangedEvent.raise();
+    }
+
+    public void removeButton(Representation<BehaviorButton> button) {
+        buttons.remove(button);
+        buttonsChangedEvent.raise();
+    }
+
+    public void removeField(Representation<BehaviorField> field) {
+        fields.remove(field);
+        fieldsChangedEvent.raise();
+    }
+
+    public void removeForm(Representation<BehaviorForm> form) {
+        forms.remove(form);
+        formsChangedEvent.raise();
+    }
+
 
     //Devuelve en un string todos los elementos de la pantalla con su nombre y tipo.
     public List<String> getElementsStringList() {
