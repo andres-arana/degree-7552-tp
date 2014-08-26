@@ -9,8 +9,12 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
@@ -27,6 +31,9 @@ public class ModelEntityEditor extends
 	private Text nameText;
 	private NameValidatorFactory validatorFactory;
 	private IInputValidator validator;
+	private AtributosTabla attributesTable;
+	private Label kindLabel;
+	private Combo kindCombo;
 
 	@Inject
 	public ModelEntityEditor(final Shell shell,
@@ -44,6 +51,11 @@ public class ModelEntityEditor extends
 
 	private void acceptData() {
 		component.setName(nameText.getText());
+		component.setKind(ModelEntity.Kind.valueOf(this.kindCombo.getText()));
+
+		component.getAttributes().addAll(attributesTable.getElementos());
+		component.getAttributes().removeAll(
+				attributesTable.getElementosEliminados());
 	}
 
 	@Override
@@ -97,6 +109,35 @@ public class ModelEntityEditor extends
 				}
 			}
 		});
+
+		this.kindLabel = new Label(header, SWT.LEFT);
+		this.kindLabel.setText("Tipo");
+		this.kindCombo = new Combo(header, SWT.READ_ONLY | SWT.BORDER);
+		this.kindCombo.setItems(ModelEntity.KINDS);
+		this.kindCombo.setText(component.getKind().name());
+
+		Group grupoAtributos = new Group(dialogArea, SWT.NONE);
+		grupoAtributos.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,
+				true));
+		grupoAtributos.setText("Atributos");
+		grupoAtributos.setLayout(new GridLayout(1, true));
+
+		Composite botones = new Composite(grupoAtributos, SWT.NONE);
+		botones.setLayoutData(new GridData(SWT.LEFT, SWT.LEFT, false, false, 1,
+				1));
+		botones.setLayout(new RowLayout(SWT.HORIZONTAL));
+
+		Button btnNuevoAtributo = new Button(botones, SWT.PUSH);
+		btnNuevoAtributo.setText("Nuevo");
+
+		Button btnEliminarAtributo = new Button(botones, SWT.PUSH);
+		btnEliminarAtributo.setText("Eliminar");
+
+		this.attributesTable = new AtributosTabla(grupoAtributos, component);
+		this.attributesTable.setElementos(component.getAttributes());
+
+		btnNuevoAtributo.addSelectionListener(this.attributesTable.nuevo);
+		btnEliminarAtributo.addSelectionListener(this.attributesTable.eliminar);
 
 		return dialogArea;
 	}
