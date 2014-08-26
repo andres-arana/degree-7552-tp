@@ -12,9 +12,10 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.ModifyEvent;
+
+import fiuba.mda.model.GraficInterfaceDiagram;
 
 public class FieldDialog extends TitleAreaDialog {
     private Combo propertyNameCombo;
@@ -22,6 +23,7 @@ public class FieldDialog extends TitleAreaDialog {
     private String propertyName;
     private String fieldName;
     private String title;
+	private GraficInterfaceDiagram diagram;
 
     public FieldDialog(Shell parentShell) {
         super(parentShell);
@@ -69,7 +71,7 @@ public class FieldDialog extends TitleAreaDialog {
 
         Label label2 = new Label(parent, SWT.NONE);
         label2.setText("Propiedad con que se relaciona");
-        String[] items = {"Propiedad1", "Propiedad2", "Propiedad3"}; //TODO fill with properties from visible components
+        String[] items = diagram.getAccessibleProperties();
 
         propertyNameCombo = new Combo(parent, SWT.READ_ONLY);
         propertyNameCombo.setItems(items);
@@ -143,5 +145,9 @@ public class FieldDialog extends TitleAreaDialog {
 
     public void setFieldName(String value) {
         this.fieldName = value;
-    }    
+    }
+
+	public void setParentComponent(GraficInterfaceDiagram diagram) {
+		this.diagram = diagram;	
+	}    
 }

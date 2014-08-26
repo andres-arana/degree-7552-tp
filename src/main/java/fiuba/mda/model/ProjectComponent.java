@@ -1,5 +1,6 @@
 package fiuba.mda.model;
 
+import java.util.Collection;
 import java.util.List;
 
 import com.google.common.base.Optional;
@@ -178,4 +179,8 @@ public interface ProjectComponent extends java.io.Serializable  {
 
 
 	void init();
+
+	String[] getAccessibleProperties();
+
+	Collection<? extends String> getOwnProperties();
 }

@@ -1,5 +1,8 @@
 package fiuba.mda.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import com.google.common.base.Optional;
 
 /**
@@ -44,6 +47,15 @@ public class ModelAspect extends AbstractContainerProjectComponent {
 	public void accept(ProjectComponentVisitor visitor) {
 		visitor.visit(this);
 	}
-
-
+	
+	@Override
+	public Collection<? extends String> getOwnProperties() {
+		ArrayList<String> result = new ArrayList<String>();
+		
+		for (ProjectComponent c : getChildren()) {
+			result.addAll(c.getOwnProperties());
+		}
+		
+		return result;
+	}
 }

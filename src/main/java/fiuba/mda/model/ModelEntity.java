@@ -1,5 +1,7 @@
 package fiuba.mda.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -46,5 +48,16 @@ public class ModelEntity extends AbstractLeafProjectComponent {
 	@Override
 	public void accept(ProjectComponentVisitor visitor) {
 		visitor.visit(this);
+	}
+	
+	@Override
+	public Collection<? extends String> getOwnProperties() {
+		ArrayList<String> result = new ArrayList<String>();
+		
+		for (ModelAttribute a : getAttributes()) {
+			result.add(this.getQualifiedName() + " - " + a.getName());
+		}
+		
+		return result;
 	}
 }

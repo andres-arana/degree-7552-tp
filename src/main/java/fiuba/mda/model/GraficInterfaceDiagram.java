@@ -172,4 +172,9 @@ public class GraficInterfaceDiagram extends AbstractLeafProjectComponent impleme
     	return this.diagram;
     }
     
+    @Override
+    public String[] getAccessibleProperties() {
+    	return getParent().getAccessibleProperties();
+    }
+    
 }

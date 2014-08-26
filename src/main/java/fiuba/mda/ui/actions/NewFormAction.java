@@ -45,26 +45,29 @@ public class NewFormAction extends Action {
 	 * @return this for method chaining
 	 */
 	public NewFormAction boundTo(final GraficInterfaceDiagram diagram) {
-        boundDiagram = diagram;
-        return this;
-    }
+		boundDiagram = diagram;
+		return this;
+	}
 
 	@Override
 	public void run() {
-        WizardDialogLauncher launcher = new WizardDialogLauncher();
-        WizardDialog dialogo = new WizardDialog(shell, launcher);
+		WizardDialogLauncher launcher = new WizardDialogLauncher(boundDiagram);
+		WizardDialog dialogo = new WizardDialog(shell, launcher);
 		dialogo.open();
 
-        if (!launcher.wasCanceled()){
-        WizardForm form = launcher.getForm();
-        BehaviorForm behaviorForm = new BehaviorForm(form.getFormName(), form.getExistingPropertiesAdded(),
-				form.getNewPropertiesAdded(), form.getTextsAdded(), form.getButtonsAdded());
-		
-		Representation<BehaviorForm> representation = new Representation<>(behaviorForm);
-		representation.getPosition().setX(formNumber * 100);
-		boundDiagram.addForm(representation);
-		formNumber++;
-        }
+		if (!launcher.wasCanceled()) {
+			WizardForm form = launcher.getForm();
+			BehaviorForm behaviorForm = new BehaviorForm(form.getFormName(),
+					form.getExistingPropertiesAdded(),
+					form.getNewPropertiesAdded(), form.getTextsAdded(),
+					form.getButtonsAdded());
+
+			Representation<BehaviorForm> representation = new Representation<>(
+					behaviorForm);
+			representation.getPosition().setX(formNumber * 100);
+			boundDiagram.addForm(representation);
+			formNumber++;
+		}
 
 	}
 }

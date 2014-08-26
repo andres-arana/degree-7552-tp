@@ -1,6 +1,7 @@
 package fiuba.mda.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -99,5 +100,25 @@ public abstract class AbstractContainerProjectComponent extends
 		}
     }
 	
+	@Override
+	public String[] getAccessibleProperties() {
+		ArrayList<String> result = new ArrayList<String>();
+		
+		for (ProjectComponent c : getChildren()) {
+			result.addAll(c.getOwnProperties());
+		}
+		
+		if (!isRoot()) {
+			for (String s : getParent().getAccessibleProperties()) {
+				result.add(s);
+			}
+		}
+		
+		return result.toArray(new String[result.size()]);
+	}
 	
+	@Override
+	public Collection<? extends String> getOwnProperties() {
+		return new ArrayList<>();
+	}
 }

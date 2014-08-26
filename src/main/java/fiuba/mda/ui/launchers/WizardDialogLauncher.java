@@ -7,6 +7,7 @@ import org.eclipse.jface.wizard.Wizard;
 
 import com.google.inject.Inject;
 
+import fiuba.mda.model.ProjectComponent;
 import fiuba.mda.model.WizardForm;
 import fiuba.mda.ui.main.workspace.ListEditorWizardPage;
 import fiuba.mda.ui.main.workspace.FirstWizardPage;
@@ -69,14 +70,16 @@ public class WizardDialogLauncher extends Wizard {
 
     private class ComboElementEditor implements ListEditorWizardPage.IElementEditor {
     	private String labelTitle;
+    	private final ProjectComponent parentComponent;
 
-    	public ComboElementEditor(String labelTitle) {
+    	public ComboElementEditor(String labelTitle, ProjectComponent parentComponent) {
     		this.labelTitle = labelTitle;
+    		this.parentComponent = parentComponent;
     	}
 
 		//TODO: Populate with available properties from existing diagrams!!!!
 	    private Combo getPropertiesToRelateCombobox(Composite parent, String selected, final ListEditorWizardPage.IPropertyChanged observer){
-	        String[] items = {"Propiedad1", "Propiedad2", "Propiedad3"}; //TODO fill with properties from existing diagrams!!
+	    	String[] items = parentComponent.getAccessibleProperties();
 
 	        Combo propertyNameCombo = new Combo(parent, SWT.READ_ONLY);
 	        propertyNameCombo.setItems(items);
@@ -125,12 +128,12 @@ public class WizardDialogLauncher extends Wizard {
 	 *
 	 */
 	@Inject
-	public WizardDialogLauncher() {
+	public WizardDialogLauncher(ProjectComponent parentComponent) {
 		super();
 
 		form = new WizardForm();
 		firstPage = new FirstWizardPage("Primera página");
-		secondPage = new ListEditorWizardPage("Segunda página", "Campos Existentes", "Cantidad de campos a agregar:", new ComboElementEditor("Campo:"));
+		secondPage = new ListEditorWizardPage("Segunda página", "Campos Existentes", "Cantidad de campos a agregar:", new ComboElementEditor("Campo:", parentComponent));
 		thirdPage = new ListEditorWizardPage("Tercera página", "Campos", "Cantidad de campos a agregar:", new TextElementEditor("Campo:"));
 		fourthPage = new ListEditorWizardPage("Cuarta página", "Textos", "Cantidad de textos a agregar:", new TextElementEditor("Texto:"));
 		fifthPage = new ListEditorWizardPage("Quinta página", "Botones", "Cantidad de botones a agregar:", new TextElementEditor("Texto del botón:"));

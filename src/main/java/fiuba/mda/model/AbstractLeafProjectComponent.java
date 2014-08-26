@@ -1,6 +1,7 @@
 package fiuba.mda.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import com.google.common.base.Optional;
@@ -51,5 +52,14 @@ public abstract class AbstractLeafProjectComponent extends
 	public void removeChild(final ProjectComponent child) {
 		throw new RuntimeException(
 				"Unable to remove chidlren from a leaf component");
+	}
+	@Override
+	public String[] getAccessibleProperties() {
+		return getParent().getAccessibleProperties();
+	}
+	
+	@Override
+	public Collection<? extends String> getOwnProperties() {
+		return new ArrayList<>();
 	}
 }

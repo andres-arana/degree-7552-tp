@@ -55,6 +55,7 @@ public class NewFieldAction extends Action {
 	@Override
 	public void run() {
 		FieldDialog dialogo = new FieldDialog(shell);
+		dialogo.setParentComponent(boundDiagram);
 		Optional<String> response = dialog.showDialog(dialogo);
 		
 		if (response.isPresent()) {

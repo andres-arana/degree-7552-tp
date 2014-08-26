@@ -66,6 +66,7 @@ public class GraficDialogs implements GraficInterfaceDiagramFigure.Dialogs {
         FieldDialog dialogo = new FieldDialog(shell, "Edición de Campo");
         dialogo.setPropertyName(behaviorField.getPropertyName());
         dialogo.setFieldName(behaviorField.getFieldName());
+        dialogo.setParentComponent(diagram);
 
         Optional<String> stringOptional = dialogLauncher.showDialog(dialogo);
 
@@ -76,7 +77,7 @@ public class GraficDialogs implements GraficInterfaceDiagramFigure.Dialogs {
         };
     }
     public void showFormDialog(BehaviorForm behaviorForm) {
-        WizardDialogLauncher launcher = new WizardDialogLauncher();
+        WizardDialogLauncher launcher = new WizardDialogLauncher(diagram);
         WizardDialog dialogo = new WizardDialog(shell, launcher);
 
         launcher.setFormName(behaviorForm.getFormName());
