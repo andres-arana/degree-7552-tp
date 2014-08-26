@@ -1,44 +1,23 @@
 package fiuba.mda.ui.launchers;
 
-import org.eclipse.jface.dialogs.IInputValidator;
-
-import com.google.common.base.Optional;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import fiuba.mda.model.ModelEntity;
-import fiuba.mda.ui.actions.validators.NameValidatorFactory;
+import fiuba.mda.ui.dialogs.ModelEntityEditor;
 
 @Singleton
 public class ModelEntityPropsLauncher extends BaseLauncher<ModelEntity> {
-	private final SimpleDialogLauncher dialogs;
-	private final NameValidatorFactory validatorFactory;
+	private final ModelEntityEditor entityEditor;
 
 	@Inject
-	public ModelEntityPropsLauncher(final SimpleDialogLauncher dialogs,
-			final NameValidatorFactory validatorFactory) {
-		this.dialogs = dialogs;
-		this.validatorFactory = validatorFactory;
+	public ModelEntityPropsLauncher(final ModelEntityEditor entityEditor) {
+		this.entityEditor = entityEditor;
 	}
 
 	@Override
 	protected void doLaunch(final ModelEntity component) {
-		Optional<String> name = askForName(component);
-		if (name.isPresent()) {
-			component.setName(name.get());
-		}
+		this.entityEditor.edit(component);
 	}
 
-	private Optional<String> askForName(final ModelEntity component) {
-		IInputValidator validator = component.isRoot() ? validatorFactory
-				.validatorForRenameRoot(component) : validatorFactory
-				.validatorForRenameInParent(component.getParent(), component);
-
-		return dialogs.showInput(dialogTitle(component), "Nombre",
-				component.getName(), validator);
-	}
-
-	private String dialogTitle(final ModelEntity component) {
-		return "Paquete " + component.getQualifiedName();
-	}
 }

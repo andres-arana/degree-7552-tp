@@ -3,10 +3,17 @@ package fiuba.mda.ui.main.tree;
 import com.google.common.base.Optional;
 import com.google.inject.Inject;
 
-import fiuba.mda.model.*;
+import fiuba.mda.model.BehaviorDiagram;
+import fiuba.mda.model.GraficInterfaceDiagram;
+import fiuba.mda.model.ModelAspect;
+import fiuba.mda.model.ModelEntity;
+import fiuba.mda.model.ModelPackage;
+import fiuba.mda.model.ProjectComponent;
+import fiuba.mda.model.ProjectComponentVisitor;
 import fiuba.mda.ui.launchers.BehaviorDiagramEditorLauncher;
 import fiuba.mda.ui.launchers.GraficInterfaceDiagramEditorLauncher;
 import fiuba.mda.ui.launchers.Launcher;
+import fiuba.mda.ui.launchers.ModelEntityPropsLauncher;
 
 /**
  * {@link ProjectComponentVisitor} which allows selecting the appropriate
@@ -14,16 +21,20 @@ import fiuba.mda.ui.launchers.Launcher;
  */
 public class ComponentDefaultActionVisitor implements ProjectComponentVisitor {
 	private final BehaviorDiagramEditorLauncher behaviorDiagramController;
-    private final GraficInterfaceDiagramEditorLauncher graficInterfaceDiagramController;
+	private final GraficInterfaceDiagramEditorLauncher graficInterfaceDiagramController;
+	private final ModelEntityPropsLauncher entityController;
 
 	private Optional<Launcher> controller = Optional.absent();
 
 	@Inject
 	public ComponentDefaultActionVisitor(
-            final BehaviorDiagramEditorLauncher behaviorDiagramController, GraficInterfaceDiagramEditorLauncher graficInterfaceDiagramController) {
+			final BehaviorDiagramEditorLauncher behaviorDiagramController,
+			final GraficInterfaceDiagramEditorLauncher graficInterfaceDiagramController,
+			final ModelEntityPropsLauncher entityController) {
 		this.behaviorDiagramController = behaviorDiagramController;
-        this.graficInterfaceDiagramController = graficInterfaceDiagramController;
-    }
+		this.graficInterfaceDiagramController = graficInterfaceDiagramController;
+		this.entityController = entityController;
+	}
 
 	@Override
 	public void visit(ModelPackage modelPackage) {
@@ -32,7 +43,7 @@ public class ComponentDefaultActionVisitor implements ProjectComponentVisitor {
 
 	@Override
 	public void visit(ModelEntity modelEntity) {
-		// This type does not have default actions
+		controller = Optional.<Launcher> of(entityController);
 	}
 
 	@Override
@@ -45,10 +56,10 @@ public class ComponentDefaultActionVisitor implements ProjectComponentVisitor {
 		controller = Optional.<Launcher> of(behaviorDiagramController);
 	}
 
-    @Override
-    public void visit(GraficInterfaceDiagram behaviorDiagram) {
-        controller = Optional.<Launcher> of(graficInterfaceDiagramController);
-    }
+	@Override
+	public void visit(GraficInterfaceDiagram behaviorDiagram) {
+		controller = Optional.<Launcher> of(graficInterfaceDiagramController);
+	}
 
 	/**
 	 * Obtains the {@link Launcher} for a given {@link ProjectComponent} by
