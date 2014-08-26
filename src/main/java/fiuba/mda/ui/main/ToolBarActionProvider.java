@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fiuba.mda.ui.actions.NewGraficInterfaceDiagramAction;
+
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.action.ToolBarManager;
 
 import com.google.inject.Inject;
@@ -22,7 +24,13 @@ import fiuba.mda.ui.actions.SaveProjectAsAction;
  */
 @Singleton
 public class ToolBarActionProvider {
-	private final List<IAction> actions = new ArrayList<>();
+	private NewProjectAction newProject;
+	private LoadProjectAction loadProject;
+	private SaveProjectAction saveProject;
+	private SaveProjectAsAction saveProjectAs;
+	private NewPackageAction newPackage;
+	private NewBehaviourDiagramAction newBehaviorDiagram;
+	private NewGraficInterfaceDiagramAction newGraphicInterfaceDiagram;
 
 	/**
 	 * Creates a new {@link ToolBarActionProvider} instance
@@ -42,13 +50,13 @@ public class ToolBarActionProvider {
 			final NewGraficInterfaceDiagramAction newGraficInterfaceDiagramAction,
 			final SaveProjectAction saveProjectAction,
 			final SaveProjectAsAction saveProjectAsAction) {
-		actions.add(newProject);
-		actions.add(loadProjectAction);
-		actions.add(newPackage);
-		actions.add(newBehaviorDiagram);
-        actions.add(newGraficInterfaceDiagramAction);
-        actions.add(saveProjectAction);
-        actions.add(saveProjectAsAction);
+		this.newProject = newProject;
+		this.loadProject = loadProjectAction;
+		this.saveProject = saveProjectAction;
+		this.saveProjectAs = saveProjectAsAction;
+		this.newPackage = newPackage;
+		this.newBehaviorDiagram = newBehaviorDiagram;
+		this.newGraphicInterfaceDiagram = newGraficInterfaceDiagramAction;
 	}
 
 	/**
@@ -58,8 +66,13 @@ public class ToolBarActionProvider {
 	 *            the manager to add the actions to
 	 */
 	public void provideActions(final ToolBarManager manager) {
-		for (IAction action : actions) {
-			manager.add(action);
-		}
+		manager.add(newProject);
+		manager.add(loadProject);
+		manager.add(saveProject);
+		manager.add(saveProjectAs);
+		manager.add(new Separator());
+		manager.add(newPackage);
+		manager.add(newBehaviorDiagram);
+		manager.add(newGraphicInterfaceDiagram);
 	}
 }

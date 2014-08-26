@@ -4,6 +4,8 @@ package fiuba.mda.model;
  * Represents an entity in the static model of the software
  */
 public class ModelEntity extends AbstractLeafProjectComponent {
+	private static final long serialVersionUID = 123858230538320339L;
+
 	/**
 	 * Creates a new {@link ModelEntity} instance
 	 * 
