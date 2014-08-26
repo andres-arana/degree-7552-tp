@@ -7,22 +7,25 @@ import fiuba.mda.model.*;
 import fiuba.mda.ui.launchers.BehaviorDiagramPropsLauncher;
 import fiuba.mda.ui.launchers.GraficInterfaceDiagramPropsLauncher;
 import fiuba.mda.ui.launchers.Launcher;
+import fiuba.mda.ui.launchers.ModelEntityPropsLauncher;
 import fiuba.mda.ui.launchers.ModelPackagePropsLauncher;
 
 public class ComponentPropEditorVisitor implements ProjectComponentVisitor {
 	private final ModelPackagePropsLauncher packageLauncher;
 	private final BehaviorDiagramPropsLauncher behaviorDiagramLauncher;
     private final GraficInterfaceDiagramPropsLauncher graficInterfaceDiagramLauncher;
+    private final ModelEntityPropsLauncher entityLauncher;
 
 	private Optional<Launcher> launcher = Optional.absent();
 
 	@Inject
 	public ComponentPropEditorVisitor(
             final ModelPackagePropsLauncher packageLauncher,
-            final BehaviorDiagramPropsLauncher behaviorDiagramLauncher, GraficInterfaceDiagramPropsLauncher graficInterfaceDiagramLauncher) {
+            final BehaviorDiagramPropsLauncher behaviorDiagramLauncher, final GraficInterfaceDiagramPropsLauncher graficInterfaceDiagramLauncher, final ModelEntityPropsLauncher entityLauncher) {
 		this.packageLauncher = packageLauncher;
 		this.behaviorDiagramLauncher = behaviorDiagramLauncher;
         this.graficInterfaceDiagramLauncher = graficInterfaceDiagramLauncher;
+        this.entityLauncher = entityLauncher;
     }
 
 	@Override
@@ -32,7 +35,7 @@ public class ComponentPropEditorVisitor implements ProjectComponentVisitor {
 
 	@Override
 	public void visit(ModelEntity modelEntity) {
-		// TODO: Add the appropriate launcher for this entity
+		launcher = Optional.<Launcher> of(entityLauncher);
 	}
 
 	@Override

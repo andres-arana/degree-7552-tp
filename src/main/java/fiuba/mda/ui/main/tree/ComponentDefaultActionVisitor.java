@@ -32,7 +32,7 @@ public class ComponentDefaultActionVisitor implements ProjectComponentVisitor {
 
 	@Override
 	public void visit(ModelEntity modelEntity) {
-		// TODO: Add the proper editor controller for this type
+		// This type does not have default actions
 	}
 
 	@Override

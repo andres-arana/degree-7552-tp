@@ -39,7 +39,7 @@ public class ComponentImageVisitor implements ProjectComponentVisitor {
 
 	@Override
 	public void visit(ModelEntity modelEntity) {
-		// TODO: Define image for entities
+		image = Optional.of(images.of("table"));
 	}
 
 	@Override

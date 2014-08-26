@@ -80,7 +80,7 @@ public class NewBehaviourDiagramAction extends Action {
 	@Override
 	public void run() {
 		ModelPackage activePackage = model.getActivePackage();
-		ModelAspect aspect = activePackage.ensureAspect("comportamiento");
+		ModelAspect aspect = activePackage.ensureAspect("Comportamiento");
 		Optional<String> name = askForName(aspect);
 		if (name.isPresent()) {
 			BehaviorDiagram newDiagram = new BehaviorDiagram(name.get());

@@ -3,27 +3,38 @@ package fiuba.mda.ui.main.tree;
 import com.google.common.base.Optional;
 import com.google.inject.Inject;
 
-import fiuba.mda.model.*;
+import fiuba.mda.model.BehaviorDiagram;
+import fiuba.mda.model.GraficInterfaceDiagram;
+import fiuba.mda.model.ModelAspect;
+import fiuba.mda.model.ModelEntity;
+import fiuba.mda.model.ModelPackage;
+import fiuba.mda.model.ProjectComponent;
+import fiuba.mda.model.ProjectComponentVisitor;
 import fiuba.mda.ui.launchers.BehaviorDiagramPropsLauncher;
 import fiuba.mda.ui.launchers.GraficInterfaceDiagramPropsLauncher;
 import fiuba.mda.ui.launchers.Launcher;
+import fiuba.mda.ui.launchers.ModelEntityPropsLauncher;
 import fiuba.mda.ui.launchers.ModelPackagePropsLauncher;
 
 public class ComponentPropEditorVisitor implements ProjectComponentVisitor {
 	private final ModelPackagePropsLauncher packageLauncher;
 	private final BehaviorDiagramPropsLauncher behaviorDiagramLauncher;
-    private final GraficInterfaceDiagramPropsLauncher graficInterfaceDiagramLauncher;
+	private final GraficInterfaceDiagramPropsLauncher graficInterfaceDiagramLauncher;
+	private final ModelEntityPropsLauncher entityLauncher;
 
 	private Optional<Launcher> launcher = Optional.absent();
 
 	@Inject
 	public ComponentPropEditorVisitor(
-            final ModelPackagePropsLauncher packageLauncher,
-            final BehaviorDiagramPropsLauncher behaviorDiagramLauncher, GraficInterfaceDiagramPropsLauncher graficInterfaceDiagramLauncher) {
+			final ModelPackagePropsLauncher packageLauncher,
+			final BehaviorDiagramPropsLauncher behaviorDiagramLauncher,
+			final GraficInterfaceDiagramPropsLauncher graficInterfaceDiagramLauncher,
+			final ModelEntityPropsLauncher entityLauncher) {
 		this.packageLauncher = packageLauncher;
 		this.behaviorDiagramLauncher = behaviorDiagramLauncher;
-        this.graficInterfaceDiagramLauncher = graficInterfaceDiagramLauncher;
-    }
+		this.graficInterfaceDiagramLauncher = graficInterfaceDiagramLauncher;
+		this.entityLauncher = entityLauncher;
+	}
 
 	@Override
 	public void visit(ModelPackage modelPackage) {
@@ -32,7 +43,7 @@ public class ComponentPropEditorVisitor implements ProjectComponentVisitor {
 
 	@Override
 	public void visit(ModelEntity modelEntity) {
-		// TODO: Add the appropriate launcher for this entity
+		launcher = Optional.<Launcher> of(entityLauncher);
 	}
 
 	@Override
@@ -45,10 +56,10 @@ public class ComponentPropEditorVisitor implements ProjectComponentVisitor {
 		launcher = Optional.<Launcher> of(behaviorDiagramLauncher);
 	}
 
-    @Override
-    public void visit(GraficInterfaceDiagram behaviorDiagram) {
-        launcher = Optional.<Launcher> of(graficInterfaceDiagramLauncher);
-    }
+	@Override
+	public void visit(GraficInterfaceDiagram behaviorDiagram) {
+		launcher = Optional.<Launcher> of(graficInterfaceDiagramLauncher);
+	}
 
 	public Optional<Launcher> launcherFor(ProjectComponent model) {
 		model.accept(this);

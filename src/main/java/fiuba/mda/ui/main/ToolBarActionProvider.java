@@ -1,19 +1,15 @@
 package fiuba.mda.ui.main;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import fiuba.mda.ui.actions.NewGraficInterfaceDiagramAction;
-
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.action.ToolBarManager;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import fiuba.mda.ui.actions.NewBehaviourDiagramAction;
 import fiuba.mda.ui.actions.LoadProjectAction;
+import fiuba.mda.ui.actions.NewBehaviourDiagramAction;
+import fiuba.mda.ui.actions.NewEntityAction;
+import fiuba.mda.ui.actions.NewGraficInterfaceDiagramAction;
 import fiuba.mda.ui.actions.NewPackageAction;
 import fiuba.mda.ui.actions.NewProjectAction;
 import fiuba.mda.ui.actions.SaveProjectAction;
@@ -31,6 +27,7 @@ public class ToolBarActionProvider {
 	private NewPackageAction newPackage;
 	private NewBehaviourDiagramAction newBehaviorDiagram;
 	private NewGraficInterfaceDiagramAction newGraphicInterfaceDiagram;
+	private NewEntityAction newEntity;
 
 	/**
 	 * Creates a new {@link ToolBarActionProvider} instance
@@ -43,18 +40,21 @@ public class ToolBarActionProvider {
 	 *            the new behavior diagram action
 	 */
 	@Inject
-	public ToolBarActionProvider(final NewProjectAction newProject,
+	public ToolBarActionProvider(
+			final NewProjectAction newProject,
 			final LoadProjectAction loadProjectAction,
 			final NewPackageAction newPackage,
 			final NewBehaviourDiagramAction newBehaviorDiagram,
 			final NewGraficInterfaceDiagramAction newGraficInterfaceDiagramAction,
 			final SaveProjectAction saveProjectAction,
-			final SaveProjectAsAction saveProjectAsAction) {
+			final SaveProjectAsAction saveProjectAsAction,
+			final NewEntityAction newEntity) {
 		this.newProject = newProject;
 		this.loadProject = loadProjectAction;
 		this.saveProject = saveProjectAction;
 		this.saveProjectAs = saveProjectAsAction;
 		this.newPackage = newPackage;
+		this.newEntity = newEntity;
 		this.newBehaviorDiagram = newBehaviorDiagram;
 		this.newGraphicInterfaceDiagram = newGraficInterfaceDiagramAction;
 	}
@@ -72,6 +72,7 @@ public class ToolBarActionProvider {
 		manager.add(saveProjectAs);
 		manager.add(new Separator());
 		manager.add(newPackage);
+		manager.add(newEntity);
 		manager.add(newBehaviorDiagram);
 		manager.add(newGraphicInterfaceDiagram);
 	}
